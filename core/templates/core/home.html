@@ -1,0 +1,522 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            {% comment %} font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f8f8; {% endcomment %}
+        }
+
+        /* Hero Section */
+.main-container .feedbacks-hero {
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.main-container .feedbacks-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.main-container .hero-content {
+    position: relative;
+    text-align: center;
+    color: #fff;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+.main-container .hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.main-container .hero-content p {
+    font-size: 1.2em;
+}
+
+        /* Hero Section */
+.welcome-section {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hide any overflow from the image */
+}
+
+.hero-image {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the container */
+    display: block;
+}
+
+.welcome-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    max-width: 80%;
+}
+
+.welcome-message h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+
+
+
+        /* Welcome Section */
+        .welcome-section {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-section img {
+            width: 100%;
+            height: 70vh;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .welcome-section:hover img {
+            transform: scale(1.1);
+        }
+
+        .welcome-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .welcome-message h2 {
+            font-size: 2.5rem;
+        }
+
+        /* images */
+        .image-container {
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        /* About Us with Parallax */
+        .about-us {
+            background: url('{% static "images/cafe.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            padding: 4rem 0;
+            color: white;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .about-us::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .about-us h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+        }
+
+        .about-us p {
+            font-size: 1.2rem;
+            margin: 1.5rem auto;
+            max-width: 800px;
+        }
+
+        /* Special Offers and What We Provide */
+        .container {
+            padding: 2rem;
+        }
+
+        .special-offers, .cards, .feedback-cards {
+            margin-bottom: 3rem;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-around;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 30%;
+        }
+
+        .card img {
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: filter 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img:hover {
+            filter: blur(3px);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #555;
+        }
+
+        /* Feedbacks Section */
+        .feedback-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feedback-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .feedback-card img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .feedback-card .feedback-content {
+            flex-grow: 1;
+        }
+
+        .feedback-card .feedback-content p {
+            margin: 0.5rem 0;
+        }
+
+        .feedback-card .feedback-content .username {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .feedback-card .feedback-content .rating {
+            color: #e67e22;
+        }
+
+        .feedback-card .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .feedback-card .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* post experience */
+        .post-exp {
+            padding: 40px 0;
+            background-color: #5a3e36; /* Dark brown background */
+            text-align: center;
+            color: #f5f5dc; /* Beige text */
+        }
+
+        .post-exp h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #f5f5dc; /* Beige text */
+        }
+
+        .post-exp p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .post-exp a {
+            color: #f5f5dc; /* Beige text */
+            font-size: 1.2em;
+            background-color: #e8a87c; /* Light brown background */
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .post-exp a:hover {
+            background-color: #d18c6a; /* Darker brown on hover */
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .feedbacks-hero {
+                height: 70vh;
+            }
+
+            .hero-content h1 {
+                font-size: 4em;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                width: 80%;
+            }
+
+            .hero-content h1 {
+                font-size: 5em;
+            }
+        }
+
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .feedbacks-hero {
+                height: 70vh;
+            }
+
+            .hero-content h1 {
+                font-size: 4em;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                width: 80%;
+            }
+
+            .hero-content h1 {
+                font-size: 5em;
+            }
+        }
+
+    </style>
+
+    <script type="text/javascript">
+ 
+        var imgPaths = [
+            ['pic1.jpg',5000],
+            ['pic2.jpg',2000]];
+        var imgO = new Array();
+        var currImg = 0;
+        var currDispTime = imgPaths[0][1];
+
+        //preload the images
+        for(i=0; i < imgPaths.length; i++) {
+            imgO[i] = new Image();
+            imgO[i].src = imgPaths[i][0];
+        }
+
+        function swapImg() {
+            currImg = (currImg == 0)? 1 : 0;
+            currDispTime = (currDispTime == imgPaths[0][1])? imgPaths[1][1] : imgPaths[0][1];
+            imgObj.src = imgO[currImg].src;
+            setTimeout('swapImg()',currDispTime);
+        }
+
+        window.onload=function() {
+            imgObj = document.getElementById("imgSwap");
+            imgObj.src = imgO[currImg].src;
+            swapImg();
+        }
+    </script>
+
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+    
+    <div class="main-container">
+        <section class="feedbacks-hero" style="background-image: url('{% static 'images/cafebg.jpg' %}');">
+            <div class="hero-content">
+                <h1>Welcome to TheMenu</h1>
+                <p>Your ultimate culinary experience begins here!</p>
+            </div>
+        </section>
+    
+
+        <section class="special-offers container">
+            <h3>Special Offers</h3>
+            <p><strong>Pumpkin Spice Latte:</strong> Welcome fall with our limited-time offer, perfectly spiced and topped with whipped cream.</p>
+            <p><strong>Brunch for Two:</strong> Enjoy a 20% discount on any two brunch entrees every weekend from 10 AM to 2 PM.</p>
+        </section>
+
+        <section class="about-us">
+            <h2>About Us</h2>
+            <p>At TheMenu, we believe that food is more than just sustenance – it’s a way of bringing people together. Founded in 2020, our café started as a small passion project with a simple goal: to create a space where community and cuisine could thrive together. We are committed to sourcing the freshest ingredients, supporting local farmers, and creating dishes that are both innovative and comforting. Every visit to TheMenu is a new chapter in our story, and we invite you to be a part of it.</p>
+        </section>
+
+        <section id="what-we-provide" class="container">
+            <h2>What We Provide</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="{% static 'images/coffee.jpg' %}" alt="High-Quality Coffee">
+                    <h3>High-Quality Coffee</h3>
+                    <p>We serve freshly brewed coffee made from premium beans sourced from around the world.</p>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/cozy.jpg' %}" alt="Cozy Environment">
+                    <h3>Cozy Environment</h3>
+                    <p>Our café offers a warm and inviting atmosphere, perfect for relaxing or working.</p>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/wifi.jpg' %}" alt="Free Wi-Fi">
+                    <h3>Free Wi-Fi</h3>
+                    <p>Stay connected with our complimentary high-speed internet access available throughout the café.</p>
+                </div>
+                <div class="card">
+                    <img src="{% static 'images/snacks.jpg' %}" alt="Delicious Snacks">
+                    <h3>Delicious Snacks</h3>
+                    <p>We offer a variety of snacks that pair perfectly with our coffee and tea, made fresh daily.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="feedbacks" class="container">
+            <h2>Customer Feedbacks</h2>
+            {% if feedbacks %}
+            <div class="feedback-cards">
+                {% for feedback in feedbacks %}
+                <div class="feedback-card">
+                    
+                    <div class="feedback-content">
+                        <p class="username">{{ feedback.user.username }}</p>
+                        <p>{{ feedback.feedback_text }}</p>
+                        <p class="rating">Rating: {{ feedback.rating }} stars</p>
+                        <p>Posted on {{ feedback.created_at }}</p>
+                        {% if user == feedback.user %}
+                        <a href="{% url 'delete_feedback' feedback.id %}" class="btn btn-danger">Delete Feedback</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No feedbacks yet.</p>
+            {% endif %}
+        </section>
+
+        <section class="post-exp">
+            {% if user.is_authenticated %}
+            <section id="post-feedback" class="container">
+                <h1>Want to share your experience?</h1>
+                <a href="{% url 'post_feedback' %}">Click here</a>
+            </section>
+            {% else %}
+            <section id="post-feedback" class="container">
+                <h2>Want to share your experience?</h2>
+                <a href="{% url 'login' %}" >Click here</a>
+            </section>
+            {% endif %}
+        </section>
+    </div>
+
+    {% include 'core/footer.html' %}
+</body>
+</html>
+

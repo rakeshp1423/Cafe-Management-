@@ -1,0 +1,113 @@
+<!-- core/templates/core/footer.html -->
+<footer class="site-footer">
+    <div class="container">
+        <!-- Footer Top Section -->
+        <div class="footer-top">
+            <div class="footer-about">
+                <h3>About TheCafe</h3>
+                <p>Enjoy the finest coffee and pastries at TheCafe. Our mission is to provide a relaxing environment and exceptional service to our customers.</p>
+            </div>
+
+            <!-- Footer Contact Information -->
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><strong>Address:</strong> 123 Coffee Lane, Caffeine City, CA 12345</li>
+                    <li><strong>Phone:</strong> (123) 456-7890</li>
+                    <li><strong>Email:</strong> <a href="mailto:info@thecafe.com">info@thecafe.com</a></li>
+                </ul>
+            </div>
+
+            <!-- Footer Social Media Links -->
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="https://facebook.com/thecafe" target="_blank" class="social-icon facebook">Facebook</a></li>
+                    <li><a href="https://twitter.com/thecafe" target="_blank" class="social-icon twitter">Twitter</a></li>
+                    <li><a href="https://instagram.com/thecafe" target="_blank" class="social-icon instagram">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        
+    </div>
+</footer>
+
+<!-- Add some styling for the footer in your CSS -->
+<style>
+    /* General styles for the page to ensure footer is at the bottom */
+    html, body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .container {
+        flex: 1;
+    }
+    
+    /* Footer Styles */
+    .site-footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        color: #333;
+        border-top: 1px solid #ddd;
+        flex-shrink: 0; /* Ensure footer does not shrink */
+    }
+    
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .footer-top div {
+        flex: 1;
+        margin: 0 10px;
+    }
+    
+    .footer-top h3 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #007bff;
+    }
+    
+    .footer-top p, .footer-top ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .footer-top ul li {
+        margin-bottom: 5px;
+    }
+    
+    .footer-social a {
+        display: inline-block;
+        margin-right: 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+    
+    .footer-bottom p {
+        margin: 0;
+    }
+    
+    .footer-bottom a {
+        color: #007bff;
+        text-decoration: none;
+        margin: 0 5px;
+    }
+    
+    .footer-bottom a:hover {
+        text-decoration: underline;
+    }
+    
+</style>

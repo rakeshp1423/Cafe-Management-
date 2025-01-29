@@ -1,0 +1,184 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserve a Table</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5dc; /* Beige background */
+            color: #5a3e36; /* Brown text */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        
+
+        /* Hero Section */
+        .reserve-hero {
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reserve-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+        }
+
+        /* Reservation Form Section */
+        .reserve-form {
+            padding: 60px 0;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px; /* Adjusted for better centering */
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #6e5773;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        .btn {
+            background-color: #6e5773;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e8a87c;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .reserve-hero {
+                height: 70vh;
+            }
+            .hero-content h1 {
+                font-size: 4em;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                width: 80%;
+            }
+            .hero-content h1 {
+                font-size: 5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+    
+    <section class="reserve-hero" style="background-image: url('{% static 'images/reserve-hero.jpg' %}');">
+        <div class="hero-content">
+            <h1>Reserve a Table</h1>
+        </div>
+    </section>
+    
+    <section class="reserve-form">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="datetime-local" id="date" name="date" class="form-control" required>
+                </div>
+                <!-- Uncomment if you decide to include time -->
+                <!-- <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" class="form-control" required>
+                </div> -->
+                <div class="form-group">
+                    <label for="number_of_people">Number of People</label>
+                    <input type="number" id="number_of_people" name="number_of_people" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="special_requests">Special Requests</label>
+                    <textarea id="special_requests" name="special_requests" class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn">Reserve Now</button>
+            </form>
+        </div>
+    </section>
+    
+    {% include 'core/footer.html' %}
+</body>
+</html>

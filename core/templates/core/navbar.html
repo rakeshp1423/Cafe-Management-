@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Website</title>
+    <style>
+
+        /* Basic scrollbar styles */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f5dc; /* Light beige background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6e5773 0%, #5b4a6a 100%);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar-thumb::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 30%, transparent 70%);
+    animation: droplet 1.5s infinite ease-in-out;
+}
+
+/* Animation for droplets */
+@keyframes droplet {
+    0% {
+        top: -20px;
+        left: -20px;
+        opacity: 0;
+    }
+    50% {
+        top: 0;
+        left: 0;
+        opacity: 1;
+    }
+    100% {
+        top: -20px;
+        left: -20px;
+        opacity: 0;
+    }
+}
+
+/* Firefox scrollbar styles */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #6e5773 #f5f5dc;
+}
+
+/* IE and Edge scrollbar styles */
+body {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
+        /* Navbar */
+        .navbar {
+            background-color: #5a3e36; /* Dark brown background */
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a {
+            color: #f5f5dc; /* Beige text */
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #e8a87c; /* Light brown hover effect */
+        }
+
+        /* Menu Hero Section */
+        .menu-hero {
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            background-color: #5a3e36; /* Dark brown background */
+        }
+
+
+
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #333;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-brand {
+
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.8rem;
+            text-decoration: none;
+        }
+
+        .navbar .navbar-links .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .navbar-links .nav-link:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{% url 'home' %}" class="navbar-brand">The Menu</a>
+            <div class="navbar-links">
+                <a href="{% url 'home' %}" class="nav-link">Home</a>
+                <a href="{% url 'menu' %}" class="nav-link">Menu</a>
+                <a href="{% url 'feedbacks' %}" class="nav-link">Feedbacks</a>
+                <a href="{% url 'reserve' %}" class="nav-link">Book a Table</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="nav-link">My Profile</a>
+                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                    {% comment %} <a href="{% url 'signup' %}" class="nav-link">Sign Up</a> {% endcomment %}
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.navbar-links .nav-link');
+
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

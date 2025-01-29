@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link rel="stylesheet" href="{% static 'static/css/styles.css' %}">
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+    
+    <section class="hero" style="background-image: url('{% static 'images/details-hero.jpg' %}');">
+        <div class="hero-content">
+            <h1>Details</h1>
+        </div>
+    </section>
+    
+    <section class="details-content">
+        <div class="container">
+            <h2>About Our Cafe</h2>
+            <p>Our cafe offers a relaxing ambiance with a selection of premium coffee and gourmet dishes. Enjoy a unique experience with us.</p>
+        </div>
+    </section>
+    
+    {% include 'core/footer.html' %}
+</body>
+</html>

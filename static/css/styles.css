@@ -1,0 +1,104 @@
+/* 
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .welcome-section {
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+        .welcome-section img {
+            width: 100%;
+            height: auto;
+        }
+        .welcome-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .special-offers {
+            background-color: #e8e8e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        .special-offers h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+        }
+        .special-offers p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .about-us {
+            margin-bottom: 40px;
+        }
+        .about-us h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .about-us p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+            margin-bottom: 20px;
+        }
+        #feedbacks {
+            margin-bottom: 40px;
+        }
+        #feedbacks h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #feedbacks div {
+            margin-bottom: 20px;
+        }
+        #feedbacks p {
+            margin: 5px 0;
+        }
+        #post-feedback {
+            text-align: center;
+        }
+        #post-feedback h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+        }
+        #post-feedback a {
+            font-size: 1.2em;
+            color: #333;
+            text-decoration: none;
+            background-color: #e8e8e8;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        #post-feedback a:hover {
+            background-color: #ccc;
+        } */

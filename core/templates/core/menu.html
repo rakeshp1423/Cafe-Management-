@@ -1,0 +1,275 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+
+    <style>
+        /* Download PDF Section */
+        .download-section {
+            padding: 40px 0;
+            background-color: #5a3e36; /* Dark brown background */
+            text-align: center;
+            color: #f5f5dc; /* Beige text */
+        }
+
+        .download-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #f5f5dc; /* Beige text */
+        }
+
+        .download-section p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .download-section a {
+            color: #f5f5dc; /* Beige text */
+            font-size: 1.2em;
+            background-color: #e8a87c; /* Light brown background */
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-section a:hover {
+            background-color: #d18c6a; /* Darker brown on hover */
+        }
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5dc; /* Beige background */
+            color: #5a3e36; /* Brown text */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        {% comment %} /* Navbar */
+        .navbar {
+            background-color: #5a3e36; /* Dark brown background */
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a {
+            color: #f5f5dc; /* Beige text */
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #e8a87c; /* Light brown hover effect */
+        }
+
+        /* Menu Hero Section */
+        .menu-hero {
+            background-size: cover;
+            background-position: center;
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            background-color: #5a3e36; /* Dark brown background */
+        } {% endcomment %}
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            margin: 0;
+            color: #f5f5dc; /* Beige text */
+        }
+
+        /* Menu Content Section */
+        .menu-content {
+            padding: 60px 0;
+            background-color: #f5f5dc; /* Beige background */
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            color: #5a3e36; /* Brown text */
+            border-bottom: 2px solid #5a3e36; /* Brown underline */
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .menu-category {
+            margin-bottom: 40px;
+        }
+
+        .menu-category h3 {
+            font-size: 2em;
+            color: #5a3e36; /* Brown text */
+            margin-bottom: 20px;
+            border-bottom: 2px solid #5a3e36; /* Brown underline */
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .menu-item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+
+        .menu-item-list li {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .menu-item-list li:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item-name {
+            font-weight: bold;
+        }
+
+        .menu-item-price {
+            font-weight: bold;
+            color: #5a3e36; /* Brown text */
+        }
+
+
+    </style>
+</head>
+<body>
+    {% block content %}
+    {% include 'core/navbar.html' %}
+    {% endblock %}
+    
+    <section class="menu-hero">
+        <div class="hero-content">
+            <h1>Our Menu</h1>
+        </div>
+    </section>
+    
+    <section class="menu-content">
+        <div class="container">
+            <h2>Delicious Choices</h2>
+
+            <!-- Coffee -->
+            <div class="menu-category">
+                <h3>COFFEE</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Espresso</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Latte</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Macchiato</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Cappuccino</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Double Espresso</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Americano</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Flat White</span><span class="menu-item-price">$5</span></li>
+                </ul>
+            </div>
+
+            <!-- Breakfast -->
+            <div class="menu-category">
+                <h3>BREAKFAST</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Pancakes</span><span class="menu-item-price">$6</span></li>
+                    <li><span class="menu-item-name">French Toast</span><span class="menu-item-price">$7</span></li>
+                    <li><span class="menu-item-name">Omelette</span><span class="menu-item-price">$8</span></li>
+                    <li><span class="menu-item-name">Avocado Toast</span><span class="menu-item-price">$7</span></li>
+                    <li><span class="menu-item-name">Breakfast Burrito</span><span class="menu-item-price">$8</span></li>
+                </ul>
+            </div>
+
+            <!-- Lunch -->
+            <div class="menu-category">
+                <h3>LUNCH</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Chicken Caesar Salad</span><span class="menu-item-price">$9</span></li>
+                    <li><span class="menu-item-name">Grilled Cheese Sandwich</span><span class="menu-item-price">$8</span></li>
+                    <li><span class="menu-item-name">BLT Sandwich</span><span class="menu-item-price">$8</span></li>
+                    <li><span class="menu-item-name">Turkey Club Sandwich</span><span class="menu-item-price">$10</span></li>
+                    <li><span class="menu-item-name">Veggie Burger</span><span class="menu-item-price">$9</span></li>
+                </ul>
+            </div>
+
+            <!-- Desserts -->
+            <div class="menu-category">
+                <h3>DESSERTS</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Strawberry Waffle</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Lemon Pie</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Chocolate Waffle</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Cheesecake</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Chocolate Muffin</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Cinnamon Roll</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Croissant</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Brownies</span><span class="menu-item-price">$5</span></li>
+                </ul>
+            </div>
+
+            <!-- Beverages -->
+            <div class="menu-category">
+                <h3>BEVERAGES</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Lemon Tea</span><span class="menu-item-price">$3</span></li>
+                    <li><span class="menu-item-name">Hot Chocolate</span><span class="menu-item-price">$4</span></li>
+                    <li><span class="menu-item-name">Jasmine Smoothie</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Mint Tea</span><span class="menu-item-price">$3</span></li>
+                    <li><span class="menu-item-name">Vanilla Milkshake</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Mango Tea</span><span class="menu-item-price">$3</span></li>
+                    <li><span class="menu-item-name">Milkshake</span><span class="menu-item-price">$5</span></li>
+                    <li><span class="menu-item-name">Green Tea Lemonade</span><span class="menu-item-price">$4</span></li>
+                </ul>
+            </div>
+
+            <!-- Sides -->
+            <div class="menu-category">
+                <h3>SIDES</h3>
+                <ul class="menu-item-list">
+                    <li><span class="menu-item-name">Fries</span><span class="menu-item-price">$3</span></li>
+                    <li><span class="menu-item-name">Onion Rings</span><span class="menu-item-price">$3</span></li>
+                    <li><span class="menu-item-name">Side Salad</span><span class="menu-item-price">$4</span></li>
+                    <li><span class="menu-item-name">Fruit Bowl</span><span class="menu-item-price">$4</span></li>
+                    <li><span class="menu-item-name">Garlic Bread</span><span class="menu-item-price">$3</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Download PDF Section -->
+    <section class="download-section">
+        <h2>Download Our Menu</h2>
+        <p>Click the button below to download a PDF version of our menu.</p>
+        <a href="{% static 'images/the_menu.pdf' %}" download>Download Menu PDF</a>
+    </section>
+    
+    {% include 'core/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,279 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5dc; /* Beige background */
+            color: #5a3e36; /* Brown text */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #e8a87c;
+        }
+
+        /* Profile Hero Section */
+        .profile-hero {
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            background-image: url('{% static 'images/profile-hero.jpg' %}');
+        }
+
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            color: #fff;
+        }
+
+        /* Profile Content Section */
+        .profile-content {
+            padding: 60px 0;
+            animation: fadeIn 1s ease-in-out;
+            background-color: #fff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #6e5773;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: #6e5773;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            color: #fff;
+            background-color: #e8a87c;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #d58a6f;
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background-color: #6e5773;
+        }
+
+        .btn-warning {
+            background-color: #ffcc00;
+            color: #333;
+        }
+
+        /* Reservations Section */
+        .reservations {
+            background-color: #f0f0f0;
+            padding: 50px 0;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .reservations h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .reservations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reservations li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .reservations li:hover {
+            transform: translateY(-5px);
+        }
+
+        .reservations li p {
+            margin: 0 0 10px 0;
+        }
+
+        .reservations li strong {
+            color: #6e5773;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .profile-hero {
+                height: 70vh;
+            }
+            .hero-content h1 {
+                font-size: 4em;
+            }
+            .profile-content, .reservations {
+                padding: 80px 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                width: 80%;
+            }
+            .hero-content h1 {
+                font-size: 5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+
+    <section class="profile-hero">
+        <div class="hero-content">
+            <h1>{{ user.username }}'s Profile</h1>
+        </div>
+    </section>
+    
+    <section class="profile-content">
+        <div class="container">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p>Email: {{ user.email }}</p>
+            <p>Member since: {{ user.date_joined }}</p>
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+        </div>
+    </section>
+    
+    <section class="reservations">
+        <div class="container">
+            <h2>My Reservations</h2>
+            {% if reservations %}
+                <ul>
+                    {% for reservation in reservations %}
+                        <li>
+                            <p><strong>Token:</strong> {{ reservation.token }}</p>
+                            <p><strong>Date:</strong> {{ reservation.date }}</p>
+                            <p><strong>Number of People:</strong> {{ reservation.number_of_people }}</p>
+                            <p><strong>Special Requests:</strong> {{ reservation.special_requests }}</p>
+                            <p><strong>Status:</strong> {{ reservation.get_status_display }}</p>
+                            {% if reservation.status != 'cancelled' %}
+                                <a href="{% url 'cancel_reservation' reservation.id %}" class="btn btn-warning">Cancel Reservation</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no reservations.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    {% include 'core/footer.html' %}
+</body>
+</html>

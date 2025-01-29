@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    {% include 'core/navbar.html' %}
+    
+    <section class="otp-hero" style="background-image: url('{% static 'images/otp-hero.jpg' %}');">
+        <div class="hero-content">
+            <h1>OTP Verification</h1>
+        </div>
+    </section>
+    
+    <section class="otp-form">
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="otp">Enter OTP</label>
+                    <input type="text" id="otp" name="otp" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Verify OTP</button>
+            </form>
+        </div>
+    </section>
+    
+    {% include 'core/footer.html' %}
+</body>
+</html>
