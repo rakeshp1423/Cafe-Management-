@@ -75,25 +75,11 @@ For queries or contributions, reach out to:
   <tr>
     <td><img src="screenshots/home.png" width="200"></td>
     <td><img src="screenshots/menu.png" width="200"></td>
+   
+  </tr>
+  <tr>
     <td><img src="screenshots/profile.png" width="200"></td>
     <td><img src="screenshots/login.png" width="200"></td>
   </tr>
-  <tr>
-    <td><img src="screenshots/signup.png" width="200"></td>
-    <td><img src="screenshots/reservation.png" width="200"></td>
-    <td><img src="screenshots/feedback.png" width="200"></td>
-    <td><img src="screenshots/orders.png" width="200"></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/settings.png" width="200"></td>
-    <td><img src="screenshots/analytics.png" width="200"></td>
-    <td><img src="screenshots/notifications.png" width="200"></td>
-    <td><img src="screenshots/payment.png" width="200"></td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/reviews.png" width="200"></td>
-    <td><img src="screenshots/about.png" width="200"></td>
-    <td><img src="screenshots/contact.png" width="200"></td>
-    <td><img src="screenshots/dashboard.png" width="200"></td>
-  </tr>
+  
 </table>
