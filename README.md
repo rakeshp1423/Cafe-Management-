@@ -73,13 +73,13 @@ For queries or contributions, reach out to:
 
 <table>
   <tr>
-    <td><img src="screenshots/home.png" width="200"></td>
-    <td><img src="screenshots/menu.png" width="200"></td>
+    <td><img src="screenshots/home.png"></td>
+    <td><img src="screenshots/menu.png"> </td>
    
   </tr>
   <tr>
-    <td><img src="screenshots/profile.png" width="200"></td>
-    <td><img src="screenshots/login.png" width="200"></td>
+    <td><img src="screenshots/profile.png"></td>
+    <td><img src="screenshots/login.png" ></td>
   </tr>
   
 </table>
