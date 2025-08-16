@@ -1,275 +1,485 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-
+    <title>Our Menu | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Download PDF Section */
-        .download-section {
-            padding: 40px 0;
-            background-color: #5a3e36; /* Dark brown background */
-            text-align: center;
-            color: #f5f5dc; /* Beige text */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
         }
 
-        .download-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #f5f5dc; /* Beige text */
-        }
+        html { scroll-behavior: smooth; }
 
-        .download-section p {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-
-        .download-section a {
-            color: #f5f5dc; /* Beige text */
-            font-size: 1.2em;
-            background-color: #e8a87c; /* Light brown background */
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .download-section a:hover {
-            background-color: #d18c6a; /* Darker brown on hover */
-        }
-        /* General Styles */
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
-
-        {% comment %} /* Navbar */
-        .navbar {
-            background-color: #5a3e36; /* Dark brown background */
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar a {
-            color: #f5f5dc; /* Beige text */
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            color: #e8a87c; /* Light brown hover effect */
-        }
-
-        /* Menu Hero Section */
+        
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
         .menu-hero {
-            background-size: cover;
-            background-position: center;
-            height: 50vh;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            background-color: #5a3e36; /* Dark brown background */
-        } {% endcomment %}
-
-        .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            margin: 0;
-            color: #f5f5dc; /* Beige text */
-        }
-
-        /* Menu Content Section */
-        .menu-content {
-            padding: 60px 0;
-            background-color: #f5f5dc; /* Beige background */
             text-align: center;
+            color: white;
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://cdn.pixabay.com/photo/2015/09/05/21/09/cafe-925356_1280.jpg');
+            background-size: cover;
+            background-position: center;
         }
 
-        .container {
-            width: 90%;
-            max-width: 800px;
+        .menu-hero-content {
+            animation: fadeInUp 1.5s ease-out;
+            z-index: 2;
+        }
+
+        .menu-hero-content h1 {
+            font-family: var(--font-primary);
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .menu-hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 122, 0.4);
+        }
+        .cta-button:hover {
+            background-color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ========================================
+        MENU LAYOUT
+        ========================================
+        */
+        .menu-wrapper {
+            display: flex;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 6rem 2rem;
+            gap: 4rem;
         }
 
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            margin-bottom: 40px;
-            color: #5a3e36; /* Brown text */
-            border-bottom: 2px solid #5a3e36; /* Brown underline */
-            display: inline-block;
-            padding-bottom: 10px;
+        .menu-nav {
+            width: 250px;
+            position: sticky;
+            top: 120px; /* Adjust based on your navbar height */
+            align-self: flex-start;
         }
 
-        .menu-category {
-            margin-bottom: 40px;
-        }
-
-        .menu-category h3 {
-            font-size: 2em;
-            color: #5a3e36; /* Brown text */
-            margin-bottom: 20px;
-            border-bottom: 2px solid #5a3e36; /* Brown underline */
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .menu-item-list {
+        .menu-nav-list {
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: left;
-            margin: 0 auto;
-            max-width: 700px;
+        }
+        
+        .menu-nav-list li a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #888;
+            text-decoration: none;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-nav-list li a:hover {
+            color: var(--text-dark);
+            background-color: #f4f0eb;
         }
 
-        .menu-item-list li {
-            font-size: 1.2em;
-            margin-bottom: 15px;
+        .menu-nav-list li a.active {
+            color: var(--text-dark);
+            font-weight: 700;
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .menu-content {
+            flex-grow: 1;
+        }
+
+        .menu-category {
+            margin-bottom: 5rem;
+        }
+
+        /* NEW: Category Header with Image */
+        .category-header {
             display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e0dcd5;
         }
-
-        .menu-item-list li:last-child {
-            border-bottom: none;
+        .category-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
-
+        .menu-category h2 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            color: var(--navbar-bg);
+            text-align: left;
+            margin: 0;
+        }
+        
+        .menu-item {
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0 1.5rem;
+            align-items: center;
+        }
+        .menu-item-header {
+            display: flex;
+            align-items: baseline;
+            overflow: hidden;
+        }
         .menu-item-name {
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 1.2rem;
+            white-space: nowrap;
         }
-
+        .menu-item-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #ccc;
+            margin: 0 0.5rem;
+            transform: translateY(-4px);
+        }
         .menu-item-price {
-            font-weight: bold;
-            color: #5a3e36; /* Brown text */
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--navbar-bg);
+        }
+        .menu-item-description {
+            grid-column: 1 / -1;
+            font-size: 0.95rem;
+            color: #777;
+            padding-top: 0.5rem;
+            text-align: left;
+        }
+        
+        /* ========================================
+        DOWNLOAD SECTION
+        ========================================
+        */
+        .download-section {
+            padding: 5rem 2rem;
+            background-color: var(--navbar-bg);
+            text-align: center;
+            color: var(--text-light);
+        }
+        .download-section h2 {
+            font-family: var(--font-primary);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .download-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.8);
         }
 
-
+        /* ========================================
+        ANIMATIONS & RESPONSIVENESS
+        ========================================
+        */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 992px) {
+            .menu-wrapper {
+                flex-direction: column;
+                gap: 0;
+            }
+            .menu-nav {
+                position: static;
+                width: 100%;
+                margin-bottom: 4rem;
+                border-bottom: 1px solid #e0dcd5;
+                padding-bottom: 1rem;
+            }
+            .menu-nav-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            .menu-nav-list li a {
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                border-radius: 5px;
+            }
+             .menu-nav-list li a.active {
+                border-bottom-color: var(--accent-color);
+                transform: translateX(0);
+                background-color: #f4f0eb;
+            }
+        }
+        @media (max-width: 576px) {
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .menu-category h2 {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
-    {% block content %}
     {% include 'core/navbar.html' %}
-    {% endblock %}
     
-    <section class="menu-hero">
-        <div class="hero-content">
-            <h1>Our Menu</h1>
+    <main>
+        <section class="menu-hero">
+            <div class="menu-hero-content">
+                <h1>Our Menu</h1>
+                <p>Crafted with passion, served with love.</p>
+                <a href="#menu-content" class="cta-button">Explore Flavors</a>
+            </div>
+        </section>
+        
+        <div class="menu-wrapper" id="menu-content">
+            <nav class="menu-nav">
+                <ul class="menu-nav-list">
+                    <li><a href="#coffee" class="active">Coffee</a></li>
+                    <li><a href="#breakfast">Breakfast</a></li>
+                    <li><a href="#lunch">Lunch</a></li>
+                    <li><a href="#desserts">Desserts</a></li>
+                    <li><a href="#beverages">Beverages</a></li>
+                    <li><a href="#sides">Sides</a></li>
+                </ul>
+            </nav>
+
+            <section class="menu-content">
+                <div id="coffee" class="menu-category">
+                    <div class="category-header">
+                        <img src="https://i.pinimg.com/1200x/78/4d/c5/784dc5a1fd98fc1a364f04f8dc6103dd.jpg" alt="A cup of artisanal coffee" class="category-image" onerror="this.style.display='none'">
+                        <h2>Coffee</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Espresso</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹220</span>
+                        <p class="menu-item-description">A rich and intense shot of our signature house blend.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Latte</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹280</span>
+                        <p class="menu-item-description">Smooth espresso with perfectly steamed milk and a thin layer of foam.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Cappuccino</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹280</span>
+                        <p class="menu-item-description">A classic balance of espresso, steamed milk, and a thick layer of airy foam.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Americano</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹250</span>
+                        <p class="menu-item-description">A shot of espresso diluted with hot water for a smooth, rich coffee.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Flat White</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹300</span>
+                        <p class="menu-item-description">A velvety coffee made with a double shot of espresso and micro-foamed milk.</p>
+                    </div>
+                </div>
+
+                <div id="breakfast" class="menu-category">
+                    <div class="category-header">
+                        <img src="https://i.pinimg.com/736x/d9/7b/46/d97b46309b6e0a6057fdd23caa31dd82.jpg" alt="A plate of avocado toast" class="category-image" onerror="this.style.display='none'">
+                        <h2>Breakfast</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Avocado Toast</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹380</span>
+                        <p class="menu-item-description">Smashed avocado on toasted sourdough, topped with chili flakes and a lemon wedge.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Pancakes</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹350</span>
+                        <p class="menu-item-description">A fluffy stack of three buttermilk pancakes served with maple syrup and butter.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Classic Omelette</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹400</span>
+                        <p class="menu-item-description">Three-egg omelette with your choice of cheese, mushrooms, and spinach.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Breakfast Burrito</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹420</span>
+                        <p class="menu-item-description">Scrambled eggs, cheese, beans, and salsa wrapped in a warm tortilla.</p>
+                    </div>
+                </div>
+
+                <div id="lunch" class="menu-category">
+                     <div class="category-header">
+                        <img src="https://i.pinimg.com/736x/22/0e/2c/220e2cb270e24151c2b3e2f55d999d5b.jpg" alt="A healthy lunch salad" class="category-image" onerror="this.style.display='none'">
+                        <h2>Lunch</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Chicken Caesar Salad</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹480</span>
+                        <p class="menu-item-description">Grilled chicken, crisp romaine, parmesan, and croutons with a creamy Caesar dressing.</p>
+                    </div>
+                     <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Grilled Cheese Sandwich</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹420</span>
+                        <p class="menu-item-description">A comforting classic with melted cheddar and mozzarella on buttery toasted bread.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Veggie Burger</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹450</span>
+                        <p class="menu-item-description">A hearty vegetable patty with lettuce, tomato, and our special sauce on a brioche bun.</p>
+                    </div>
+                </div>
+
+                <div id="desserts" class="menu-category">
+                    <div class="category-header">
+                        <img src="https://i.pinimg.com/736x/56/3d/8d/563d8d3bddd71041f523c1c27f3eca50.jpg" alt="A slice of cheesecake" class="category-image" onerror="this.style.display='none'">
+                        <h2>Desserts</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Cheesecake</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹320</span>
+                        <p class="menu-item-description">Classic New York style cheesecake with a graham cracker crust and berry compote.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Chocolate Waffle</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹350</span>
+                        <p class="menu-item-description">A warm, crisp waffle drizzled with rich chocolate sauce and served with vanilla ice cream.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Cinnamon Roll</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹280</span>
+                        <p class="menu-item-description">A soft, gooey cinnamon roll topped with a sweet cream cheese frosting.</p>
+                    </div>
+                </div>
+
+                <div id="beverages" class="menu-category">
+                    <div class="category-header">
+                        <img src="https://i.pinimg.com/1200x/d5/f9/33/d5f93335cc3783d55de60f75243143e5.jpg" alt="A refreshing glass of lemonade" class="category-image" onerror="this.style.display='none'">
+                        <h2>Beverages</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Green Tea Lemonade</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹250</span>
+                        <p class="menu-item-description">A refreshing blend of iced green tea and freshly squeezed lemonade.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Hot Chocolate</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹280</span>
+                        <p class="menu-item-description">Rich, dark chocolate melted into steamed milk and topped with whipped cream.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Vanilla Milkshake</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹300</span>
+                        <p class="menu-item-description">A thick and creamy milkshake made with real vanilla bean ice cream.</p>
+                    </div>
+                </div>
+
+                <div id="sides" class="menu-category">
+                     <div class="category-header">
+                        <img src="https://i.pinimg.com/736x/ce/34/8b/ce348b2f4bf95a5fabc314762ca74be3.jpg" alt="A bowl of crispy french fries" class="category-image" onerror="this.style.display='none'">
+                        <h2>Sides</h2>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Garlic Bread</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹200</span>
+                        <p class="menu-item-description">Toasted baguette slices with a savory garlic butter spread.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">French Fries</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹180</span>
+                        <p class="menu-item-description">Crispy, golden fries seasoned with a pinch of sea salt.</p>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-header"><span class="menu-item-name">Side Salad</span><span class="menu-item-dots"></span></div>
+                        <span class="menu-item-price">₹220</span>
+                        <p class="menu-item-description">A fresh mix of greens, cucumber, and tomatoes with a light vinaigrette.</p>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
-    
-    <section class="menu-content">
-        <div class="container">
-            <h2>Delicious Choices</h2>
-
-            <!-- Coffee -->
-            <div class="menu-category">
-                <h3>COFFEE</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Espresso</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Latte</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Macchiato</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Cappuccino</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Double Espresso</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Americano</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Flat White</span><span class="menu-item-price">$5</span></li>
-                </ul>
-            </div>
-
-            <!-- Breakfast -->
-            <div class="menu-category">
-                <h3>BREAKFAST</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Pancakes</span><span class="menu-item-price">$6</span></li>
-                    <li><span class="menu-item-name">French Toast</span><span class="menu-item-price">$7</span></li>
-                    <li><span class="menu-item-name">Omelette</span><span class="menu-item-price">$8</span></li>
-                    <li><span class="menu-item-name">Avocado Toast</span><span class="menu-item-price">$7</span></li>
-                    <li><span class="menu-item-name">Breakfast Burrito</span><span class="menu-item-price">$8</span></li>
-                </ul>
-            </div>
-
-            <!-- Lunch -->
-            <div class="menu-category">
-                <h3>LUNCH</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Chicken Caesar Salad</span><span class="menu-item-price">$9</span></li>
-                    <li><span class="menu-item-name">Grilled Cheese Sandwich</span><span class="menu-item-price">$8</span></li>
-                    <li><span class="menu-item-name">BLT Sandwich</span><span class="menu-item-price">$8</span></li>
-                    <li><span class="menu-item-name">Turkey Club Sandwich</span><span class="menu-item-price">$10</span></li>
-                    <li><span class="menu-item-name">Veggie Burger</span><span class="menu-item-price">$9</span></li>
-                </ul>
-            </div>
-
-            <!-- Desserts -->
-            <div class="menu-category">
-                <h3>DESSERTS</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Strawberry Waffle</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Lemon Pie</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Chocolate Waffle</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Cheesecake</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Chocolate Muffin</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Cinnamon Roll</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Croissant</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Brownies</span><span class="menu-item-price">$5</span></li>
-                </ul>
-            </div>
-
-            <!-- Beverages -->
-            <div class="menu-category">
-                <h3>BEVERAGES</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Lemon Tea</span><span class="menu-item-price">$3</span></li>
-                    <li><span class="menu-item-name">Hot Chocolate</span><span class="menu-item-price">$4</span></li>
-                    <li><span class="menu-item-name">Jasmine Smoothie</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Mint Tea</span><span class="menu-item-price">$3</span></li>
-                    <li><span class="menu-item-name">Vanilla Milkshake</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Mango Tea</span><span class="menu-item-price">$3</span></li>
-                    <li><span class="menu-item-name">Milkshake</span><span class="menu-item-price">$5</span></li>
-                    <li><span class="menu-item-name">Green Tea Lemonade</span><span class="menu-item-price">$4</span></li>
-                </ul>
-            </div>
-
-            <!-- Sides -->
-            <div class="menu-category">
-                <h3>SIDES</h3>
-                <ul class="menu-item-list">
-                    <li><span class="menu-item-name">Fries</span><span class="menu-item-price">$3</span></li>
-                    <li><span class="menu-item-name">Onion Rings</span><span class="menu-item-price">$3</span></li>
-                    <li><span class="menu-item-name">Side Salad</span><span class="menu-item-price">$4</span></li>
-                    <li><span class="menu-item-name">Fruit Bowl</span><span class="menu-item-price">$4</span></li>
-                    <li><span class="menu-item-name">Garlic Bread</span><span class="menu-item-price">$3</span></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Download PDF Section -->
-    <section class="download-section">
-        <h2>Download Our Menu</h2>
-        <p>Click the button below to download a PDF version of our menu.</p>
-        <a href="{% static 'images/the_menu.pdf' %}" download>Download Menu PDF</a>
-    </section>
+        
+        <section class="download-section">
+            <h2>View Our Full Menu</h2>
+            <p>For a detailed list of all our offerings, including seasonal specials.</p>
+            <a href="{% static 'images/the_menu.pdf' %}" download class="cta-button">Download PDF</a>
+        </section>
+    </main>
     
     {% include 'core/footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.menu-category');
+            const navLinks = document.querySelectorAll('.menu-nav-list a');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' }); // Adjust rootMargin to activate when section is in the middle of the screen
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>

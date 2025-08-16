@@ -3,520 +3,423 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Café | Welcome</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- DESIGN SYSTEM & SETUP --- */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            {% comment %} font-family: 'Roboto', sans-serif;
             margin: 0;
-            padding: 0;
-            color: #333;
-            background-color: #f8f8f8; {% endcomment %}
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
-        /* Hero Section */
-.main-container .feedbacks-hero {
-    background-size: cover;
-    background-position: center;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-}
-
-.main-container .feedbacks-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.main-container .hero-content {
-    position: relative;
-    text-align: center;
-    color: #fff;
-    animation: fadeInUp 1.5s ease-in-out;
-}
-
-.main-container .hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.main-container .hero-content p {
-    font-size: 1.2em;
-}
-
-        /* Hero Section */
-.welcome-section {
-    position: relative;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden; /* Hide any overflow from the image */
-}
-
-.hero-image {
-    position: relative;
-    height: 100%;
-    width: 100%;
-}
-
-.hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure the image covers the container */
-    display: block;
-}
-
-.welcome-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    text-align: center;
-    max-width: 80%;
-}
-
-.welcome-message h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.welcome-message p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-}
-
-
-
-
-        /* Welcome Section */
-        .welcome-section {
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-            color: white;
+        /* --- HERO SECTION --- */
+        .hero-section {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; position: relative; background-size: cover; background-position: center;
         }
-
-        .welcome-section img {
-            width: 100%;
-            height: 70vh;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        .hero-section::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1;
         }
+        .hero-content { position: relative; z-index: 2; animation: fadeInUp 1.5s ease-out; }
+        .hero-content h1 { font-family: var(--font-primary); font-size: clamp(3rem, 6vw, 5.5rem); margin: 0; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); }
+        .hero-content p { font-size: clamp(1.1rem, 2vw, 1.4rem); margin-top: 1rem; font-weight: 400; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); }
+        .scroll-indicator { position: absolute; bottom: 30px; z-index: 2; animation: bounce 2s infinite; }
+        .scroll-indicator a { color: white; text-decoration: none; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; }
+        .scroll-indicator svg { width: 24px; height: 24px; margin-top: 8px; }
 
-        .welcome-section:hover img {
-            transform: scale(1.1);
-        }
+        /* --- GENERAL CONTENT STYLING --- */
+        .content-section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .content-section h2 { font-family: var(--font-primary); font-size: clamp(2.5rem, 4vw, 3.2rem); margin-bottom: 1rem; color: var(--navbar-bg); }
+        .content-section .section-subtitle { font-size: 1.1rem; color: #777; max-width: 700px; margin: 0 auto 4rem auto; line-height: 1.7; }
 
-        .welcome-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 2rem;
-            border-radius: 10px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .welcome-message h2 {
-            font-size: 2.5rem;
-        }
-
-        /* images */
-        .image-container {
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: auto;
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .image-container img:hover {
-            transform: scale(1.1);
-            filter: grayscale(0%);
-        }
-
-        /* About Us with Parallax */
-        .about-us {
-            background: url('{% static "images/cafe.jpg" %}') no-repeat center center fixed;
+        /* --- NEW: OUR JOURNEY SECTION --- */
+        .journey-section {
+            padding: 8rem 2rem;
+            background-image: linear-gradient(rgba(44, 37, 34, 0.85), rgba(44, 37, 34, 0.85)), url('https://i.pinimg.com/1200x/6a/ef/63/6aef63cf78a6adf92aaa3560651a4a46.jpg');
             background-size: cover;
-            padding: 4rem 0;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
             color: white;
-            position: relative;
-            z-index: 1;
-            text-align: center;
         }
-
-        .about-us::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
-        }
-
-        .about-us h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-        }
-
-        .about-us p {
-            font-size: 1.2rem;
-            margin: 1.5rem auto;
+        .journey-content {
             max-width: 800px;
+            margin: 0 auto;
         }
-
-        /* Special Offers and What We Provide */
-        .container {
-            padding: 2rem;
+        .journey-content h2 {
+            color: white;
         }
-
-        .special-offers, .cards, .feedback-cards {
-            margin-bottom: 3rem;
+        .journey-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.8);
         }
-
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
+        
+        /* --- WEEKLY SPECIALS SECTION --- */
+        .specials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            justify-content: space-around;
+            margin-top: 4rem;
         }
-
-        .card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            text-align: center;
+        .special-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: left;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 30%;
         }
-
-        .card img {
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: filter 0.3s ease;
-        }
-
-        .card:hover {
+        .special-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
         }
-
-        .card img:hover {
-            filter: blur(3px);
+        .special-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
         }
-
-        .card h3 {
-            font-family: 'Playfair Display', serif;
+        .special-content {
+            padding: 1.5rem;
+        }
+        .special-content .tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
             margin-bottom: 1rem;
         }
-
-        .card p {
-            color: #555;
+        .special-content h3 {
+            font-family: var(--font-primary);
+            margin: 0 0 0.5rem 0;
+        }
+        .special-content p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        /* Feedbacks Section */
-        .feedback-cards {
+        /* --- GALLERY SECTION --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 250px);
+            gap: 1rem;
+            margin-top: 4rem;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 2; }
+        .gallery-item:nth-child(2) { grid-column: 3 / 4; grid-row: 1 / 3; }
+        .gallery-item:nth-child(3) { grid-column: 4 / 5; grid-row: 1 / 2; }
+        .gallery-item:nth-child(4) { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .gallery-item:nth-child(5) { grid-column: 2 / 3; grid-row: 2 / 3; }
+        .gallery-item:nth-child(6) { grid-column: 4 / 5; grid-row: 2 / 3; }
+
+        /* --- RE-ADDED: CUSTOMER FEEDBACK CAROUSEL --- */
+        .feedback-carousel-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 4rem auto 0 auto;
+            overflow: hidden;
+        }
+        .feedback-carousel {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            transition: transform 0.5s ease-in-out;
         }
-
-        .feedback-card {
+        .feedback-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 0 1rem;
+        }
+        .feedback-card-new {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
+            box-shadow: 0 10px 40px var(--shadow-color);
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .feedback-card-new::before {
+            content: '“';
+            font-family: var(--font-primary);
+            font-size: 6rem;
+            color: var(--accent-color);
+            opacity: 0.2;
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            line-height: 1;
+        }
+        .feedback-text { font-size: 1.1rem; font-style: italic; color: #555; line-height: 1.7; margin-bottom: 1.5rem; }
+        .feedback-author { font-weight: 700; font-size: 1.1rem; }
+        .feedback-rating { color: var(--accent-color); font-size: 1.2rem; }
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
             display: flex;
-            gap: 1.5rem;
+            justify-content: space-between;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .carousel-btn {
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            display: flex;
+            justify-content: center;
             align-items: center;
         }
+        .carousel-btn:hover { transform: scale(1.1); }
+        .carousel-btn.prev { margin-left: -22px; }
+        .carousel-btn.next { margin-right: -22px; }
 
-        .feedback-card img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
+        /* --- POST FEEDBACK CTA --- */
+        .post-exp-section {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.pinimg.com/736x/40/56/67/4056673222042d1c892b6921c4090db9.jpg');
+            color: var(--text-light);
+            border-radius: 20px;
+            padding: 5rem 2rem;
+            margin: 0 1rem;
         }
-
-        .feedback-card .feedback-content {
-            flex-grow: 1;
-        }
-
-        .feedback-card .feedback-content p {
-            margin: 0.5rem 0;
-        }
-
-        .feedback-card .feedback-content .username {
-            font-weight: bold;
+        .post-exp-section a {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
             font-size: 1.1rem;
-        }
-
-        .feedback-card .feedback-content .rating {
-            color: #e67e22;
-        }
-
-        .feedback-card .btn-danger {
-            background-color: #e74c3c;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .feedback-card .btn-danger:hover {
-            background-color: #c0392b;
-        }
-
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* post experience */
-        .post-exp {
-            padding: 40px 0;
-            background-color: #5a3e36; /* Dark brown background */
-            text-align: center;
-            color: #f5f5dc; /* Beige text */
-        }
-
-        .post-exp h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #f5f5dc; /* Beige text */
-        }
-
-        .post-exp p {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-
-        .post-exp a {
-            color: #f5f5dc; /* Beige text */
-            font-size: 1.2em;
-            background-color: #e8a87c; /* Light brown background */
-            padding: 10px 20px;
-            border-radius: 8px;
+            font-weight: 700;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 122, 0.4);
+        }
+        .post-exp-section a:hover {
+            background-color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
         }
 
-        .post-exp a:hover {
-            background-color: #d18c6a; /* Darker brown on hover */
+        /* --- ANIMATIONS & RESPONSIVENESS --- */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(auto-fit, 200px);
+            }
+            .gallery-item:nth-child(n) { grid-column: auto; grid-row: auto; }
         }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (min-width: 768px) {
-            .feedbacks-hero {
-                height: 70vh;
-            }
-
-            .hero-content h1 {
-                font-size: 4em;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-
-            .hero-content h1 {
-                font-size: 5em;
-            }
-        }
-
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (min-width: 768px) {
-            .feedbacks-hero {
-                height: 70vh;
-            }
-
-            .hero-content h1 {
-                font-size: 4em;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-
-            .hero-content h1 {
-                font-size: 5em;
-            }
-        }
-
     </style>
-
-    <script type="text/javascript">
- 
-        var imgPaths = [
-            ['pic1.jpg',5000],
-            ['pic2.jpg',2000]];
-        var imgO = new Array();
-        var currImg = 0;
-        var currDispTime = imgPaths[0][1];
-
-        //preload the images
-        for(i=0; i < imgPaths.length; i++) {
-            imgO[i] = new Image();
-            imgO[i].src = imgPaths[i][0];
-        }
-
-        function swapImg() {
-            currImg = (currImg == 0)? 1 : 0;
-            currDispTime = (currDispTime == imgPaths[0][1])? imgPaths[1][1] : imgPaths[0][1];
-            imgObj.src = imgO[currImg].src;
-            setTimeout('swapImg()',currDispTime);
-        }
-
-        window.onload=function() {
-            imgObj = document.getElementById("imgSwap");
-            imgObj.src = imgO[currImg].src;
-            swapImg();
-        }
-    </script>
-
 </head>
 <body>
+    
     {% include 'core/navbar.html' %}
     
-    <div class="main-container">
-        <section class="feedbacks-hero" style="background-image: url('{% static 'images/cafebg.jpg' %}');">
-            <div class="hero-content">
-                <h1>Welcome to TheMenu</h1>
+    <main>
+        <section class="hero-section" style="background-image: url('{% static 'images/cafebg.jpg' %}');">
+             <div class="hero-content">
+                <h1>Welcome to The Café</h1>
                 <p>Your ultimate culinary experience begins here!</p>
             </div>
-        </section>
-    
-
-        <section class="special-offers container">
-            <h3>Special Offers</h3>
-            <p><strong>Pumpkin Spice Latte:</strong> Welcome fall with our limited-time offer, perfectly spiced and topped with whipped cream.</p>
-            <p><strong>Brunch for Two:</strong> Enjoy a 20% discount on any two brunch entrees every weekend from 10 AM to 2 PM.</p>
-        </section>
-
-        <section class="about-us">
-            <h2>About Us</h2>
-            <p>At TheMenu, we believe that food is more than just sustenance – it’s a way of bringing people together. Founded in 2020, our café started as a small passion project with a simple goal: to create a space where community and cuisine could thrive together. We are committed to sourcing the freshest ingredients, supporting local farmers, and creating dishes that are both innovative and comforting. Every visit to TheMenu is a new chapter in our story, and we invite you to be a part of it.</p>
-        </section>
-
-        <section id="what-we-provide" class="container">
-            <h2>What We Provide</h2>
-            <div class="cards">
-                <div class="card">
-                    <img src="{% static 'images/coffee.jpg' %}" alt="High-Quality Coffee">
-                    <h3>High-Quality Coffee</h3>
-                    <p>We serve freshly brewed coffee made from premium beans sourced from around the world.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/cozy.jpg' %}" alt="Cozy Environment">
-                    <h3>Cozy Environment</h3>
-                    <p>Our café offers a warm and inviting atmosphere, perfect for relaxing or working.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/wifi.jpg' %}" alt="Free Wi-Fi">
-                    <h3>Free Wi-Fi</h3>
-                    <p>Stay connected with our complimentary high-speed internet access available throughout the café.</p>
-                </div>
-                <div class="card">
-                    <img src="{% static 'images/snacks.jpg' %}" alt="Delicious Snacks">
-                    <h3>Delicious Snacks</h3>
-                    <p>We offer a variety of snacks that pair perfectly with our coffee and tea, made fresh daily.</p>
-                </div>
+            <div class="scroll-indicator">
+                <a href="#our-journey">
+                    Discover Our Story
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                </a>
             </div>
         </section>
 
-        <section id="feedbacks" class="container">
-            <h2>Customer Feedbacks</h2>
-            {% if feedbacks %}
-            <div class="feedback-cards">
-                {% for feedback in feedbacks %}
-                <div class="feedback-card">
-                    
-                    <div class="feedback-content">
-                        <p class="username">{{ feedback.user.username }}</p>
-                        <p>{{ feedback.feedback_text }}</p>
-                        <p class="rating">Rating: {{ feedback.rating }} stars</p>
-                        <p>Posted on {{ feedback.created_at }}</p>
-                        {% if user == feedback.user %}
-                        <a href="{% url 'delete_feedback' feedback.id %}" class="btn btn-danger">Delete Feedback</a>
-                        {% endif %}
+        <section id="our-journey" class="journey-section">
+            <div class="journey-content">
+                <h2>Our Journey: From a Simple Dream</h2>
+                <p>The Café was born from a simple passion: to create a warm, inviting space where the aroma of freshly brewed coffee and the comfort of good company could thrive. We believe in quality in every detail, from the ethically sourced beans in your cup to the locally sourced ingredients on your plate. Our journey is one of community, craft, and the continuous pursuit of the perfect café experience.</p>
+            </div>
+        </section>
+
+        <section id="weekly-specials" class="content-section" style="background-color: #f4f0eb;">
+            <h2>Weekly Specials</h2>
+            <p class="section-subtitle">Discover new flavors with our curated specials, crafted with the freshest seasonal ingredients.</p>
+            <div class="specials-grid">
+                <div class="special-card">
+                    <img src="https://i.pinimg.com/736x/1d/e3/3f/1de33f7198b3217905e3f7d9618b781d.jpg" alt="Seasonal Latte">
+                    <div class="special-content">
+                        <span class="tag">DRINK OF THE WEEK</span>
+                        <h3>Spiced Maple Latte</h3>
+                        <p>A cozy blend of rich espresso, steamed milk, and sweet maple syrup with a hint of cinnamon and nutmeg.</p>
                     </div>
                 </div>
-                {% endfor %}
+                <div class="special-card">
+                    <img src="https://i.pinimg.com/736x/01/51/93/01519376c39b77a4f056558bc83baa38.jpg" alt="Weekend Brunch">
+                    <div class="special-content">
+                        <span class="tag">WEEKEND BRUNCH</span>
+                        <h3>Lemon Ricotta Pancakes</h3>
+                        <p>Fluffy pancakes infused with fresh lemon zest and creamy ricotta, topped with a blueberry compote.</p>
+                    </div>
+                </div>
+                <div class="special-card">
+                    <img src="https://i.pinimg.com/1200x/e2/a1/88/e2a1882761d8366ec611f81c4920ffa2.jpg" alt="Sweet Treat">
+                    <div class="special-content">
+                        <span class="tag">SWEET TREAT</span>
+                        <h3>Caramel Apple Tart</h3>
+                        <p>A buttery pastry filled with tender, spiced apples and drizzled with homemade caramel sauce.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="content-section">
+            <h2>Moments at The Café</h2>
+            <p class="section-subtitle">A glimpse into the life and flavors of our community hub.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://i.pinimg.com/1200x/81/5d/23/815d237560a9afdfdc5202f216717f11.jpg" alt="Cafe ambiance"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/736x/38/3f/fa/383ffaf0138ec046deb2536c7123a719.jpg" alt="Latte art"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/1200x/32/54/64/325464a0d7461d005e5cf45330f42592.jpg" alt="Fresh pastries"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/736x/bb/f1/bf/bbf1bf7634056ccc420f39cf2be8f689.jpg" alt="People enjoying coffee"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/736x/55/0c/5d/550c5d2f747fc6c4e727bdd98739c19b.jpg" alt="Cafe details"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/736x/36/6a/02/366a027df5a9d558c65289a0850bf7cc.jpg" alt="Brunch spread"></div>
+            </div>
+        </section>
+
+        <section id="feedbacks" class="content-section">
+            <h2>From Our Community</h2>
+            <p class="section-subtitle">We're built on the love and support of our customers. Here's what they have to say about their experience.</p>
+            {% if feedbacks %}
+            <div class="feedback-carousel-wrapper">
+                <div class="feedback-carousel">
+                    {% for feedback in feedbacks %}
+                    <div class="feedback-slide">
+                        <div class="feedback-card-new">
+                            <p class="feedback-text">"{{ feedback.feedback_text }}"</p>
+                            <p class="feedback-author">{{ feedback.user.username }}</p>
+                            <p class="feedback-rating">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= feedback.rating %}★{% else %}☆{% endif %}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-btn prev" aria-label="Previous feedback">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+                    </button>
+                    <button class="carousel-btn next" aria-label="Next feedback">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                    </button>
+                </div>
             </div>
             {% else %}
-            <p>No feedbacks yet.</p>
+            <p>No feedbacks yet. Be the first to share your experience!</p>
             {% endif %}
         </section>
 
-        <section class="post-exp">
-            {% if user.is_authenticated %}
-            <section id="post-feedback" class="container">
-                <h1>Want to share your experience?</h1>
-                <a href="{% url 'post_feedback' %}">Click here</a>
-            </section>
-            {% else %}
-            <section id="post-feedback" class="container">
-                <h2>Want to share your experience?</h2>
-                <a href="{% url 'login' %}" >Click here</a>
-            </section>
-            {% endif %}
+        <section class="content-section">
+            <div class="post-exp-section">
+                {% if user.is_authenticated %}
+                    <h2>Become a Part of Our Story</h2>
+                    <p class="section-subtitle" style="color: #ccc;">Your feedback inspires us. Share your experience and help our community grow.</p>
+                    <a href="{% url 'post_feedback' %}">Share Your Story</a>
+                {% else %}
+                    <h2>Have an Experience to Share?</h2>
+                    <p class="section-subtitle" style="color: #ccc;">We'd love to hear from you. Log in to share your feedback and join our community.</p>
+                    <a href="{% url 'login' %}">Login to Leave a Review</a>
+                {% endif %}
+            </div>
         </section>
-    </div>
+    </main>
 
     {% include 'core/footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.feedback-carousel');
+            if (carousel) {
+                const slides = document.querySelectorAll('.feedback-slide');
+                if (slides.length > 0) {
+                    const nextBtn = document.querySelector('.carousel-btn.next');
+                    const prevBtn = document.querySelector('.carousel-btn.prev');
+                    let currentIndex = 0;
+                    let slideInterval;
+
+                    function goToSlide(index) {
+                        if (index < 0) index = slides.length - 1;
+                        if (index >= slides.length) index = 0;
+                        carousel.style.transform = `translateX(-${index * 100}%)`;
+                        currentIndex = index;
+                    }
+
+                    function startCarousel() {
+                        slideInterval = setInterval(() => {
+                            goToSlide(currentIndex + 1);
+                        }, 5000);
+                    }
+
+                    function stopCarousel() {
+                        clearInterval(slideInterval);
+                    }
+
+                    nextBtn.addEventListener('click', () => {
+                        goToSlide(currentIndex + 1);
+                        stopCarousel();
+                        startCarousel();
+                    });
+
+                    prevBtn.addEventListener('click', () => {
+                        goToSlide(currentIndex - 1);
+                        stopCarousel();
+                        startCarousel();
+                    });
+                    
+                    carousel.addEventListener('mouseenter', stopCarousel);
+                    carousel.addEventListener('mouseleave', startCarousel);
+
+                    startCarousel();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-

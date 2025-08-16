@@ -1,247 +1,406 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Sign Up | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
-body {
-    font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --error-color: #dc3545;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
-}
+        }
+        
+        /* ========================================
+        SIGNUP PAGE LAYOUT
+        ========================================
+        */
+        .signup-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        /* Left Column: Visuals */
+        .signup-visual {
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://i.pinimg.com/736x/89/02/a6/8902a6fca80497d2aed5a6e09e219ca1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 4rem;
+            color: white;
+        }
+        
+        .visual-content h1 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+        }
+
+        .visual-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 450px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Right Column: Form */
+        .signup-form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .signup-form {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .signup-form h2 {
+            font-family: var(--font-primary);
+            font-size: 2.8rem;
+            margin: 0 0 1rem 0;
+            color: var(--navbar-bg);
+        }
+        
+        .signup-form .form-intro {
+            color: #777;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative; /* For icon positioning */
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* NEW: Icon styling */
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(25%);
+            color: #ccc;
+        }
+        .input-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 3rem; /* Increased left padding for icon */
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: var(--font-secondary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 122, 0.2);
+        }
+        .form-control:focus + .input-icon {
+            color: var(--accent-color);
+        }
+
+        /* Password Toggle Button */
+        .password-toggle {
+            position: absolute;
+            top: 70%;
+            right: 1rem;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #aaa;
+        }
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
 
 
+        /* Validation Styles */
+        .form-control.error {
+            border-color: var(--error-color);
+        }
+        .form-control.error:focus {
+             box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+        }
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none; /* Hidden by default */
+        }
 
-/* Signup Hero Section */
-.signup-hero {
-    background-size: cover;
-    background-position: center;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-}
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 1rem;
+        }
 
-.signup-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.hero-content {
-    position: relative;
-    text-align: center;
-    animation: fadeInUp 1.5s ease-in-out;
-    z-index: 1;
-}
-
-.hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin: 0;
-    color: #fff;
-}
-
-/* Signup Form Section */
-.signup-form {
-    padding: 60px 0;
-    background-color: #fff;
-    animation: fadeIn 1s ease-in-out;
-}
-
-.container {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    box-sizing: border-box;
-}
-
-.btn {
-    display: inline-block;
-    padding: 12px 25px;
-    color: #fff;
-    background-color: #6e5773;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.btn:hover {
-    background-color: #5b4a6a;
-    transform: translateY(-3px);
-}
-
-/* Login Prompt */
-.signup-form p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.signup-form a {
-    color: #6e5773;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.signup-form a:hover {
-    text-decoration: underline;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (min-width: 768px) {
-    .signup-hero {
-        height: 70vh;
-    }
-    .hero-content h1 {
-        font-size: 4em;
-    }
-    .signup-form {
-        padding: 80px 0;
-    }
-}
-
-@media (min-width: 1024px) {
-    .container {
-        width: 80%;
-    }
-    .hero-content h1 {
-        font-size: 5em;
-    }
-}
-
-.messages {
-    margin: 20px 0;
-    padding: 10px;
-    list-style-type: none;
-}
-
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    color: white;
-}
-
-.alert-success {
-    background-color: #4caf50;
-}
-
-.alert-error {
-    background-color: #f44336;
-}
-
-.alert-info {
-    background-color: #2196f3;
-}
-
-.alert-warning {
-    background-color: #ff9800;
-}
+        .btn-submit:hover {
+            background-color: var(--navbar-bg);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .login-prompt {
+            text-align: center;
+            margin-top: 2rem;
+            color: #777;
+        }
+        
+        .login-prompt a {
+            color: var(--accent-color);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Django Messages Styling */
+        .messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+            font-weight: 500;
+        }
+        .alert-success { background-color: #28a745; }
+        .alert-error { background-color: #dc3545; }
+        .alert-info { background-color: #17a2b8; }
+        .alert-warning { background-color: #ffc107; color: var(--text-dark); }
 
 
+        /* ========================================
+        RESPONSIVENESS
+        ========================================
+        */
+        @media (max-width: 992px) {
+            .signup-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .signup-visual {
+                display: none; /* Hide visual column on smaller screens for focus */
+            }
+            .signup-form-container {
+                min-height: 100vh;
+            }
+        }
     </style>
 </head>
 <body>
-    {% include 'core/navbar.html' %}
-    
-    <section class="signup-hero" style="background-image: url('{% static 'images/signup-hero.jpg' %}');">
-        <div class="hero-content">
-            <h1>Signup</h1>
-        </div>
-    </section>
-    
-    <section class="signup-form">
-        <div class="container">
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
-                    </div>
-                {% endfor %}
+    <div class="signup-wrapper">
+        <div class="signup-visual">
+            <div class="visual-content">
+                <h1>Join Our Community</h1>
+                <p>Create an account to save your favorite orders, manage reservations, and become a part of The Café family.</p>
             </div>
-            {% endif %}
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary" href="{% url 'login' %}">Signup</button>
-            </form>
-            <p>Already have an account? <a href="{% url 'login' %}">Log in</a> now</p>
         </div>
-    </section>
-    
-    {% include 'core/footer.html' %}
+        <div class="signup-form-container">
+            <div class="signup-form">
+                <h2>Create Account</h2>
+                <p class="form-intro">Start your journey with us today.</p>
+
+                
+
+                <form method="post" id="signup-form" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" /></svg></span>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" /><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" /></svg></span>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                        <p class="error-message" id="email-error">Please enter a valid email address (e.g., name@example.com).</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" /></svg></span>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        <button type="button" class="password-toggle" data-target="password" aria-label="Show password">
+                             <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM12.001 18C8.97 18 6.243 16.12 4.755 13.5c1.488-2.622 4.215-4.5 7.245-4.5s5.757 1.878 7.245 4.5c-1.488 2.622-4.215 4.5-7.245 4.5z" clip-rule="evenodd"/></svg>
+                             <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 001.06-1.06l-18-18zM22.676 11.446a.75.75 0 000-1.112C21.189 6.972 16.97 3.75 12 3.75a13.336 13.336 0 00-3.393.464L10.5 6.107a4.5 4.5 0 015.007 5.007l1.893 1.893c1.44-1.13 2.64-2.587 3.276-4.114zM12 18c-3.032 0-5.76-1.878-7.247-4.5.823-1.472 1.918-2.736 3.19-3.697l1.356 1.356a3 3 0 003.832-3.832L14.488 6.02A13.29 13.29 0 0112 5.25c-4.97 0-9.185 3.223-10.675 7.69a.75.75 0 000 1.113c1.488 4.471 5.705 7.697 10.675 7.697a13.42 13.42 0 005.418-1.156l-1.85-1.85a4.502 4.502 0 01-2.993-.495z"/></svg>
+                        </button>
+                        <p class="error-message" id="password-error">Password must be at least 8 characters long and include an uppercase letter, a number, and a special character.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Confirm Password</label>
+                         <span class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" /></svg></span>
+                        <input type="password" id="password2" name="password2" class="form-control" required>
+                        <button type="button" class="password-toggle" data-target="password2" aria-label="Show password">
+                             <svg class="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM12.001 18C8.97 18 6.243 16.12 4.755 13.5c1.488-2.622 4.215-4.5 7.245-4.5s5.757 1.878 7.245 4.5c-1.488 2.622-4.215 4.5-7.245 4.5z" clip-rule="evenodd"/></svg>
+                             <svg class="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 001.06-1.06l-18-18zM22.676 11.446a.75.75 0 000-1.112C21.189 6.972 16.97 3.75 12 3.75a13.336 13.336 0 00-3.393.464L10.5 6.107a4.5 4.5 0 015.007 5.007l1.893 1.893c1.44-1.13 2.64-2.587 3.276-4.114zM12 18c-3.032 0-5.76-1.878-7.247-4.5.823-1.472 1.918-2.736 3.19-3.697l1.356 1.356a3 3 0 003.832-3.832L14.488 6.02A13.29 13.29 0 0112 5.25c-4.97 0-9.185 3.223-10.675 7.69a.75.75 0 000 1.113c1.488 4.471 5.705 7.697 10.675 7.697a13.42 13.42 0 005.418-1.156l-1.85-1.85a4.502 4.502 0 01-2.993-.495z"/></svg>
+                        </button>
+                        <p class="error-message" id="password2-error">Passwords do not match.</p>
+                    </div>
+                    <button type="submit" class="btn-submit">Sign Up</button>
+                </form>
+                <p class="login-prompt">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signup-form');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const password2 = document.getElementById('password2');
+
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const password2Error = document.getElementById('password2-error');
+
+            // --- Utility Functions ---
+            const showError = (input, messageElement, message) => {
+                input.classList.add('error');
+                messageElement.textContent = message;
+                messageElement.style.display = 'block';
+            };
+
+            const hideError = (input, messageElement) => {
+                input.classList.remove('error');
+                messageElement.style.display = 'none';
+            };
+
+            // --- Validation Functions ---
+            const validateEmail = () => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email.value.trim())) {
+                    showError(email, emailError, 'Please enter a valid email address (e.g., name@example.com).');
+                    return false;
+                }
+                hideError(email, emailError);
+                return true;
+            };
+
+            const validatePassword = () => {
+                const passwordValue = password.value;
+                const errors = [];
+                if (passwordValue.length < 8) errors.push('at least 8 characters');
+                if (!/[A-Z]/.test(passwordValue)) errors.push('an uppercase letter');
+                if (!/[0-9]/.test(passwordValue)) errors.push('a number');
+                if (!/[^A-Za-z0-9]/.test(passwordValue)) errors.push('a special character');
+
+                if (errors.length > 0) {
+                    showError(password, passwordError, `Password must include ${errors.join(', ')}.`);
+                    return false;
+                }
+                hideError(password, passwordError);
+                return true;
+            };
+
+            const validatePasswordMatch = () => {
+                if (password.value !== password2.value) {
+                    showError(password2, password2Error, 'Passwords do not match.');
+                    return false;
+                }
+                hideError(password2, password2Error);
+                return true;
+            };
+
+            // --- Password Toggle Functionality ---
+            document.querySelectorAll('.password-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetInput = document.getElementById(button.dataset.target);
+                    const eyeOpen = button.querySelector('.eye-open');
+                    const eyeClosed = button.querySelector('.eye-closed');
+
+                    if (targetInput.type === 'password') {
+                        targetInput.type = 'text';
+                        eyeOpen.style.display = 'none';
+                        eyeClosed.style.display = 'block';
+                        button.setAttribute('aria-label', 'Hide password');
+                    } else {
+                        targetInput.type = 'password';
+                        eyeOpen.style.display = 'block';
+                        eyeClosed.style.display = 'none';
+                        button.setAttribute('aria-label', 'Show password');
+                    }
+                });
+            });
+
+            // --- Form Submission Listener ---
+            form.addEventListener('submit', (e) => {
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+                const doPasswordsMatch = validatePasswordMatch();
+
+                if (!isEmailValid || !isPasswordValid || !doPasswordsMatch) {
+                    e.preventDefault(); 
+                }
+            });
+
+            // --- Real-time feedback listeners ---
+            email.addEventListener('input', validateEmail);
+            password.addEventListener('input', () => {
+                validatePassword();
+                validatePasswordMatch(); // Re-check match when the first password changes
+            });
+            password2.addEventListener('input', validatePasswordMatch);
+        });
+    </script>
 </body>
 </html>

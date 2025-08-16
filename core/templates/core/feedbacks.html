@@ -1,231 +1,284 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedbacks</title>
-    <style>
-        {% comment %} /* General Styles */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
-        } {% endcomment %}
-
-        {% comment %} /* Navbar */
-        .navbar {
-            background-color: #333;
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            color: #e8a87c;
-        } {% endcomment %}
-
+    <title>Our Community | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     
+    <style>
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
 
-        /* Hero Section */
-        .main-container .feedbacks-hero {
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
+        .feedbacks-hero {
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            text-align: center;
+            color: white;
             position: relative;
-            overflow: hidden;
-            text-align: center;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://cdn.pixabay.com/photo/2016/09/27/10/38/cafe-1697992_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0 2rem;
         }
 
-        .main-container .feedbacks-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .main-container .hero-content {
-            position: relative;
-            text-align: center;
-            color: #fff;
-            animation: fadeInUp 1.5s ease-in-out;
-        }
-
-        .main-container .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .main-container .hero-content p {
-            font-size: 1.2em;
-            margin-top: 10px;
-        }
-
-        /* Feedbacks Content Section */
-        .main-container .feedbacks-content {
-            padding: 60px 0;
-            background-color: #fff;
-            text-align: center;
-        }
-
-        .main-container .container {
-            width: 90%;
+        .hero-content {
+            animation: fadeInUp 1.5s ease-out;
+            z-index: 2;
             max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-primary);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+        FEEDBACKS GRID SECTION
+        ========================================
+        */
+        .feedbacks-section {
+            padding: 6rem 2rem;
+            max-width: 1600px;
             margin: 0 auto;
+            text-align: center;
         }
 
-        .main-container .feedbacks-content h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #6e5773;
+        .feedbacks-section h2 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 4vw, 3.2rem);
+            margin-bottom: 1rem;
+            color: var(--navbar-bg);
         }
 
-        .main-container .feedbacks-content div {
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #777;
+            max-width: 700px;
+            margin: 0 auto 4rem auto;
+            line-height: 1.7;
+        }
+
+        .feedbacks-grid {
+            column-count: 3; /* Masonry effect */
+            column-gap: 2rem;
+        }
+
+        .feedback-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
             text-align: left;
+            break-inside: avoid; /* Prevents cards from breaking across columns */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feedback-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
         }
 
-        .main-container .feedbacks-content p {
-            margin: 10px 0;
+        .feedback-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: #555;
+            line-height: 1.7;
+            margin: 0 0 1.5rem 0;
+            position: relative;
+        }
+        
+        .feedback-text::before {
+            content: '“';
+            font-family: var(--font-primary);
+            font-size: 4rem;
+            color: var(--accent-color);
+            opacity: 0.2;
+            position: absolute;
+            top: -1.5rem;
+            left: -1rem;
         }
 
-        .main-container .feedbacks-content img {
-            border-radius: 8px;
-            margin-bottom: 10px;
+        .feedback-author-info {
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
         }
 
-        .main-container .btn {
-            background-color: #6e5773;
-            color: #fff;
+        .feedback-author {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .feedback-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-rating {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .btn-danger {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
             border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
             transition: background-color 0.3s ease;
         }
-
-        .main-container .btn:hover {
-            background-color: #e8a87c;
-        }
-
-        .main-container .btn-danger {
-            background-color: #e74c3c;
-        }
-
-        .main-container .btn-danger:hover {
+        .btn-danger:hover {
             background-color: #c0392b;
         }
 
-        .main-container .feedbacks-content h1 {
-            margin-top: 20px;
-            font-size: 2em;
-            color: #6e5773;
+        /* ========================================
+        CTA SECTION
+        ========================================
+        */
+        .cta-section {
+            padding: 6rem 2rem;
+            background-color: #f4f0eb;
+        }
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 122, 0.4);
+        }
+        .cta-button:hover {
+            background-color: var(--navbar-bg);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(44, 37, 34, 0.3);
         }
 
-        /* Animations */
+        /* ========================================
+        ANIMATIONS & RESPONSIVENESS
+        ========================================
+        */
         @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (min-width: 768px) {
-            .feedbacks-hero {
-                height: 70vh;
-            }
-
-            .hero-content h1 {
-                font-size: 4em;
-            }
+        @media (max-width: 1200px) {
+            .feedbacks-grid { column-count: 2; }
         }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-
-            .hero-content h1 {
-                font-size: 5em;
-            }
+        @media (max-width: 768px) {
+            .feedbacks-grid { column-count: 1; }
         }
-
-        
     </style>
 </head>
 <body>
     {% include 'core/navbar.html' %}
-    <div class="main-container">
-        <section class="feedbacks-hero" style="background-image: url('{% static 'images/feedbacks-hero.jpg' %}');">
+    
+    <main>
+        <section class="feedbacks-hero">
             <div class="hero-content">
-                <h1>Customer Feedback:</h1>
-                <p>We value our customers' experiences and opinions at TheMenu. Your feedback helps us grow, innovate, and continue to provide the best possible service and culinary delights. </p>
+                <h1>Our Community's Voice</h1>
+                <p>Your stories and experiences shape who we are. We're proud to share the moments that make our café more than just a place to eat and drink—it's a place to connect.</p>
             </div>
         </section>
         
-        <section class="feedbacks-content">
-            <div class="container">
-                <h2>What Our Customers Say</h2>
-                <section id="feedbacks">
-                    <h2>Customer Feedbacks</h2>
-                    {% if feedbacks %}
-                    {% for feedback in feedbacks %}
-                        <div>
-                            <p><strong>{{ feedback.user.username }}:</strong> {{ feedback.feedback_text }}</p>
-                            
-                            <p>Rating: {{ feedback.rating }}</p>
-                            <p>Posted on {{ feedback.created_at }}</p>
-                            {% if user == feedback.user %}
-                                <a href="{% url 'delete_feedback' feedback.id %}" class="btn btn-danger">Delete Feedback</a>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    {% else %}
-                        <p>No feedbacks yet.</p>
-                        <h1>Want to share your experience?</h1>
-                        <a href="{% url 'post_feedback' %}" class="btn">Click here</a>
-                    {% endif %}
-                </section>
+        <section class="feedbacks-section">
+            <h2>Wall of Love</h2>
+            <p class="section-subtitle">Discover the experiences that our guests have shared. Each story is a part of our journey.</p>
+            
+            {% if feedbacks %}
+            <div class="feedbacks-grid">
+                {% for feedback in feedbacks %}
+                <div class="feedback-card">
+                    <p class="feedback-text">{{ feedback.feedback_text }}</p>
+                    <div class="feedback-author-info">
+                        <p class="feedback-author">{{ feedback.user.username }}</p>
+                        <p class="feedback-date">Posted on {{ feedback.created_at|date:"F d, Y" }}</p>
+                        <p class="feedback-rating">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= feedback.rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        </p>
+                        {% if user == feedback.user %}
+                        <a href="{% url 'delete_feedback' feedback.id %}" class="btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No feedbacks have been shared yet. Be the first to tell us about your experience!</p>
+            {% endif %}
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Have a Story to Share?</h2>
+                <p class="section-subtitle">Your voice matters. Help our community grow by sharing your experience at The Café. We can't wait to hear from you.</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'post_feedback' %}" class="cta-button">Leave a Review</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="cta-button">Login to Share</a>
+                {% endif %}
             </div>
         </section>
-    </div>
+    </main>
     
     {% include 'core/footer.html' %}
 </body>

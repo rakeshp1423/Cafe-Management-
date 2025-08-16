@@ -1,141 +1,206 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reserve a Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserve a Table | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
-
         
-
-        /* Hero Section */
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
         .reserve-hero {
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            text-align: center;
+            color: white;
             position: relative;
-            overflow: hidden;
-        }
-
-        .reserve-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://cdn.pixabay.com/photo/2017/08/02/17/25/coffee-2572522_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0 2rem;
         }
 
         .hero-content {
-            position: relative;
-            text-align: center;
-            animation: fadeInUp 1.5s ease-in-out;
+            animation: fadeInUp 1.5s ease-out;
+            z-index: 2;
+            max-width: 800px;
         }
 
         .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 0;
+            font-family: var(--font-primary);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Reservation Form Section */
-        .reserve-form {
-            padding: 60px 0;
-            background-color: #fff;
-            text-align: center;
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+        RESERVATION SECTION
+        ========================================
+        */
+        .reservation-section {
+            padding: 6rem 2rem;
+            background-color: white;
         }
 
-        .container {
-            width: 90%;
-            max-width: 600px; /* Adjusted for better centering */
+        .reservation-container {
+            max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .reservation-info h2 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 4vw, 3.2rem);
+            margin-bottom: 1.5rem;
+            color: var(--navbar-bg);
+        }
+
+        .reservation-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        .info-block {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-block h3 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+        
+        .info-block a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Form Styling */
+        .reservation-form {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #6e5773;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 0.9rem 1rem;
             border-radius: 8px;
             border: 1px solid #ddd;
             box-sizing: border-box;
-            font-size: 1em;
+            font-size: 1rem;
+            font-family: var(--font-secondary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 122, 0.2);
         }
 
         .form-group textarea {
             resize: vertical;
-            height: 150px;
+            height: 120px;
         }
 
-        .btn {
-            background-color: #6e5773;
-            color: #fff;
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
             border: none;
-            padding: 15px 30px;
-            font-size: 1em;
-            border-radius: 8px;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #e8a87c;
+        .btn-submit:hover {
+            background-color: var(--navbar-bg);
+            color: white;
+            transform: translateY(-3px);
         }
 
-        /* Animations */
+        /* ========================================
+        ANIMATIONS & RESPONSIVENESS
+        ========================================
+        */
         @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (min-width: 768px) {
-            .reserve-hero {
-                height: 70vh;
+        @media (max-width: 992px) {
+            .reservation-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
-            .hero-content h1 {
-                font-size: 4em;
+            .reservation-info {
+                text-align: center;
             }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-            .hero-content h1 {
-                font-size: 5em;
+            .reservation-form {
+                padding: 2rem;
             }
         }
     </style>
@@ -143,41 +208,56 @@
 <body>
     {% include 'core/navbar.html' %}
     
-    <section class="reserve-hero" style="background-image: url('{% static 'images/reserve-hero.jpg' %}');">
-        <div class="hero-content">
-            <h1>Reserve a Table</h1>
-        </div>
-    </section>
-    
-    <section class="reserve-form">
-        <div class="container">
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+    <main>
+        <section class="reserve-hero">
+            <div class="hero-content">
+                <h1>Reserve Your Table</h1>
+                <p>Secure your spot for an unforgettable dining experience. We look forward to welcoming you.</p>
+            </div>
+        </section>
+        
+        <section class="reservation-section">
+            <div class="reservation-container">
+                <div class="reservation-info">
+                    <h2>Book Your Visit</h2>
+                    <p>We recommend making a reservation to ensure your table is ready upon arrival. For parties larger than 8, please contact us directly.</p>
+                    <div class="info-block">
+                        <h3>Opening Hours</h3>
+                        <p>Mon - Fri: 9am - 10pm<br>Sat - Sun: 8am - 11pm</p>
+                    </div>
+                    <div class="info-block">
+                        <h3>Contact Details</h3>
+                        <p>
+                            Phone: <a href="tel:+911234567890">(+91) 123-456-7890</a><br>
+                            Email: <a href="mailto:info@thecafe.com">info@thecafe.com</a>
+                        </p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="datetime-local" id="date" name="date" class="form-control" required>
+                <div class="reservation-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date & Time</label>
+                            <input type="datetime-local" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="number_of_people">Number of Guests</label>
+                            <input type="number" id="number_of_people" name="number_of_people" min="1" max="8" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="special_requests">Special Requests (Optional)</label>
+                            <textarea id="special_requests" name="special_requests" placeholder="e.g., dietary restrictions, high chair"></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Reserve Now</button>
+                    </form>
                 </div>
-                <!-- Uncomment if you decide to include time -->
-                <!-- <div class="form-group">
-                    <label for="time">Time</label>
-                    <input type="time" id="time" name="time" class="form-control" required>
-                </div> -->
-                <div class="form-group">
-                    <label for="number_of_people">Number of People</label>
-                    <input type="number" id="number_of_people" name="number_of_people" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="special_requests">Special Requests</label>
-                    <textarea id="special_requests" name="special_requests" class="form-control"></textarea>
-                </div>
-                <button type="submit" class="btn">Reserve Now</button>
-            </form>
-        </div>
-    </section>
+            </div>
+        </section>
+    </main>
     
     {% include 'core/footer.html' %}
 </body>

@@ -1,115 +1,145 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Feedback</title>
+    <title>Post Feedback | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
             margin: 0;
-            padding: 0;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
-            line-height: 1.6;
         }
-
-        /* Navbar */
-        .navbar {
-            background-color: #333;
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            color: #e8a87c;
-        }
-
-        /* Hero Section */
+        
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
         .feedback-hero {
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            text-align: center;
+            color: white;
             position: relative;
-            overflow: hidden;
-        }
-
-        .feedback-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://cdn.pixabay.com/photo/2017/08/02/00/57/laptop-2569306_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0 2rem;
         }
 
         .hero-content {
-            position: relative;
-            text-align: center;
-            animation: fadeInUp 1.5s ease-in-out;
+            animation: fadeInUp 1.5s ease-out;
+            z-index: 2;
+            max-width: 800px;
         }
 
         .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 0;
+            font-family: var(--font-primary);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Feedback Form Section */
-        .feedback-form {
-            padding: 60px 0;
-            background-color: #fff;
-            text-align: center;
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            line-height: 1.7;
+        }
+        
+        /* ========================================
+        FEEDBACK FORM SECTION
+        ========================================
+        */
+        .feedback-section {
+            padding: 6rem 2rem;
+            background-color: white;
         }
 
-        .container {
-            width: 90%;
-            max-width: 600px; /* Adjusted for better centering */
+        .feedback-container {
+            max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .feedback-info h2 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 4vw, 3.2rem);
+            margin-bottom: 1.5rem;
+            color: var(--navbar-bg);
+        }
+
+        .feedback-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Styling */
+        .feedback-form-wrapper {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
         }
 
         .form-group {
-            margin-bottom: 20px;
-            text-align: left; /* Align labels and inputs to the left */
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #6e5773;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 0.9rem 1rem;
             border-radius: 8px;
             border: 1px solid #ddd;
             box-sizing: border-box;
-            font-size: 1em;
+            font-size: 1rem;
+            font-family: var(--font-secondary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 122, 0.2);
         }
 
         .form-group textarea {
@@ -117,48 +147,66 @@
             height: 150px;
         }
 
-        .btn {
-            background-color: #6e5773;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1em;
-            border-radius: 8px;
+        /* Interactive Star Rating */
+        .rating-group {
+            display: flex;
+            flex-direction: row-reverse; /* Important for the hover effect */
+            justify-content: flex-end;
+        }
+        .rating-group input[type="radio"] {
+            display: none;
+        }
+        .rating-group label {
+            font-size: 2rem;
+            color: #ddd;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: color 0.2s ease;
+        }
+        .rating-group input[type="radio"]:checked ~ label,
+        .rating-group label:hover,
+        .rating-group label:hover ~ label {
+            color: var(--accent-color);
         }
 
-        .btn:hover {
-            background-color: #e8a87c;
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 1rem;
         }
 
-        /* Animations */
+        .btn-submit:hover {
+            background-color: var(--navbar-bg);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ========================================
+        ANIMATIONS & RESPONSIVENESS
+        ========================================
+        */
         @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (min-width: 768px) {
-            .feedback-hero {
-                height: 70vh;
+        @media (max-width: 992px) {
+            .feedback-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
-            .hero-content h1 {
-                font-size: 4em;
+            .feedback-info {
+                text-align: center;
             }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-            .hero-content h1 {
-                font-size: 5em;
+            .feedback-form-wrapper {
+                padding: 2rem;
             }
         }
     </style>
@@ -166,28 +214,48 @@
 <body>
     {% include 'core/navbar.html' %}
     
-    <section class="feedback-hero" style="background-image: url('{% static 'images/feedback-hero.jpg' %}');">
-        <div class="hero-content">
-            <h1>Post Your Feedback</h1>
-        </div>
-    </section>
-    
-    <section class="feedback-form">
-        <div class="container">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+    <main>
+        <section class="feedback-hero">
+            <div class="hero-content">
+                <h1>Share Your Experience</h1>
+                <p>Your feedback is the most important ingredient in our recipe for success. Tell us about your visit—we're always listening.</p>
+            </div>
+        </section>
+        
+        <section class="feedback-section">
+            <div class="feedback-container">
+                <div class="feedback-info">
+                    <h2>Tell Us Your Story</h2>
+                    <p>Whether it's a compliment for our baristas, a suggestion for a new pastry, or a story about a memorable visit, your feedback helps us improve and grow. Thank you for taking the time to share with us.</p>
                 </div>
-                
-                {{ form.as_p }}
-                
-                <button type="submit" class="btn">Submit Feedback</button>
-            </form>
-        </div>
-    </section>
+                <div class="feedback-form-wrapper">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Manually rendering fields for better styling -->
+                        <div class="form-group">
+                            <label for="{{ form.feedback_text.id_for_label }}">Your Feedback</label>
+                            {{ form.feedback_text }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div class="rating-group">
+                                <!-- Note: The name attribute must match your Django form field name -->
+                                <input type="radio" id="rating-5" name="rating" value="5" required><label for="rating-5">★</label>
+                                <input type="radio" id="rating-4" name="rating" value="4" required><label for="rating-4">★</label>
+                                <input type="radio" id="rating-3" name="rating" value="3" required><label for="rating-3">★</label>
+                                <input type="radio" id="rating-2" name="rating" value="2" required><label for="rating-2">★</label>
+                                <input type="radio" id="rating-1" name="rating" value="1" required><label for="rating-1">★</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
     
     {% include 'core/footer.html' %}
 </body>

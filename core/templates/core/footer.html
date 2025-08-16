@@ -1,113 +1,177 @@
-<!-- core/templates/core/footer.html -->
-<footer class="site-footer">
-    <div class="container">
-        <!-- Footer Top Section -->
-        <div class="footer-top">
-            <div class="footer-about">
-                <h3>About TheCafe</h3>
-                <p>Enjoy the finest coffee and pastries at TheCafe. Our mission is to provide a relaxing environment and exceptional service to our customers.</p>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redesigned Café Footer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        - These variables should match your main stylesheet for consistency.
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light-dim: rgba(255, 255, 255, 0.7);
+            --accent-color: #d4af7a;
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
 
-            <!-- Footer Contact Information -->
-            <div class="footer-contact">
+        /* Basic body styles for demonstration */
+        body {
+            margin: 0;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex-grow: 1;
+        }
+
+        /* ========================================
+        NEW FOOTER STYLES
+        ========================================
+        */
+        .site-footer {
+            background-color: var(--navbar-bg);
+            color: var(--text-light-dim);
+            padding: 4rem 2rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            /* Responsive grid layout */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-column h3 {
+            font-family: var(--font-primary);
+            color: white;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column p, .footer-column li {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            color: var(--text-light-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer-social-links a:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .footer-social-links svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <!-- Your page content goes here -->
+    </main>
+
+    <!-- 
+    ========================================
+    REDESIGNED FOOTER HTML
+    - You can copy this entire footer section into your base template.
+    ========================================
+    -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-column footer-about">
+                <h3>The Café</h3>
+                <p>Enjoy the finest coffee and pastries in a place designed for connection and creativity. Our mission is to provide an exceptional experience with every visit.</p>
+            </div>
+            <div class="footer-column footer-contact">
                 <h3>Contact Us</h3>
                 <ul>
-                    <li><strong>Address:</strong> 123 Coffee Lane, Caffeine City, CA 12345</li>
-                    <li><strong>Phone:</strong> (123) 456-7890</li>
+                    <li><strong>Address:</strong> 123 Coffee Lane, Caffeine City</li>
+                    <li><strong>Phone:</strong> <a href="tel:+1234567890">(123) 456-7890</a></li>
                     <li><strong>Email:</strong> <a href="mailto:info@thecafe.com">info@thecafe.com</a></li>
                 </ul>
             </div>
-
-            <!-- Footer Social Media Links -->
-            <div class="footer-social">
+            <div class="footer-column footer-social">
                 <h3>Follow Us</h3>
-                <ul>
-                    <li><a href="https://facebook.com/thecafe" target="_blank" class="social-icon facebook">Facebook</a></li>
-                    <li><a href="https://twitter.com/thecafe" target="_blank" class="social-icon twitter">Twitter</a></li>
-                    <li><a href="https://instagram.com/thecafe" target="_blank" class="social-icon instagram">Instagram</a></li>
-                </ul>
+                <p>Stay connected for the latest news and special offers.</p>
+                <div class="footer-social-links">
+                    <a href="https://facebook.com/thecafe" target="_blank" aria-label="Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                    </a>
+                    <a href="https://twitter.com/thecafe" target="_blank" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.581-.666 2.477 0 1.61.82 3.027 2.053 3.848-.764-.024-1.482-.232-2.11-.583v.06c0 2.256 1.605 4.14 3.737 4.568-.39.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.307 3.2 4.34 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/></svg>
+                    </a>
+                    <a href="https://instagram.com/thecafe" target="_blank" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44c0-.795-.645-1.44-1.441-1.44z"/></svg>
+                    </a>
+                </div>
             </div>
         </div>
+        <div class="footer-bottom">
+            <!-- Use Django's `now` template tag to always show the current year -->
+            <p>&copy; {% now "Y" %} The Café. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-        
-    </div>
-</footer>
-
-<!-- Add some styling for the footer in your CSS -->
-<style>
-    /* General styles for the page to ensure footer is at the bottom */
-    html, body {
-        height: 100%;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .container {
-        flex: 1;
-    }
-    
-    /* Footer Styles */
-    .site-footer {
-        background-color: #f8f9fa;
-        padding: 20px 0;
-        color: #333;
-        border-top: 1px solid #ddd;
-        flex-shrink: 0; /* Ensure footer does not shrink */
-    }
-    
-    .footer-top {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    
-    .footer-top div {
-        flex: 1;
-        margin: 0 10px;
-    }
-    
-    .footer-top h3 {
-        margin-bottom: 10px;
-        font-size: 18px;
-        color: #007bff;
-    }
-    
-    .footer-top p, .footer-top ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-    
-    .footer-top ul li {
-        margin-bottom: 5px;
-    }
-    
-    .footer-social a {
-        display: inline-block;
-        margin-right: 10px;
-        color: #007bff;
-        text-decoration: none;
-    }
-    
-    .footer-bottom {
-        text-align: center;
-        padding-top: 10px;
-        border-top: 1px solid #ddd;
-    }
-    
-    .footer-bottom p {
-        margin: 0;
-    }
-    
-    .footer-bottom a {
-        color: #007bff;
-        text-decoration: none;
-        margin: 0 5px;
-    }
-    
-    .footer-bottom a:hover {
-        text-decoration: underline;
-    }
-    
-</style>
+</body>
+</html>

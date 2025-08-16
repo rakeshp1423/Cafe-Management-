@@ -1,233 +1,324 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+    <title>My Profile | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+            --status-confirmed: #28a745;
+            --status-pending: #ffc107;
+            --status-cancelled: #dc3545;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
-
-        /* Navbar */
-        .navbar {
-            background-color: #333;
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            color: #e8a87c;
-        }
-
-        /* Profile Hero Section */
+        
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
         .profile-hero {
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
+            height: 70vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            text-align: center;
+            color: white;
             position: relative;
-            overflow: hidden;
-            background-image: url('{% static 'images/profile-hero.jpg' %}');
-        }
-
-        .profile-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://cdn.pixabay.com/photo/2022/04/04/12/29/garden-7111101_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 0 2rem;
         }
 
         .hero-content {
-            position: relative;
-            text-align: center;
-            animation: fadeInUp 1.5s ease-in-out;
-            z-index: 1;
+            animation: fadeInUp 1.5s ease-out;
+            z-index: 2;
         }
 
         .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             margin: 0;
-            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* ========================================
+        PROFILE DASHBOARD SECTION
+        ========================================
+        */
+        .profile-section {
+            padding: 6rem 2rem;
         }
 
-        /* Profile Content Section */
-        .profile-content {
-            padding: 60px 0;
-            animation: fadeIn 1s ease-in-out;
-            background-color: #fff;
-        }
-
-        .container {
-            width: 90%;
+        .profile-container {
             max-width: 1200px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+            align-items: flex-start;
         }
 
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #6e5773;
+        /* Profile Card (Left Column) */
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.05);
             text-align: center;
-            position: relative;
-            display: inline-block;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-family: var(--font-primary);
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 5px 15px rgba(212, 175, 122, 0.4);
         }
 
-        h2::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background-color: #6e5773;
-            margin: 10px auto 0;
-            border-radius: 2px;
+        .profile-card h2 {
+            font-family: var(--font-primary);
+            font-size: 1.8rem;
+            margin: 0 0 0.5rem 0;
         }
 
-        p {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            text-align: center;
+        /* FIX: Refined spacing and word break for profile card text */
+        .profile-card .profile-email {
+            color: #777;
+            margin: 0 0 1rem 0;
+            word-break: break-all; /* Prevents overflow with long emails */
+        }
+        
+        .profile-card .member-since {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin: 0 0 2rem 0;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            color: #fff;
-            background-color: #e8a87c;
+        .btn-logout {
+            background-color: var(--navbar-bg);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            border-radius: 50px;
+            cursor: pointer;
             text-decoration: none;
-            border-radius: 5px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn-logout:hover {
+            background-color: #e74c3c;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Completion */
+        .profile-completion {
+            margin: 0 0 2rem 0; /* FIX: Consolidated margin to handle spacing */
+            text-align: left;
+        }
+        .profile-completion label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #777;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .progress {
+            width: 75%; /* Example percentage */
+            height: 100%;
+            background-color: var(--status-confirmed);
+            border-radius: 4px;
+        }
+
+        /* Profile Content (Right Column) */
+        .profile-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        /* Tab Navigation */
+        .tabs-nav {
+            display: flex;
+            background-color: #f9f6f2;
+            border-bottom: 1px solid #eee;
+        }
+        .tab-link {
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            color: #777;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
             text-align: center;
+            flex-grow: 1;
+        }
+        .tab-link:hover {
+            color: var(--text-dark);
+        }
+        .tab-link.active {
+            color: var(--text-dark);
+            font-weight: 700;
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            animation: fadeIn 0.5s ease;
+        }
+        .tab-content.active {
+            display: block;
         }
 
-        .btn:hover {
-            background-color: #d58a6f;
-            transform: translateY(-3px);
-        }
-
-        .btn-primary {
-            background-color: #6e5773;
-        }
-
-        .btn-warning {
-            background-color: #ffcc00;
-            color: #333;
-        }
-
-        /* Reservations Section */
-        .reservations {
-            background-color: #f0f0f0;
-            padding: 50px 0;
-            animation: fadeIn 1.2s ease-in-out;
-        }
-
-        .reservations h2 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 2em;
-            color: #333;
-        }
-
-        .reservations ul {
+        .reservations-list {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
-        .reservations li {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+        .reservation-card {
+            background-color: #fdfaf6;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            border-left: 5px solid; /* Status color will be applied here */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .reservations li:hover {
+        .reservation-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
         }
 
-        .reservations li p {
-            margin: 0 0 10px 0;
+        .reservation-card p { margin: 0 0 0.75rem 0; color: #555; }
+        .reservation-card p:last-child { margin-bottom: 0; }
+        .reservation-card strong { color: var(--text-dark); min-width: 150px; display: inline-block; }
+        
+        .status {
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: white;
         }
 
-        .reservations li strong {
-            color: #6e5773;
+        /* Status Colors */
+        .reservation-card[data-status="Confirmed"] { border-left-color: var(--status-confirmed); }
+        .reservation-card[data-status="Pending"] { border-left-color: var(--status-pending); }
+        .reservation-card[data-status="Cancelled"] { border-left-color: var(--status-cancelled); }
+        .status[data-status="Confirmed"] { background-color: var(--status-confirmed); }
+        .status[data-status="Pending"] { background-color: var(--status-pending); color: var(--text-dark); }
+        .status[data-status="Cancelled"] { background-color: var(--status-cancelled); }
+
+        .btn-cancel {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: #ffc107;
+            color: var(--text-dark);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-cancel:hover {
+            background-color: #e0a800;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Favorite Orders */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        .favorite-card {
+            background: #fdfaf6;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            text-align: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .favorite-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+        }
+        .favorite-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        .favorite-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
         }
 
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        /* ========================================
+        ANIMATIONS & RESPONSIVENESS
+        ========================================
+        */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @media (min-width: 768px) {
-            .profile-hero {
-                height: 70vh;
+        @media (max-width: 992px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
-            .hero-content h1 {
-                font-size: 4em;
-            }
-            .profile-content, .reservations {
-                padding: 80px 0;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                width: 80%;
-            }
-            .hero-content h1 {
-                font-size: 5em;
+            .profile-card {
+                position: static;
             }
         }
     </style>
@@ -235,45 +326,104 @@
 <body>
     {% include 'core/navbar.html' %}
 
-    <section class="profile-hero">
-        <div class="hero-content">
-            <h1>{{ user.username }}'s Profile</h1>
-        </div>
-    </section>
-    
-    <section class="profile-content">
-        <div class="container">
-            <h2>Welcome, {{ user.username }}!</h2>
-            <p>Email: {{ user.email }}</p>
-            <p>Member since: {{ user.date_joined }}</p>
-            <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
-        </div>
-    </section>
-    
-    <section class="reservations">
-        <div class="container">
-            <h2>My Reservations</h2>
-            {% if reservations %}
-                <ul>
-                    {% for reservation in reservations %}
-                        <li>
-                            <p><strong>Token:</strong> {{ reservation.token }}</p>
-                            <p><strong>Date:</strong> {{ reservation.date }}</p>
-                            <p><strong>Number of People:</strong> {{ reservation.number_of_people }}</p>
-                            <p><strong>Special Requests:</strong> {{ reservation.special_requests }}</p>
-                            <p><strong>Status:</strong> {{ reservation.get_status_display }}</p>
-                            {% if reservation.status != 'cancelled' %}
-                                <a href="{% url 'cancel_reservation' reservation.id %}" class="btn btn-warning">Cancel Reservation</a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>You have no reservations.</p>
-            {% endif %}
-        </div>
-    </section>
+    <main>
+        <section class="profile-hero">
+            <div class="hero-content">
+                <h1>Welcome Back, {{ user.username }}</h1>
+            </div>
+        </section>
+        
+        <section class="profile-section">
+            <div class="profile-container">
+                <aside class="profile-card">
+                    <div class="profile-avatar">{{ user.username|first|upper }}</div>
+                    <h2>{{ user.username }}</h2>
+                    <!-- FIX: Added class for better styling control -->
+                    <p class="profile-email">{{ user.email }}</p>
+                    <p class="member-since">Member since {{ user.date_joined|date:"F Y" }}</p>
+                    <div class="profile-completion">
+                        <label for="completion">Profile Completion</label>
+                        <div class="progress-bar">
+                            <div class="progress" id="completion"></div>
+                        </div>
+                    </div>
+                    <!-- FIX: Removed inline style -->
+                    <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+                </aside>
+
+                <div class="profile-content">
+                    <nav class="tabs-nav">
+                        <div class="tab-link active" data-tab="reservations">My Reservations</div>
+                        <div class="tab-link" data-tab="favorites">My Favorites</div>
+                    </nav>
+
+                    <div id="reservations" class="tab-content active">
+                        {% if reservations %}
+                            <ul class="reservations-list">
+                                {% for reservation in reservations %}
+                                    <li class="reservation-card" data-status="{{ reservation.get_status_display }}">
+                                        <p><strong>Token:</strong> {{ reservation.token }}</p>
+                                        <p><strong>Date & Time:</strong> {{ reservation.date|date:"F d, Y, h:i A" }}</p>
+                                        <p><strong>Guests:</strong> {{ reservation.number_of_people }}</p>
+                                        {% if reservation.special_requests %}
+                                        <p><strong>Requests:</strong> {{ reservation.special_requests }}</p>
+                                        {% endif %}
+                                        <p><strong>Status:</strong> <span class="status" data-status="{{ reservation.get_status_display }}">{{ reservation.get_status_display }}</span></p>
+                                        {% if reservation.status != 'cancelled' and reservation.status != 'confirmed' %}
+                                            <a href="{% url 'cancel_reservation' reservation.id %}" class="btn-cancel">Cancel Reservation</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>You have no reservations. Why not book a table?</p>
+                            <a href="{% url 'reserve' %}" class="btn-logout" style="background-color: var(--accent-color); color: var(--navbar-bg); width: auto;">Book a Table</a>
+                        {% endif %}
+                    </div>
+                    
+                    <div id="favorites" class="tab-content">
+                        <div class="favorites-grid">
+                            <!-- This is example content. You would loop through user's favorite orders here -->
+                            <div class="favorite-card">
+                                <img src="https://placehold.co/100x100/d4af7a/2c2522?text=Latte" alt="Latte">
+                                <h3>Latte</h3>
+                            </div>
+                            <div class="favorite-card">
+                                <img src="https://placehold.co/100x100/d4af7a/2c2522?text=Avocado+Toast" alt="Avocado Toast">
+                                <h3>Avocado Toast</h3>
+                            </div>
+                            <div class="favorite-card">
+                                <img src="https://placehold.co/100x100/d4af7a/2c2522?text=Cheesecake" alt="Cheesecake">
+                                <h3>Cheesecake</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     {% include 'core/footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+
+                    // Remove active classes from all tabs and content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    target.classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

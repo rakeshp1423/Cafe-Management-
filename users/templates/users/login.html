@@ -1,224 +1,352 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Login | The Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
-body {
-    font-family: 'Roboto', sans-serif;
-            background-color: #f5f5dc; /* Beige background */
-            color: #5a3e36; /* Brown text */
+        /* ========================================
+        DESIGN SYSTEM & SETUP
+        ========================================
+        */
+        :root {
+            --bg-color: #fdfaf6;
+            --navbar-bg: #2c2522;
+            --text-dark: #3d3530;
+            --text-light: #f5f5dc;
+            --accent-color: #d4af7a;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 0;
-            line-height: 1.6;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             overflow-x: hidden;
-}
+        }
+        
+        /* ========================================
+        LOGIN PAGE LAYOUT
+        ========================================
+        */
+        .login-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
 
-/* Navbar */
-.navbar {
-    background-color: #333;
-    padding: 15px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-}
+        /* Left Column: Visuals */
+        .login-visual {
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 4rem;
+            color: white;
+        }
+        
+        .visual-content h1 {
+            font-family: var(--font-primary);
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin: 0 0 1rem 0;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+        }
 
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-}
+        .visual-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 450px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
 
-.navbar a:hover {
-    color: #e8a87c;
-}
+        /* Right Column: Form */
+        .login-form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
 
-/* Login Hero Section */
-.login-hero {
-    background-size: cover;
-    background-position: center;
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-}
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+        }
 
-.login-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
+        .login-form h2 {
+            font-family: var(--font-primary);
+            font-size: 2.8rem;
+            margin: 0 0 1rem 0;
+            color: var(--navbar-bg);
+        }
+        
+        .login-form .form-intro {
+            color: #777;
+            margin-bottom: 2.5rem;
+        }
 
-.hero-content {
-    position: relative;
-    text-align: center;
-    animation: fadeInUp 1.5s ease-in-out;
-    z-index: 1;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
 
-.hero-content h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin: 0;
-    color: #fff;
-}
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
 
-/* Login Form Section */
-.login-form {
-    padding: 60px 0;
-    background-color: #fff;
-    animation: fadeIn 1s ease-in-out;
-}
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: var(--font-secondary);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 122, 0.2);
+        }
+        
+        /* NEW: Password Toggle Button */
+        .password-toggle {
+            position: absolute;
+            top: 70%;
+            right: 1rem;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #aaa;
+        }
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
 
-.container {
-    width: 90%;
-    max-width: 600px;
-    margin: 0 auto;
-}
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1.5rem;
+        }
 
-.form-group {
-    margin-bottom: 20px;
-}
+        .forgot-password-link {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .forgot-password-link:hover {
+            text-decoration: underline;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-}
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
 
-.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    box-sizing: border-box;
-}
+        .btn-submit:hover {
+            background-color: var(--navbar-bg);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .signup-prompt {
+            text-align: center;
+            margin-top: 2rem;
+            color: #777;
+        }
+        
+        .signup-prompt a {
+            color: var(--accent-color);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+        
+        /* NEW: Custom Alert Box */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .custom-alert-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .custom-alert-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 350px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .custom-alert-overlay.visible .custom-alert-box {
+            transform: scale(1);
+        }
+        .custom-alert-box h3 {
+            font-family: var(--font-primary);
+            margin: 0 0 1rem 0;
+        }
+        .custom-alert-box p {
+            margin: 0 0 1.5rem 0;
+            color: #777;
+        }
+        .alert-close-btn {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+        }
 
-.btn {
-    display: inline-block;
-    padding: 12px 25px;
-    color: #fff;
-    background-color: #6e5773;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
 
-.btn:hover {
-    background-color: #5b4a6a;
-    transform: translateY(-3px);
-}
-
-/* Signup Prompt */
-.login-form p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.login-form a {
-    color: #6e5773;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.login-form a:hover {
-    text-decoration: underline;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (min-width: 768px) {
-    .login-hero {
-        height: 70vh;
-    }
-    .hero-content h1 {
-        font-size: 4em;
-    }
-    .login-form {
-        padding: 80px 0;
-    }
-}
-
-@media (min-width: 1024px) {
-    .container {
-        width: 80%;
-    }
-    .hero-content h1 {
-        font-size: 5em;
-    }
-}
-
+        /* ========================================
+        RESPONSIVENESS
+        ========================================
+        */
+        @media (max-width: 992px) {
+            .login-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .login-visual {
+                display: none; /* Hide visual column on smaller screens for focus */
+            }
+            .login-form-container {
+                min-height: 100vh;
+            }
+        }
     </style>
 </head>
 <body>
-    {% include 'core/navbar.html' %}
-    
-    <section class="login-hero" style="background-image: url('{% static 'images/login-hero.jpg' %}');">
-        <div class="hero-content">
-            <h1>Login</h1>
+    <div class="login-wrapper">
+        <div class="login-visual">
+            <div class="visual-content">
+                <h1>Welcome Back</h1>
+                <p>Log in to manage your reservations, share your feedback, and enjoy a personalized experience at The Café.</p>
+            </div>
         </div>
-    </section>
-    
-    <section class="login-form">
-        <div class="container">
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a> now</p>
+        <div class="login-form-container">
+            <div class="login-form">
+                <h2>Sign In</h2>
+                <p class="form-intro">Enter your credentials to access your account.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        <button type="button" class="password-toggle" id="password-toggle-btn" aria-label="Show password">
+                            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a.75.75 0 010-1.113zM12.001 18C8.97 18 6.243 16.12 4.755 13.5c1.488-2.622 4.215-4.5 7.245-4.5s5.757 1.878 7.245 4.5c-1.488 2.622-4.215 4.5-7.245 4.5z" clip-rule="evenodd"/></svg>
+                            <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 001.06-1.06l-18-18zM22.676 11.446a.75.75 0 000-1.112C21.189 6.972 16.97 3.75 12 3.75a13.336 13.336 0 00-3.393.464L10.5 6.107a4.5 4.5 0 015.007 5.007l1.893 1.893c1.44-1.13 2.64-2.587 3.276-4.114zM12 18c-3.032 0-5.76-1.878-7.247-4.5.823-1.472 1.918-2.736 3.19-3.697l1.356 1.356a3 3 0 003.832-3.832L14.488 6.02A13.29 13.29 0 0112 5.25c-4.97 0-9.185 3.223-10.675 7.69a.75.75 0 000 1.113c1.488 4.471 5.705 7.697 10.675 7.697a13.42 13.42 0 005.418-1.156l-1.85-1.85a4.502 4.502 0 01-2.993-.495z"/></svg>
+                        </button>
+                    </div>
+                    <div class="form-options">
+                        <a href="#" class="forgot-password-link" id="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                </form>
+                <p class="signup-prompt">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+            </div>
         </div>
-    </section>
-    
-    {% include 'core/footer.html' %}
+    </div>
+
+    <!-- Custom Alert Box HTML -->
+    <div class="custom-alert-overlay" id="custom-alert">
+        <div class="custom-alert-box">
+            <h3>Feature Unavailable</h3>
+            <p>The password recovery feature is not available yet. Please try again later.</p>
+            <button class="alert-close-btn" id="alert-close">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('password-toggle-btn');
+            const eyeOpen = document.getElementById('eye-open');
+            const eyeClosed = document.getElementById('eye-closed');
+
+            toggleBtn.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeOpen.style.display = 'none';
+                    eyeClosed.style.display = 'block';
+                    toggleBtn.setAttribute('aria-label', 'Hide password');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeOpen.style.display = 'block';
+                    eyeClosed.style.display = 'none';
+                    toggleBtn.setAttribute('aria-label', 'Show password');
+                }
+            });
+
+            const forgotPasswordLink = document.getElementById('forgot-password');
+            const customAlert = document.getElementById('custom-alert');
+            const closeAlertBtn = document.getElementById('alert-close');
+
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                customAlert.classList.add('visible');
+            });
+
+            closeAlertBtn.addEventListener('click', () => {
+                customAlert.classList.remove('visible');
+            });
+            
+            customAlert.addEventListener('click', (e) => {
+                 if (e.target === customAlert) {
+                    customAlert.classList.remove('visible');
+                 }
+            });
+        });
+    </script>
 </body>
 </html>
