@@ -25,7 +25,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-l5wh&37e2er(r4ul&i7lq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',') + [os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '')]
+allowed_hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+render_url = os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '')
+if render_url:
+    allowed_hosts.append(render_url)
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts if host.strip()]
 
 
 
@@ -90,11 +94,19 @@ WSGI_APPLICATION = 'TheMenu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-import dj_database_url
-
-DATABASES = {
-    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
-}
+try:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
+    }
+except ImportError:
+    # Fallback for when dj_database_url is not installed (local development)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
