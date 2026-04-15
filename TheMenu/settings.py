@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l5wh&37e2er(r4ul&i7lqd+9_g574hbzifnw)_(hf@em*x=6v)'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-l5wh&37e2er(r4ul&i7lqd+9_g574hbzifnw)_(hf@em*x=6v)')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['cafe-management-production.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',') + [os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '')]
 
 
 
@@ -90,11 +90,10 @@ WSGI_APPLICATION = 'TheMenu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 }
 
 

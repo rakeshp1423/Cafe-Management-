@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: themenu
+    runtime: python3
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
+    startCommand: "gunicorn TheMenu.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: themenu.onrender.com,localhost,127.0.0.1
+      - key: DATABASE_URL
+        fromDatabase:
+          type: postgresql
+          name: themenu-db
+          property: connectionString
