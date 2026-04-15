@@ -10,6 +10,6 @@ djangorestframework==3.15.1
 gunicorn==23.0.0
 dj-database-url==2.2.0
 psycopg2-binary==2.9.9
-pillow==10.3.0
+pillow==11.0.0
 phonenumbers==8.13.44
 qrcode==7.4.2
