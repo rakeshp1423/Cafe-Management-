@@ -13,3 +13,4 @@ psycopg2-binary==2.9.9
 pillow==11.0.0
 phonenumbers==8.13.44
 qrcode==7.4.2
+setuptools==75.0.0
