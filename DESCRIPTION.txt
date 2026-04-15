@@ -1,0 +1,337 @@
+================================================================================
+PROJECT: TheMenu - Café Management Website
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+TheMenu is a comprehensive, full-stack web-based café management platform built 
+with Django. It's designed to streamline café operations, enhance customer 
+experience, and provide an intuitive interface for managing table reservations, 
+menu items, customer feedback, and user accounts. The application features a 
+modern UI with warm and earthy aesthetics, interactive animations, and responsive 
+design patterns.
+
+CORE FEATURES
+================================================================================
+1. HOME PAGE
+   - Welcoming hero section with introductory messaging
+   - Sticky navigation bar for easy access to all sections
+   - Social links and contact information in footer
+
+2. MENU SYSTEM
+   - Dynamic display of café items/products
+   - Text overlays on product images
+   - Interactive hover effects (zoom, grayscale-to-color transitions)
+   - Organized menu categorization
+
+3. RESERVATION SYSTEM
+   - Seamless table booking interface for customers
+   - Date, time, and party size selection
+   - Reservation status tracking (pending, confirmed, completed)
+   - Manager approval workflow
+
+4. CUSTOMER FEEDBACK
+   - Feedback submission form with star ratings
+   - Image upload functionality for reviews
+   - Public feedback display and reviews section
+   - Feedback management in manager dashboard
+
+5. USER AUTHENTICATION & PROFILES
+   - Secure user registration and login
+   - Two-factor authentication (2FA) support
+   - User profile management
+   - OTP verification for account security
+   - Session tracking and user activity logs
+
+6. MANAGER DASHBOARD
+   - Administrative interface for café staff
+   - Manager login with secure authentication
+   - Reservation management and approval
+   - Feedback moderation
+   - User and booking statistics
+
+7. VISUAL ENHANCEMENTS
+   - Parallax scrolling effects
+   - Image hover animations (zoom, blur, overlay effects)
+   - Responsive design for mobile and desktop
+   - Interactive JavaScript functionality
+   - CSS animations and transitions
+
+TECHNOLOGY STACK
+================================================================================
+FRONTEND:
+  - HTML5
+  - CSS3 with custom styling
+  - JavaScript for interactivity
+
+BACKEND:
+  - Django 4.2.5 (Python web framework)
+  - Django REST Framework 3.15.1
+  - Gunicorn 23.0.0 (WSGI application server)
+
+AUTHENTICATION & SECURITY:
+  - django-allauth 64.2.0 (user authentication)
+  - django-allauth-2fa 0.11.1 (two-factor authentication)
+  - django-two-factor-auth 1.17.0 (2FA support)
+  - django-otp 1.5.2 (one-time password)
+  - django-user-sessions 2.0.0 (session management)
+
+DATABASE:
+  - PostgreSQL 15+ (production)
+  - SQLite3 (local development)
+  - dj-database-url 2.2.0 (database configuration)
+  - psycopg2-binary 2.9.9 (PostgreSQL adapter)
+
+ADDITIONAL PACKAGES:
+  - Pillow 11.0.0 (image processing)
+  - django-phonenumber-field 8.0.0 (phone validation)
+  - phonenumbers 8.13.44 (international phone support)
+  - qrcode 7.4.2 (QR code generation)
+  - setuptools 75.0.0 (package management)
+
+DEPLOYMENT:
+  - Render.com (hosting platform)
+  - Gunicorn application server
+  - PostgreSQL database on Render
+
+PROJECT STRUCTURE
+================================================================================
+TheMenu/
+├── core/                          # Main application (menus, reservations, feedback)
+│   ├── models.py                 # Database models
+│   ├── views.py                  # View logic
+│   ├── urls.py                   # URL routing
+│   ├── forms.py                  # Form definitions
+│   ├── admin.py                  # Django admin configuration
+│   ├── templates/core/           # HTML templates
+│   ├── migrations/               # Database migrations
+│   └── tests.py                  # Unit tests
+│
+├── users/                         # User management app
+│   ├── models.py                 # User models
+│   ├── views.py                  # Authentication views
+│   ├── forms.py                  # User forms
+│   ├── urls.py                   # User URLs
+│   ├── templates/users/          # Authentication templates
+│   └── migrations/               # Database migrations
+│
+├── managers/                      # Manager/admin app
+│   ├── models.py                 # Manager models
+│   ├── views.py                  # Manager dashboard views
+│   ├── urls.py                   # Manager URLs
+│   ├── templates/managers/       # Manager dashboard templates
+│   └── migrations/               # Database migrations
+│
+├── TheMenu/                       # Project configuration
+│   ├── settings.py               # Django settings
+│   ├── urls.py                   # Root URL configuration
+│   ├── wsgi.py                   # WSGI configuration
+│   └── asgi.py                   # ASGI configuration
+│
+├── static/                        # Static files
+│   ├── css/styles.css            # Custom styles
+│   ├── js/scripts.js             # JavaScript functionality
+│   └── images/                   # Static images
+│
+├── media/                         # User-uploaded files
+│   └── feedback_images/          # Customer feedback images
+│
+├── screenshots/                   # Project screenshots
+├── db.sqlite3                     # SQLite database (local)
+├── manage.py                      # Django management script
+├── requirements.txt               # Python dependencies
+├── render.yaml                    # Render deployment config
+├── README.md                      # Project documentation
+└── DESCRIPTION.txt               # This file
+
+INSTALLATION & SETUP
+================================================================================
+PREREQUISITES:
+  - Python 3.10+
+  - pip (Python package manager)
+  - Virtual environment (recommended)
+
+STEPS:
+
+1. Clone the repository:
+   git clone https://github.com/rakeshp1423/Cafe-Management-.git
+   cd TheMenu
+
+2. Create and activate virtual environment:
+   python -m venv venv
+   
+   On Linux/Mac:
+   source venv/bin/activate
+   
+   On Windows:
+   venv\Scripts\activate
+
+3. Install dependencies:
+   pip install -r requirements.txt
+
+4. Run database migrations:
+   python manage.py migrate
+
+5. Create superuser (admin account):
+   python manage.py createsuperuser
+
+6. Start development server:
+   python manage.py runserver
+
+7. Access the application:
+   http://127.0.0.1:8000/
+
+8. Admin panel:
+   http://127.0.0.1:8000/admin/
+
+DEPLOYMENT TO RENDER
+================================================================================
+1. Push code to GitHub repository
+
+2. Create Render account at render.com
+
+3. Create Web Service:
+   - Connect GitHub repository
+   - Set Runtime: Python 3
+   - Build Command:
+     pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+   - Start Command:
+     gunicorn TheMenu.wsgi:application --bind 0.0.0.0:$PORT
+
+4. Configure Environment Variables:
+   - DEBUG: false
+   - SECRET_KEY: [Generate at djecrety.ir]
+   - ALLOWED_HOSTS: [your-app-name.onrender.com]
+   - DATABASE_URL: [Auto-set by Render PostgreSQL]
+
+5. Create PostgreSQL Database on Render:
+   - Name: themenu-db
+   - This auto-populates DATABASE_URL
+
+6. Deploy:
+   - Click "Create Web Service"
+   - Render automatically builds and deploys
+   - App available at: https://[your-app-name].onrender.com
+
+CONFIGURATION
+================================================================================
+ENVIRONMENT VARIABLES (settings.py):
+  - DEBUG: Enables debug mode (set to 'false' in production)
+  - SECRET_KEY: Django secret key for security
+  - ALLOWED_HOSTS: Comma-separated list of allowed domains
+  - DATABASE_URL: PostgreSQL connection string (auto-set by Render)
+
+DATABASE:
+  - Local: SQLite (db.sqlite3)
+  - Production: PostgreSQL via dj-database-url
+
+STATIC FILES:
+  - Location: /static/
+  - Collected to: /staticfiles/ (production)
+
+MEDIA FILES:
+  - User uploads stored in: /media/
+  - Feedback images: /media/feedback_images/
+
+SECURITY SETTINGS:
+  - CSRF protection enabled
+  - XFrame options configured
+  - Session security enabled
+  - OTP/2FA support enabled
+  - Secure password validation
+
+MAIN APPS & FUNCTIONALITY
+================================================================================
+CORE APP (Menu, Reservations, Feedback):
+  - Display café menu and items
+  - Manage table reservations
+  - Collect and display customer feedback
+  - View reservation details and history
+
+USERS APP (Authentication):
+  - User registration and login
+  - Profile management
+  - Two-factor authentication
+  - OTP verification
+  - Session management
+
+MANAGERS APP (Administration):
+  - Manager login and dashboard
+  - Reservation approval workflow
+  - Feedback moderation
+  - User and statistics management
+  - Menu administration
+
+API ENDPOINTS (If applicable):
+  - Django REST Framework endpoints available
+  - User authentication APIs
+  - Feedback APIs
+  - Reservation APIs
+
+FUTURE ENHANCEMENTS
+================================================================================
+- Payment gateway integration
+- Email notifications for reservations
+- SMS notifications
+- Mobile app (iOS/Android)
+- Advanced analytics dashboard
+- Inventory management
+- Order management system
+- Kitchen display system (KDS)
+- Customer loyalty program
+- Booking calendar view
+- Map integration for location
+- Multi-language support
+- Voice ordering system
+
+TROUBLESHOOTING
+================================================================================
+Common Issues:
+
+1. ModuleNotFoundError - Install missing dependencies:
+   pip install -r requirements.txt
+
+2. Database migration errors - Apply migrations:
+   python manage.py migrate
+
+3. Static files not loading - Collect static files:
+   python manage.py collectstatic --noinput
+
+4. Port already in use - Run on different port:
+   python manage.py runserver 8001
+
+5. Permission denied on Linux - Activate virtual environment:
+   source venv/bin/activate
+
+CONTRIBUTION GUIDELINES
+================================================================================
+1. Fork the repository
+2. Create a feature branch:
+   git checkout -b feature/your-feature-name
+3. Make changes and commit:
+   git commit -m "Add your feature description"
+4. Push to your fork:
+   git push origin feature/your-feature-name
+5. Submit a pull request with detailed description
+
+CONTACT & SUPPORT
+================================================================================
+Developer: Rakesh Kumar Patra
+Email: rrakeshkuma1423@gmail.com
+GitHub: https://github.com/rakeshp1423
+Repository: https://github.com/rakeshp1423/Cafe-Management-
+
+For bug reports, feature requests, or questions, please open an issue on GitHub 
+or contact the developer directly.
+
+LICENSE
+================================================================================
+© 2025 Café Management Website. All rights reserved.
+
+This project is provided as-is for educational and commercial use.
+Please respect intellectual property rights and provide appropriate attribution.
+
+================================================================================
+Last Updated: April 16, 2026
+Current Version: 1.0 (Production Ready)
+================================================================================

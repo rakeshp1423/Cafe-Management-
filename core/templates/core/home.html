@@ -240,6 +240,177 @@
             box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
         }
 
+        /* --- EVENTS SECTION --- */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #c49a6c);
+        }
+        .event-date {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .event-card h3 {
+            font-family: var(--font-primary);
+            margin: 0 0 0.5rem 0;
+            color: var(--navbar-bg);
+        }
+        .event-card p {
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .event-time {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* --- CHEF'S RECOMMENDATIONS SECTION --- */
+        .chefs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .chef-pick-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .chef-pick-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        .chef-pick-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .pick-content {
+            padding: 1.5rem;
+        }
+        .pick-content h3 {
+            font-family: var(--font-primary);
+            margin: 0 0 0.5rem 0;
+            color: var(--navbar-bg);
+        }
+        .pick-content p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .chef-note {
+            font-style: italic;
+            color: #555;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        /* --- MENU PREVIEW SECTION --- */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+        }
+        .tab-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--navbar-bg);
+        }
+        .menu-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .menu-item-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            text-align: center;
+        }
+        .menu-item-card h4 {
+            font-family: var(--font-primary);
+            margin: 0 0 0.5rem 0;
+            color: var(--navbar-bg);
+        }
+        .menu-item-card p {
+            color: #777;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .menu-item-price {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        .view-full-menu-btn {
+            display: inline-block;
+            background-color: var(--navbar-bg);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .view-full-menu-btn:hover {
+            background-color: var(--text-dark);
+        }
+
         /* --- ANIMATIONS & RESPONSIVENESS --- */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
@@ -258,7 +429,7 @@
     {% include 'core/navbar.html' %}
     
     <main>
-        <section class="hero-section" style="background-image: url('{% static 'images/cafebg.jpg' %}');">
+        <section class="hero-section" style="background-image: url('https://cdn.pixabay.com/photo/2022/04/04/12/29/garden-7111101_1280.jpg');">
              <div class="hero-content">
                 <h1>Welcome to The Café</h1>
                 <p>Your ultimate culinary experience begins here!</p>
@@ -318,8 +489,102 @@
                 <div class="gallery-item"><img src="https://i.pinimg.com/1200x/32/54/64/325464a0d7461d005e5cf45330f42592.jpg" alt="Fresh pastries"></div>
                 <div class="gallery-item"><img src="https://i.pinimg.com/736x/bb/f1/bf/bbf1bf7634056ccc420f39cf2be8f689.jpg" alt="People enjoying coffee"></div>
                 <div class="gallery-item"><img src="https://i.pinimg.com/736x/55/0c/5d/550c5d2f747fc6c4e727bdd98739c19b.jpg" alt="Cafe details"></div>
-                <div class="gallery-item"><img src="https://i.pinimg.com/736x/36/6a/02/366a027df5a9d558c65289a0850bf7cc.jpg" alt="Brunch spread"></div>
+                <div class="gallery-item"><img src="https://i.pinimg.com/736x/36/6a/02/366a027df5a9d558c65289a0850bf7cc.jpg " alt="Brunch spread"></div>
             </div>
+        </section>
+
+        <section id="events" class="content-section" style="background-color: #f8f5f0;">
+            <h2>Upcoming Events</h2>
+            <p class="section-subtitle">Join us for special occasions and memorable experiences.</p>
+            <div class="events-grid">
+                <div class="event-card">
+                    <div class="event-date">SAT 25</div>
+                    <h3>Live Jazz Night</h3>
+                    <p>Enjoy smooth jazz melodies with our signature cocktails while savoring your favorite dishes.</p>
+                    <span class="event-time">8:00 PM - 11:00 PM</span>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">SUN 26</div>
+                    <h3>Brunch & Poetry</h3>
+                    <p>Local poets share their work over our famous weekend brunch. A perfect blend of food and art.</p>
+                    <span class="event-time">11:00 AM - 2:00 PM</span>
+                </div>
+                <div class="event-card">
+                    <div class="event-date">FRI 31</div>
+                    <h3>Trivia Night</h3>
+                    <p>Test your knowledge and win prizes with friends. Great food and even better company!</p>
+                    <span class="event-time">7:00 PM - 9:00 PM</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="chefs-picks" class="content-section">
+            <h2>Chef's Recommendations</h2>
+            <p class="section-subtitle">Our culinary team's favorite creations, made with passion and the finest ingredients.</p>
+            <div class="chefs-grid">
+                <div class="chef-pick-card">
+                    <img src="https://i.pinimg.com/736x/1d/e3/3f/1de33f7198b3217905e3f7d9618b781d.jpg" alt="Signature Espresso">
+                    <div class="pick-content">
+                        <h3>Signature Espresso</h3>
+                        <p>Our masterfully crafted espresso using single-origin beans, roasted to perfection for an intense, balanced flavor.</p>
+                        <span class="price">$4.50</span>
+                        <span class="chef-note">"The foundation of every great coffee experience!" - Chef Maria</span>
+                    </div>
+                </div>
+                <div class="chef-pick-card">
+                    <img src="https://i.pinimg.com/736x/01/51/93/01519376c39b77a4f056558bc83baa38.jpg" alt="Truffle Risotto">
+                    <div class="pick-content">
+                        <h3>Truffle Risotto</h3>
+                        <p>Creamy Arborio rice slow-cooked with white truffle oil, finished with aged Parmesan and fresh herbs.</p>
+                        <span class="price">$18.95</span>
+                        <span class="chef-note">"Comfort food elevated to an art form." - Chef Antonio</span>
+                    </div>
+                </div>
+                <div class="chef-pick-card">
+                    <img src="https://i.pinimg.com/1200x/e2/a1/88/e2a1882761d8366ec611f81c4920ffa2.jpg" alt="Chocolate Soufflé">
+                    <div class="pick-content">
+                        <h3>Dark Chocolate Soufflé</h3>
+                        <p>Light and airy chocolate soufflé with a molten center, served with vanilla bean ice cream.</p>
+                        <span class="price">$9.75</span>
+                        <span class="chef-note">"Pure decadence in every bite!" - Pastry Chef Elena</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu-preview" class="content-section" style="background-color: #f4f0eb;">
+            <h2>Our Menu Highlights</h2>
+            <p class="section-subtitle">A taste of what makes The Café special.</p>
+            <div class="menu-tabs">
+                <button class="tab-btn active" data-category="coffee">Coffee</button>
+                <button class="tab-btn" data-category="breakfast">Breakfast</button>
+                <button class="tab-btn" data-category="lunch">Lunch</button>
+                <button class="tab-btn" data-category="desserts">Desserts</button>
+            </div>
+            <div class="menu-preview-grid" id="menu-preview-content">
+                <!-- Coffee items -->
+                <div class="menu-item-card coffee-item">
+                    <h4>Espresso</h4>
+                    <p>Rich, bold espresso made from premium beans</p>
+                    <span class="menu-item-price">$3.50</span>
+                </div>
+                <div class="menu-item-card coffee-item">
+                    <h4>Cappuccino</h4>
+                    <p>Perfect balance of espresso, steamed milk, and foam</p>
+                    <span class="menu-item-price">$4.25</span>
+                </div>
+                <div class="menu-item-card coffee-item">
+                    <h4>Latte</h4>
+                    <p>Smooth espresso with steamed milk and light foam</p>
+                    <span class="menu-item-price">$4.75</span>
+                </div>
+                <div class="menu-item-card coffee-item">
+                    <h4>Cold Brew</h4>
+                    <p>Smooth, cold-steeped coffee served over ice</p>
+                    <span class="menu-item-price">$3.95</span>
+                </div>
+            </div>
+            <a href="{% url 'menu' %}" class="view-full-menu-btn">View Full Menu</a>
         </section>
 
         <section id="feedbacks" class="content-section">
@@ -419,6 +684,117 @@
                     startCarousel();
                 }
             }
+        });
+
+        // Menu Preview Tabs Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const menuGrid = document.getElementById('menu-preview-content');
+
+            // Menu data for different categories
+            const menuData = {
+                coffee: `
+                    <div class="menu-item-card">
+                        <h4>Espresso</h4>
+                        <p>Rich, bold espresso made from premium beans</p>
+                        <span class="menu-item-price">$3.50</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Cappuccino</h4>
+                        <p>Perfect balance of espresso, steamed milk, and foam</p>
+                        <span class="menu-item-price">$4.25</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Latte</h4>
+                        <p>Smooth espresso with steamed milk and light foam</p>
+                        <span class="menu-item-price">$4.75</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Cold Brew</h4>
+                        <p>Smooth, cold-steeped coffee served over ice</p>
+                        <span class="menu-item-price">$3.95</span>
+                    </div>
+                `,
+                breakfast: `
+                    <div class="menu-item-card">
+                        <h4>Avocado Toast</h4>
+                        <p>Sourdough bread topped with smashed avocado, poached egg, and cherry tomatoes</p>
+                        <span class="menu-item-price">$12.50</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>French Toast</h4>
+                        <p>Thick brioche slices with cinnamon, maple syrup, and fresh berries</p>
+                        <span class="menu-item-price">$11.95</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Breakfast Burrito</h4>
+                        <p>Scrambled eggs, chorizo, cheese, and salsa wrapped in a flour tortilla</p>
+                        <span class="menu-item-price">$10.75</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Smoked Salmon Bagel</h4>
+                        <p>Toasted bagel with cream cheese, smoked salmon, capers, and red onion</p>
+                        <span class="menu-item-price">$14.25</span>
+                    </div>
+                `,
+                lunch: `
+                    <div class="menu-item-card">
+                        <h4>Grilled Cheese Sandwich</h4>
+                        <p>Artisanal bread with three cheeses, tomato soup, and house-made pickles</p>
+                        <span class="menu-item-price">$13.50</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Caesar Salad</h4>
+                        <p>Crisp romaine, parmesan, croutons, and our signature Caesar dressing</p>
+                        <span class="menu-item-price">$12.95</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Quinoa Bowl</h4>
+                        <p>Quinoa with roasted vegetables, avocado, feta, and lemon-tahini dressing</p>
+                        <span class="menu-item-price">$14.75</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Club Sandwich</h4>
+                        <p>Triple-decker with turkey, bacon, lettuce, tomato, and mayo on toasted bread</p>
+                        <span class="menu-item-price">$13.25</span>
+                    </div>
+                `,
+                desserts: `
+                    <div class="menu-item-card">
+                        <h4>Chocolate Brownie</h4>
+                        <p>Fudgy chocolate brownie with walnuts, served warm with vanilla ice cream</p>
+                        <span class="menu-item-price">$7.50</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Tiramisu</h4>
+                        <p>Layers of coffee-soaked ladyfingers, mascarpone, and cocoa</p>
+                        <span class="menu-item-price">$8.95</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Cheesecake</h4>
+                        <p>New York style cheesecake with berry compote</p>
+                        <span class="menu-item-price">$7.25</span>
+                    </div>
+                    <div class="menu-item-card">
+                        <h4>Macarons</h4>
+                        <p>Assortment of French macarons in various flavors</p>
+                        <span class="menu-item-price">$6.50</span>
+                    </div>
+                `
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Update menu content
+                    const category = this.getAttribute('data-category');
+                    menuGrid.innerHTML = menuData[category];
+                });
+            });
         });
     </script>
 </body>
