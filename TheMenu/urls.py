@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('managers/', include('managers.urls')),
+    path('api/chatbot/', include('chatbot.urls')),
     path('account/', include('allauth_2fa.urls')),
     path('account/', include('allauth.urls')),
     

@@ -1,18 +1,43 @@
 services:
   - type: web
     name: themenu
-    runtime: python3
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
-    startCommand: "gunicorn TheMenu.wsgi:application --bind 0.0.0.0:$PORT"
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py seed_chatbot_knowledge
+    startCommand: gunicorn TheMenu.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 --access-logfile -
+    healthCheckPath: /health/
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
       - key: DEBUG
         value: false
-      - key: SECRET_KEY
+      - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: ALLOWED_HOSTS
-        value: themenu.onrender.com,localhost,127.0.0.1
+        value: localhost,127.0.0.1
       - key: DATABASE_URL
         fromDatabase:
-          type: postgresql
           name: themenu-db
           property: connectionString
+      - key: CHATBOT_EMBEDDING_PROVIDER
+        value: openai
+      - key: CHATBOT_EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: CHATBOT_EMBEDDING_BASE_URL
+        value: https://api.openai.com
+      - key: CHATBOT_LLM_PROVIDER
+        value: openai
+      - key: CHATBOT_MODEL
+        value: gpt-4o-mini
+      - key: CHATBOT_API_BASE_URL
+        value: https://api.openai.com
+      - key: SECURE_HSTS_SECONDS
+        value: 31536000
+
+databases:
+  - name: themenu-db
+    databaseName: themenu
+    user: themenu
+    plan: free
+    postgresMajorVersion: "16"
+    ipAllowList: []

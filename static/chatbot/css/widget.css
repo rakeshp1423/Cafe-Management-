@@ -1,0 +1,254 @@
+.them-ai {
+    --them-ai-ink: #2c2522;
+    --them-ai-cream: #fdfaf6;
+    --them-ai-gold: #d4af7a;
+    --them-ai-shadow: 0 14px 45px rgba(31, 24, 20, .24);
+    font-family: Montserrat, Arial, sans-serif;
+    position: fixed;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 1100;
+    color: var(--them-ai-ink);
+}
+
+.them-ai button,
+.them-ai textarea {
+    font: inherit;
+}
+
+.them-ai button:focus-visible,
+.them-ai textarea:focus-visible {
+    outline: 3px solid #8a5b22;
+    outline-offset: 2px;
+}
+
+.them-ai-launcher {
+    align-items: center;
+    background: var(--them-ai-ink);
+    border: 1px solid var(--them-ai-gold);
+    border-radius: 8px;
+    box-shadow: var(--them-ai-shadow);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-weight: 600 !important;
+    gap: 9px;
+    min-height: 48px;
+    padding: 0 17px;
+}
+
+.them-ai-launcher span:first-child {
+    color: var(--them-ai-gold);
+    font-size: 1.25rem;
+}
+
+.them-ai-panel {
+    background: var(--them-ai-cream);
+    border: 1px solid #ded5c8;
+    border-radius: 10px;
+    bottom: 62px;
+    box-shadow: var(--them-ai-shadow);
+    display: flex;
+    flex-direction: column;
+    height: min(620px, calc(100dvh - 105px));
+    max-height: 620px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    width: min(390px, calc(100vw - 28px));
+}
+
+.them-ai-panel[hidden] {
+    display: none;
+}
+
+.them-ai-header {
+    align-items: center;
+    background: var(--them-ai-ink);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+}
+
+.them-ai-header h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.them-ai-header p {
+    color: #e6dccd;
+    font-size: .78rem;
+    margin: 4px 0 0;
+}
+
+.them-ai-header-actions {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.them-ai-header button {
+    background: transparent;
+    border: 1px solid #b6a890;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    min-height: 34px;
+    padding: 5px 9px;
+}
+
+.them-ai-header .them-ai-close {
+    border: 0;
+    font-size: 1.6rem;
+    padding: 0 4px;
+}
+
+.them-ai-messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    padding: 14px;
+}
+
+.them-ai-message {
+    border-radius: 8px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 88%;
+    overflow-wrap: anywhere;
+    padding: 10px 12px;
+    white-space: pre-wrap;
+}
+
+.them-ai-assistant {
+    align-self: flex-start;
+    background: #eee8df;
+}
+
+.them-ai-user {
+    align-self: flex-end;
+    background: var(--them-ai-ink);
+    color: #fff;
+}
+
+.them-ai-sources {
+    align-self: flex-start;
+    color: #62564a;
+    font-size: .75rem;
+    margin: -5px 0 0 4px;
+}
+
+.them-ai-retry {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid #72502c;
+    border-radius: 4px;
+    color: #573a1c;
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+.them-ai-suggestions {
+    display: flex;
+    gap: 7px;
+    overflow-x: auto;
+    padding: 0 12px 9px;
+}
+
+.them-ai-suggestions button {
+    background: #fff;
+    border: 1px solid #c9bda9;
+    border-radius: 5px;
+    color: var(--them-ai-ink);
+    cursor: pointer;
+    flex: 0 0 auto;
+    font-size: .75rem;
+    padding: 7px 9px;
+}
+
+.them-ai-privacy {
+    color: #62564a;
+    font-size: .68rem;
+    margin: 0;
+    padding: 0 13px 6px;
+}
+
+.them-ai-form {
+    align-items: flex-end;
+    border-top: 1px solid #ded5c8;
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+}
+
+.them-ai-form textarea {
+    background: #fff;
+    border: 1px solid #bdb3a7;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: var(--them-ai-ink);
+    flex: 1;
+    max-height: 100px;
+    min-height: 42px;
+    padding: 10px;
+    resize: vertical;
+}
+
+.them-ai-send {
+    background: var(--them-ai-ink);
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    min-height: 42px;
+    padding: 0 14px;
+}
+
+.them-ai-send:disabled {
+    cursor: wait;
+    opacity: .65;
+}
+
+.them-ai-status {
+    color: #62564a;
+    font-size: .75rem;
+    min-height: 1em;
+    margin: 0;
+    padding: 0 12px 8px;
+}
+
+.them-ai-visually-hidden {
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+@media (max-width: 480px) {
+    .them-ai {
+        bottom: max(12px, env(safe-area-inset-bottom));
+        right: max(12px, env(safe-area-inset-right));
+    }
+
+    .them-ai-panel {
+        bottom: 60px;
+        height: min(620px, calc(100dvh - 92px));
+        width: calc(100vw - 24px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .them-ai *,
+    .them-ai *::before,
+    .them-ai *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}

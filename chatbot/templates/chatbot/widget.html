@@ -1,0 +1,44 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'chatbot/css/widget.css' %}">
+
+<div class="them-ai" data-chat-url="{% url 'chatbot-chat' %}">
+    <button class="them-ai-launcher" type="button" aria-expanded="false"
+            aria-controls="them-ai-panel" aria-label="Open TheMenu AI chat">
+        <span aria-hidden="true">✦</span>
+        <span>Ask TheMenu AI</span>
+    </button>
+    <section class="them-ai-panel" id="them-ai-panel" aria-label="TheMenu AI assistant" hidden>
+        <header class="them-ai-header">
+            <div>
+                <h2>TheMenu AI</h2>
+                <p>Ask about our menu and café</p>
+            </div>
+            <div class="them-ai-header-actions">
+                <button type="button" class="them-ai-reset" aria-label="Clear conversation">Reset</button>
+                <button type="button" class="them-ai-close" aria-label="Close chat">×</button>
+            </div>
+        </header>
+        <div class="them-ai-messages" role="log" aria-live="polite" aria-relevant="additions text">
+            <p class="them-ai-message them-ai-assistant">
+                Hello! I’m TheMenu AI. Ask me about the menu or how to reserve a table.
+            </p>
+        </div>
+        <div class="them-ai-suggestions" aria-label="Suggested questions">
+            <button type="button">What vegetarian dishes do you have?</button>
+            <button type="button">Which items cost less than ₹200?</button>
+            <button type="button">What are your opening hours?</button>
+            <button type="button">What ingredients are used in this dish?</button>
+            <button type="button">How can I reserve a table?</button>
+        </div>
+        <p class="them-ai-privacy">Please don’t share passwords or sensitive personal information.</p>
+        <form class="them-ai-form">
+            {% csrf_token %}
+            <label class="them-ai-visually-hidden" for="them-ai-input">Message TheMenu AI</label>
+            <textarea id="them-ai-input" name="message" rows="1" maxlength="1000"
+                      placeholder="Type your question…" required></textarea>
+            <button class="them-ai-send" type="submit" aria-label="Send message">Send</button>
+        </form>
+        <p class="them-ai-status" aria-live="polite"></p>
+    </section>
+</div>
+<script defer src="{% static 'chatbot/js/widget.js' %}"></script>

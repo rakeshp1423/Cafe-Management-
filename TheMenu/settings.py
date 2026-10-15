@@ -19,18 +19,46 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-l5wh&37e2er(r4ul&i7lqd+9_g574hbzifnw)_(hf@em*x=6v)')
+def env_bool(name, default=False):
+    return os.environ.get(name, str(default)).strip().lower() in {
+        '1', 'true', 'yes', 'on',
+    }
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-allowed_hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-render_url = os.environ.get('RENDER_EXTERNAL_URL', '').replace('https://', '')
+def env_list(name, default=''):
+    return [value.strip() for value in os.environ.get(name, default).split(',') if value.strip()]
+
+
+DEBUG = env_bool('DEBUG', default=False)
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured(
+        'Set DJANGO_SECRET_KEY (or the legacy SECRET_KEY environment variable).'
+    )
+
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+render_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '').strip()
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
+render_url = os.environ.get('RENDER_EXTERNAL_URL', '').strip()
 if render_url:
-    allowed_hosts.append(render_url)
-ALLOWED_HOSTS = [host.strip() for host in allowed_hosts if host.strip()]
+    from urllib.parse import urlparse
 
+    parsed_render_url = urlparse(render_url)
+    if parsed_render_url.hostname:
+        ALLOWED_HOSTS.append(parsed_render_url.hostname)
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
+
+CSRF_TRUSTED_ORIGINS = env_list('CSRF_TRUSTED_ORIGINS')
+CSRF_TRUSTED_ORIGINS.extend(
+    f'https://{host}'
+    for host in ALLOWED_HOSTS
+    if host not in {'localhost', '127.0.0.1', '[::1]'}
+)
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 
 # Application definition
@@ -53,10 +81,12 @@ INSTALLED_APPS = [
     'core',
     'users',
     'managers',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -94,19 +124,22 @@ WSGI_APPLICATION = 'TheMenu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-try:
-    import dj_database_url
-    DATABASES = {
-        'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
-    }
-except ImportError:
-    # Fallback for when dj_database_url is not installed (local development)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+import dj_database_url
+
+database_url = os.environ.get('DATABASE_URL')
+if not DEBUG and not database_url:
+    from django.core.exceptions import ImproperlyConfigured
+
+    raise ImproperlyConfigured('Set DATABASE_URL to the production PostgreSQL database.')
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=not DEBUG,
+    )
+}
 
 
 # Password validation
@@ -135,6 +168,17 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if not DEBUG:
+    EMAIL_BACKEND = os.environ.get(
+        'EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'
+    )
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', default=not DEBUG)
+EMAIL_USE_SSL = env_bool('EMAIL_USE_SSL', default=False)
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
 
 # Additional allauth settings
 ACCOUNT_EMAIL_REQUIRED = True
@@ -163,6 +207,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': (
+            'django.contrib.staticfiles.storage.StaticFilesStorage'
+            if DEBUG else 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+        ),
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -171,3 +226,63 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+default_chat_provider = 'ollama' if DEBUG else 'openai'
+CHATBOT_EMBEDDING_PROVIDER = os.environ.get(
+    'CHATBOT_EMBEDDING_PROVIDER', default_chat_provider
+).lower()
+CHATBOT_EMBEDDING_MODEL = os.environ.get(
+    'CHATBOT_EMBEDDING_MODEL',
+    'all-minilm' if DEBUG else 'text-embedding-3-small',
+)
+CHATBOT_EMBEDDING_DIMENSIONS = 384
+CHATBOT_EMBEDDING_BASE_URL = os.environ.get(
+    'CHATBOT_EMBEDDING_BASE_URL',
+    'http://localhost:11434' if DEBUG else 'https://api.openai.com',
+).rstrip('/')
+CHATBOT_EMBEDDING_API_KEY = os.environ.get(
+    'CHATBOT_EMBEDDING_API_KEY', os.environ.get('CHATBOT_API_KEY', '')
+)
+CHATBOT_LLM_PROVIDER = os.environ.get(
+    'CHATBOT_LLM_PROVIDER', default_chat_provider
+).lower()
+CHATBOT_MODEL = os.environ.get(
+    'CHATBOT_MODEL', 'llama3.2:3b' if DEBUG else 'gpt-4o-mini'
+)
+CHATBOT_API_BASE_URL = os.environ.get(
+    'CHATBOT_API_BASE_URL',
+    'http://localhost:11434' if DEBUG else 'https://api.openai.com',
+).rstrip('/')
+CHATBOT_API_KEY = os.environ.get('CHATBOT_API_KEY', '')
+CHATBOT_TOP_K = int(os.environ.get('CHATBOT_TOP_K', '4'))
+CHATBOT_MAX_COSINE_DISTANCE = float(
+    os.environ.get('CHATBOT_MAX_COSINE_DISTANCE', '0.45')
+)
+CHATBOT_MAX_MESSAGE_LENGTH = int(os.environ.get('CHATBOT_MAX_MESSAGE_LENGTH', '1000'))
+CHATBOT_MAX_CONTEXT_CHARS = int(os.environ.get('CHATBOT_MAX_CONTEXT_CHARS', '12000'))
+CHATBOT_REQUEST_TIMEOUT = int(os.environ.get('CHATBOT_REQUEST_TIMEOUT', '30'))
+CHATBOT_MAX_OUTPUT_TOKENS = int(os.environ.get('CHATBOT_MAX_OUTPUT_TOKENS', '400'))
+CHATBOT_HISTORY_MESSAGES = 8
+CHATBOT_CONVERSATION_RETENTION_DAYS = int(
+    os.environ.get('CHATBOT_CONVERSATION_RETENTION_DAYS', '30')
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/minute',
+        'user': '20/minute',
+        'chatbot': '10/minute',
+    },
+}
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '31536000'))
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+    X_FRAME_OPTIONS = 'DENY'

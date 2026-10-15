@@ -1,10 +1,28 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import MenuItem, Feedback, Reservation
+import logging
+
 from django.contrib.auth.decorators import login_required
-from .models import Feedback
-from .forms import ReservationForm, FeedbackForm
-from core.models import Reservation
+from django.db import DatabaseError, connection
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_GET
+
+from .forms import FeedbackForm, ReservationForm
+from .models import Feedback, MenuItem, Reservation
+
+logger = logging.getLogger(__name__)
+
+
+@require_GET
+def health_check(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute('SELECT 1')
+    except DatabaseError:
+        logger.exception('Health check could not reach the database.')
+        return JsonResponse({'status': 'unavailable'}, status=503)
+    return JsonResponse({'status': 'ok'})
+
+
 def home(request):
     feedbacks = Feedback.objects.all()
     if request.method == 'POST':
