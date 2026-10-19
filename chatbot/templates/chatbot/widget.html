@@ -1,44 +1,854 @@
+
 {% load static %}
-<link rel="stylesheet" href="{% static 'chatbot/css/widget.css' %}">
+
+<style>
+/* ==========================================
+   TheMenu AI — Modern Café Chat Widget
+   HTML + CSS in one Django template
+   ========================================== */
+
+.them-ai {
+    --espresso: #30231d;
+    --coffee: #654332;
+    --caramel: #b7794d;
+    --cream: #faf6ef;
+    --paper: #fffdf9;
+    --muted: #8b7b70;
+    --border: #eae0d5;
+
+    position: fixed;
+    right: 28px;
+    bottom: 26px;
+    z-index: 9999;
+    color: var(--espresso);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.them-ai *,
+.them-ai *::before,
+.them-ai *::after {
+    box-sizing: border-box;
+}
+
+.them-ai button,
+.them-ai textarea {
+    font: inherit;
+}
+
+.them-ai button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.them-ai [hidden] {
+    display: none !important;
+}
+
+.them-ai-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Launcher */
+
+.them-ai-launcher {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 68px;
+    padding: 10px 17px 10px 11px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 20px;
+    background: var(--espresso);
+    color: #fffaf4;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 12px 35px rgba(48,35,29,.20);
+    transition: transform .25s ease, box-shadow .25s ease,
+                background .25s ease;
+    animation: themLauncherEnter .65s ease both;
+}
+
+.them-ai-launcher::before {
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(183,121,77,.25);
+    border-radius: 24px;
+    content: "";
+    pointer-events: none;
+    animation: themLauncherRing 3.2s ease-in-out infinite;
+}
+
+.them-ai-launcher:hover {
+    transform: translateY(-4px);
+    background: #423027;
+    box-shadow: 0 18px 42px rgba(48,35,29,.26);
+}
+
+.them-ai-launcher:active {
+    transform: scale(.98);
+}
+
+.them-ai-launcher-icon {
+    display: grid;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgba(255,244,228,.19);
+    border-radius: 14px;
+    background: linear-gradient(145deg,#bd895f,#875538);
+    color: #fff8ee;
+    font-size: 25px;
+    transition: transform .4s ease;
+}
+
+.them-ai-launcher:hover .them-ai-launcher-icon {
+    transform: rotate(45deg);
+}
+
+.them-ai-launcher-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.them-ai-launcher-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -.2px;
+}
+
+.them-ai-launcher-subtitle {
+    color: #c7b7aa;
+    font-size: 11px;
+}
+
+.them-ai-launcher-arrow {
+    display: grid;
+    width: 27px;
+    height: 27px;
+    margin-left: 5px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 50%;
+    color: #e2b18b;
+    transition: transform .25s ease;
+}
+
+.them-ai-launcher:hover .them-ai-launcher-arrow {
+    transform: translate(2px,-2px);
+}
+
+/* Chat panel */
+
+.them-ai-panel {
+    position: absolute;
+    right: 0;
+    bottom: 86px;
+    display: flex;
+    flex-direction: column;
+    width: min(410px,calc(100vw - 32px));
+    max-height: min(710px,calc(100dvh - 125px));
+    overflow: hidden;
+    border: 1px solid rgba(101,67,50,.13);
+    border-radius: 25px;
+    background: var(--paper);
+    box-shadow: 0 28px 90px rgba(48,35,29,.20),
+                0 6px 20px rgba(48,35,29,.08);
+    transform-origin: bottom right;
+    animation: themPanelEnter .38s cubic-bezier(.16,1,.3,1) both;
+}
+
+.them-ai-panel::before {
+    position: absolute;
+    top: -95px;
+    right: -65px;
+    z-index: 0;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: radial-gradient(circle,rgba(222,184,148,.18),transparent 70%);
+    content: "";
+    pointer-events: none;
+}
+
+/* Header */
+
+.them-ai-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    border-bottom: 1px solid rgba(255,255,255,.10);
+    background: radial-gradient(circle at 10% 0%,rgba(183,121,77,.2),transparent 45%),
+                var(--espresso);
+    color: #fffaf4;
+}
+
+.them-ai-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.them-ai-avatar {
+    position: relative;
+    display: grid;
+    flex: 0 0 43px;
+    width: 43px;
+    height: 43px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 15px;
+    background: linear-gradient(145deg,#bd895f,#805036);
+    color: #fff9ef;
+    font-size: 25px;
+}
+
+.them-ai-avatar-sparkle {
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    color: #ffe1b9;
+    font-size: 10px;
+    animation: themSparkle 2.4s ease-in-out infinite;
+}
+
+.them-ai-heading-copy {
+    min-width: 0;
+}
+
+.them-ai-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.them-ai-header h2 {
+    margin: 0;
+    color: #fffaf4;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.55px;
+}
+
+.them-ai-header h2 span {
+    color: #d7a77e;
+    font-weight: 500;
+}
+
+.them-ai-header p {
+    margin: 3px 0 0;
+    color: #c7b8ab;
+    font-size: 11px;
+}
+
+.them-ai-live-dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+    background: #91c68d;
+    box-shadow: 0 0 0 3px rgba(145,198,141,.13);
+}
+
+.them-ai-header-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+}
+
+.them-ai-reset,
+.them-ai-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.055);
+    color: #e8dcd1;
+    cursor: pointer;
+    transition: background .2s ease,color .2s ease,transform .2s ease;
+}
+
+.them-ai-reset {
+    min-height: 32px;
+    padding: 5px 9px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.them-ai-reset span:first-child {
+    font-size: 15px;
+}
+
+.them-ai-reset:hover,
+.them-ai-close:hover {
+    background: rgba(255,255,255,.14);
+    color: #fff;
+}
+
+.them-ai-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 23px;
+    line-height: 1;
+}
+
+.them-ai-close:hover {
+    transform: rotate(90deg);
+}
+
+/* Welcome area */
+
+.them-ai-welcome {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    padding: 21px 23px 17px;
+    border-bottom: 1px solid #efe5d9;
+    background: radial-gradient(ellipse at 100% 0%,rgba(224,195,165,.22),transparent 55%),
+                var(--cream);
+    animation: themContentEnter .45s .07s ease both;
+}
+
+.them-ai-eyebrow {
+    display: inline-block;
+    color: #a16b46;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.45px;
+}
+
+.them-ai-welcome h3 {
+    margin: 10px 0 8px;
+    color: var(--espresso);
+    font-family: Georgia,"Times New Roman",serif;
+    font-size: clamp(25px,6vw,30px);
+    font-weight: 500;
+    line-height: 1.13;
+    letter-spacing: -.9px;
+}
+
+.them-ai-welcome h3 em {
+    color: #a66f49;
+    font-weight: 400;
+}
+
+.them-ai-welcome > p {
+    max-width: 300px;
+    margin: 0;
+    color: #827367;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Messages */
+
+.them-ai-messages {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 13px;
+    min-height: 95px;
+    max-height: 240px;
+    padding: 17px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--paper);
+    overscroll-behavior: contain;
+    scrollbar-color: #d9c7b5 transparent;
+    scrollbar-width: thin;
+}
+
+.them-ai-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.them-ai-messages::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #d9c7b5;
+}
+
+.them-ai-message {
+    width: fit-content;
+    max-width: 88%;
+    margin: 0;
+    padding: 11px 13px;
+    border: 1px solid #eee4d9;
+    border-radius: 4px 15px 15px 15px;
+    background: #f7f1e9;
+    color: #49382e;
+    font-size: 12px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+    animation: themMessageEnter .32s ease both;
+}
+
+.them-ai-assistant {
+    align-self: flex-start;
+}
+
+.them-ai-user {
+    align-self: flex-end;
+    margin-left: auto;
+    border-color: #694b39;
+    border-radius: 15px 4px 15px 15px;
+    background: #694b39;
+    color: #fffaf4;
+}
+
+/* Suggestions */
+
+.them-ai-suggestion-area {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    padding: 14px 17px 15px;
+    border-top: 1px solid #f0e7dc;
+    background: #fffdf9;
+}
+
+.them-ai-suggestion-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #a18c7b;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.05px;
+}
+
+.them-ai-suggestion-heading span:last-child {
+    color: #b27b54;
+    font-size: 15px;
+}
+
+.them-ai-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.them-ai-suggestions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid #eadfd2;
+    border-radius: 11px;
+    background: #fffdf9;
+    color: #624b3b;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1.35;
+    transition: border-color .18s ease,background .18s ease,
+                transform .18s ease,box-shadow .18s ease;
+}
+
+.them-ai-suggestions button:hover {
+    transform: translateY(-2px);
+    border-color: #c8a486;
+    background: #f8efe5;
+    box-shadow: 0 4px 12px rgba(75,50,34,.07);
+}
+
+.them-ai-suggestions button:active {
+    transform: scale(.97);
+}
+
+/* Composer */
+
+.them-ai-footer {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    padding: 0 17px 13px;
+    background: #fffdf9;
+}
+
+.them-ai-privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 0 0 11px;
+    color: #9b8b7e;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.them-ai-privacy span {
+    color: #a66f49;
+    font-size: 13px;
+}
+
+.them-ai-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 7px;
+    border: 1px solid #e7dacc;
+    border-radius: 17px;
+    background: #fff;
+    transition: border-color .2s ease,box-shadow .2s ease;
+}
+
+.them-ai-form:focus-within {
+    border-color: #b88764;
+    box-shadow: 0 0 0 3px rgba(183,121,77,.10);
+}
+
+.them-ai-form textarea {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    max-height: 110px;
+    padding: 10px 8px;
+    resize: none;
+    overflow-y: auto;
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    background: transparent;
+    color: var(--espresso);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.them-ai-form textarea::placeholder {
+    color: #b2a397;
+}
+
+.them-ai-form textarea:focus-visible {
+    outline: none;
+}
+
+.them-ai-send {
+    display: grid;
+    flex: 0 0 39px;
+    width: 39px;
+    height: 39px;
+    place-items: center;
+    border: 0;
+    border-radius: 12px;
+    background: var(--espresso);
+    color: #fff8ef;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    transition: transform .2s ease,background .2s ease,box-shadow .2s ease;
+}
+
+.them-ai-send:hover {
+    transform: translateY(-2px);
+    background: #785039;
+    box-shadow: 0 6px 13px rgba(48,35,29,.17);
+}
+
+.them-ai-send:active {
+    transform: scale(.94);
+}
+
+.them-ai-send:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+    transform: none;
+}
+
+.them-ai-status {
+    min-height: 0;
+    margin: 0;
+    color: #97765e;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.them-ai-status:not(:empty) {
+    padding-top: 7px;
+}
+
+.them-ai-powered {
+    margin: 9px 0 0;
+    color: #b4a396;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-align: center;
+}
+
+.them-ai-powered span {
+    color: #b7794d;
+}
+
+/* Animations */
+
+@keyframes themLauncherEnter {
+    from { opacity: 0; transform: translateY(15px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes themLauncherRing {
+    0%,100% { opacity: .4; transform: scale(1); }
+    50% { opacity: .9; transform: scale(1.025); }
+}
+
+@keyframes themPanelEnter {
+    from { opacity: 0; transform: translateY(13px) scale(.965); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes themContentEnter {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes themMessageEnter {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes themSparkle {
+    0%,100% { opacity: .6; transform: scale(.85) rotate(0); }
+    50% { opacity: 1; transform: scale(1.15) rotate(18deg); }
+}
+
+/* Mobile */
+
+@media (max-width: 520px) {
+    .them-ai {
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .them-ai-panel {
+        position: fixed;
+        right: 8px;
+        bottom: 84px;
+        width: calc(100vw - 16px);
+        max-height: calc(100dvh - 105px);
+        border-radius: 22px;
+    }
+
+    .them-ai-header {
+        padding: 15px;
+    }
+
+    .them-ai-welcome {
+        padding: 17px 19px 15px;
+    }
+
+    .them-ai-welcome h3 {
+        font-size: 27px;
+    }
+
+    .them-ai-messages {
+        max-height: min(200px,24dvh);
+        padding: 13px;
+    }
+
+    .them-ai-suggestion-area {
+        padding: 12px 13px;
+    }
+
+    .them-ai-footer {
+        padding: 0 13px 11px;
+    }
+
+    .them-ai-launcher {
+        min-height: 61px;
+        gap: 9px;
+        padding: 8px 12px 8px 9px;
+        border-radius: 17px;
+    }
+
+    .them-ai-launcher-icon {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 360px) {
+    .them-ai-header {
+        gap: 7px;
+        padding: 12px;
+    }
+
+    .them-ai-brand {
+        gap: 8px;
+    }
+
+    .them-ai-avatar {
+        flex-basis: 36px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .them-ai-header h2 {
+        font-size: 15px;
+    }
+
+    .them-ai-reset {
+        padding: 5px 7px;
+    }
+
+    .them-ai-suggestions {
+        gap: 6px;
+    }
+
+    .them-ai-suggestions button {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+}
+
+/* Accessibility */
+
+.them-ai button:focus-visible,
+.them-ai textarea:focus-visible {
+    outline: 3px solid rgba(183,121,77,.35);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .them-ai *,
+    .them-ai *::before,
+    .them-ai *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
 
 <div class="them-ai" data-chat-url="{% url 'chatbot-chat' %}">
-    <button class="them-ai-launcher" type="button" aria-expanded="false"
-            aria-controls="them-ai-panel" aria-label="Open TheMenu AI chat">
-        <span aria-hidden="true">✦</span>
-        <span>Ask TheMenu AI</span>
+    <button
+        class="them-ai-launcher"
+        type="button"
+        aria-expanded="false"
+        aria-controls="them-ai-panel"
+        aria-label="Open TheMenu AI chat"
+    >
+        <span class="them-ai-launcher-icon" aria-hidden="true">✳</span>
+        <span class="them-ai-launcher-label">
+            <span class="them-ai-launcher-title">TheMenu AI</span>
+            <span class="them-ai-launcher-subtitle">Your café companion</span>
+        </span>
+        <span class="them-ai-launcher-arrow" aria-hidden="true">↗</span>
     </button>
-    <section class="them-ai-panel" id="them-ai-panel" aria-label="TheMenu AI assistant" hidden>
+
+    <section
+        class="them-ai-panel"
+        id="them-ai-panel"
+        aria-label="TheMenu AI assistant"
+        hidden
+    >
         <header class="them-ai-header">
-            <div>
-                <h2>TheMenu AI</h2>
-                <p>Ask about our menu and café</p>
+            <div class="them-ai-brand">
+                <div class="them-ai-avatar" aria-hidden="true">
+                    <span>✳</span>
+                    <span class="them-ai-avatar-sparkle">✦</span>
+                </div>
+                <div class="them-ai-heading-copy">
+                    <div class="them-ai-title-row">
+                        <h2>TheMenu <span>AI</span></h2>
+                        <span class="them-ai-live-dot" aria-label="Assistant available"></span>
+                    </div>
+                    <p>Your little guide to good food.</p>
+                </div>
             </div>
+
             <div class="them-ai-header-actions">
-                <button type="button" class="them-ai-reset" aria-label="Clear conversation">Reset</button>
-                <button type="button" class="them-ai-close" aria-label="Close chat">×</button>
+                <button type="button" class="them-ai-reset" aria-label="Clear conversation">
+                    <span aria-hidden="true">↻</span>
+                    <span>Reset</span>
+                </button>
+                <button type="button" class="them-ai-close" aria-label="Close chat">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
         </header>
+
+        <div class="them-ai-welcome">
+            <span class="them-ai-eyebrow">A LITTLE HELP, FRESHLY SERVED</span>
+            <h3>Good food starts<br>with a <em>good question.</em></h3>
+            <p>Explore our menu, find your favourites, or plan your next visit.</p>
+        </div>
+
         <div class="them-ai-messages" role="log" aria-live="polite" aria-relevant="additions text">
             <p class="them-ai-message them-ai-assistant">
                 Hello! I’m TheMenu AI. Ask me about the menu or how to reserve a table.
             </p>
         </div>
-        <div class="them-ai-suggestions" aria-label="Suggested questions">
-            <button type="button">What vegetarian dishes do you have?</button>
-            <button type="button">Which items cost less than ₹200?</button>
-            <button type="button">What are your opening hours?</button>
-            <button type="button">What ingredients are used in this dish?</button>
-            <button type="button">How can I reserve a table?</button>
+
+        <div class="them-ai-suggestion-area">
+            <div class="them-ai-suggestion-heading">
+                <span>NOT SURE WHERE TO START?</span>
+                <span aria-hidden="true">↘</span>
+            </div>
+
+            <div class="them-ai-suggestions" aria-label="Suggested questions">
+                <button type="button">What vegetarian dishes do you have?</button>
+                <button type="button">Which items cost less than ₹200?</button>
+                <button type="button">What are your opening hours?</button>
+                <button type="button">What ingredients are used in this dish?</button>
+                <button type="button">How can I reserve a table?</button>
+            </div>
         </div>
-        <p class="them-ai-privacy">Please don’t share passwords or sensitive personal information.</p>
-        <form class="them-ai-form">
-            {% csrf_token %}
-            <label class="them-ai-visually-hidden" for="them-ai-input">Message TheMenu AI</label>
-            <textarea id="them-ai-input" name="message" rows="1" maxlength="1000"
-                      placeholder="Type your question…" required></textarea>
-            <button class="them-ai-send" type="submit" aria-label="Send message">Send</button>
-        </form>
-        <p class="them-ai-status" aria-live="polite"></p>
+
+        <div class="them-ai-footer">
+            <p class="them-ai-privacy">
+                <span aria-hidden="true">◇</span>
+                Please don’t share passwords or sensitive personal information.
+            </p>
+
+            <form class="them-ai-form">
+                {% csrf_token %}
+                <label class="them-ai-visually-hidden" for="them-ai-input">
+                    Message TheMenu AI
+                </label>
+                <textarea
+                    id="them-ai-input"
+                    name="message"
+                    rows="1"
+                    maxlength="1000"
+                    placeholder="Ask us anything..."
+                    required
+                ></textarea>
+                <button class="them-ai-send" type="submit" aria-label="Send message">
+                    <span aria-hidden="true">↑</span>
+                </button>
+            </form>
+
+            <p class="them-ai-status" aria-live="polite"></p>
+            <p class="them-ai-powered">MADE FOR YOUR NEXT GOOD BITE <span>✳</span></p>
+        </div>
     </section>
 </div>
+
 <script defer src="{% static 'chatbot/js/widget.js' %}"></script>
