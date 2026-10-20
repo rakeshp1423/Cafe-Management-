@@ -1,854 +1,1080 @@
 
-{% load static %}
+{% comment %} TheMenu AI — self-contained floating chat widget {% endcomment %}
+<div class="tm-widget" data-tm-widget>
+  <button
+    class="tm-launcher"
+    type="button"
+    aria-expanded="false"
+    aria-controls="tm-panel"
+    aria-label="Open TheMenu chat"
+    data-tm-launcher
+  >
+    <span class="tm-launcher-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M5 5.75A2.75 2.75 0 0 1 7.75 3h8.5A2.75 2.75 0 0 1 19 5.75v6.5A2.75 2.75 0 0 1 16.25 15H11l-4.5 4v-4.15A2.75 2.75 0 0 1 5 12.25z"
+          stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M9 8h6M9 11h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="tm-launcher-label">Chat with us</span>
+    <span class="tm-launcher-arrow" aria-hidden="true">↗</span>
+  </button>
+
+  <section
+    class="tm-panel"
+    id="tm-panel"
+    role="dialog"
+    aria-labelledby="tm-title"
+    aria-modal="false"
+    aria-hidden="true"
+    data-tm-panel
+    hidden
+  >
+    <header class="tm-header">
+      <div class="tm-brand">
+        <span class="tm-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M6 4h12l-1 15H7L6 4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M8 8h8M9 12h6M10 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M4 4h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="tm-brand-copy">
+          <span class="tm-brand-title" id="tm-title">TheMenu AI</span>
+          <span class="tm-brand-subtitle">
+            <span class="tm-status-dot" aria-hidden="true"></span>
+            Your café companion
+          </span>
+        </span>
+      </div>
+
+      <div class="tm-header-actions">
+        <button class="tm-icon-button" type="button" data-tm-reset aria-label="Clear conversation" title="Clear conversation">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13M10 11v5m4-5v5"
+              stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="tm-icon-button" type="button" data-tm-close aria-label="Close chat" title="Close chat">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="tm-conversation">
+      <div class="tm-date-divider">
+        <span>THE CAFÉ DESK</span>
+      </div>
+
+      <div
+        class="tm-messages"
+        role="log"
+        aria-label="Chat messages"
+        aria-live="polite"
+        aria-relevant="additions text"
+        aria-atomic="false"
+        data-tm-messages
+      >
+        <div class="tm-message tm-message-bot">
+          <span class="tm-avatar" aria-hidden="true">T</span>
+          <div class="tm-message-content">
+            <span class="tm-message-author">TheMenu</span>
+            <div class="tm-bubble">
+              Hey there! Welcome to TheMenu. ☕
+              <br><br>
+              Looking for something delicious? Ask me about our menu, prices, or café information.
+            </div>
+            <span class="tm-message-time">Your café companion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tm-typing" data-tm-typing hidden aria-label="TheMenu is typing">
+        <span class="tm-avatar" aria-hidden="true">T</span>
+        <span class="tm-typing-bubble" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+        <span class="tm-sr-only">TheMenu is preparing a reply.</span>
+      </div>
+
+      <div class="tm-suggestions" data-tm-suggestions aria-label="Suggested questions">
+        <span class="tm-suggestions-label">QUICK QUESTIONS</span>
+        <div class="tm-suggestion-list">
+          <button class="tm-chip" type="button" data-tm-suggestion="What is on the menu?">Explore the menu <span aria-hidden="true">↗</span></button>
+          <button class="tm-chip" type="button" data-tm-suggestion="What are your prices?">Menu prices <span aria-hidden="true">↗</span></button>
+          <button class="tm-chip" type="button" data-tm-suggestion="How can I make a reservation?">Reservations <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tm-composer-area">
+      <form class="tm-form" data-tm-form data-chat-url="{% url 'chatbot-chat' %}">
+        {% csrf_token %}
+        <label class="tm-sr-only" for="tm-input">Your message</label>
+        <textarea
+          class="tm-input"
+          id="tm-input"
+          name="message"
+          rows="1"
+          maxlength="2000"
+          placeholder="Ask us anything..."
+          autocomplete="off"
+          enterkeyhint="send"
+          data-tm-input
+        ></textarea>
+        <button class="tm-send" type="submit" data-tm-send disabled aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12 19 5l-3.5 14-3.1-5.1L5 12Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="m12.4 13.9 3.9-4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </form>
+      <p class="tm-disclaimer">
+        AI can make mistakes. Please confirm allergies and dietary needs with our staff.
+      </p>
+      <div class="tm-footer-brand" aria-hidden="true">
+        <span>MADE FOR GOOD MOMENTS</span>
+        <span>THEMENU <span class="tm-footer-dot">●</span></span>
+      </div>
+      <p class="tm-status-message tm-sr-only" data-tm-status role="status"></p>
+    </div>
+  </section>
+</div>
 
 <style>
-/* ==========================================
-   TheMenu AI — Modern Café Chat Widget
-   HTML + CSS in one Django template
-   ========================================== */
+  .tm-widget {
+    --tm-ink: #101F2C;
+    --tm-lime: #D8F36A;
+    --tm-white: #FFFFFF;
+    --tm-mist: #F2F5F6;
+    --tm-slate: #52616B;
+    --tm-line: #DCE3E6;
+    --tm-radius: 12px;
+    --tm-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-.them-ai {
-    --espresso: #30231d;
-    --coffee: #654332;
-    --caramel: #b7794d;
-    --cream: #faf6ef;
-    --paper: #fffdf9;
-    --muted: #8b7b70;
-    --border: #eae0d5;
-
-    position: fixed;
-    right: 28px;
-    bottom: 26px;
+    position: relative;
     z-index: 9999;
-    color: var(--espresso);
-    font-family: inherit;
+    font-family: var(--tm-font);
     font-size: 14px;
     line-height: 1.5;
+    color: var(--tm-ink);
     -webkit-font-smoothing: antialiased;
-}
+  }
 
-.them-ai *,
-.them-ai *::before,
-.them-ai *::after {
+  .tm-widget *,
+  .tm-widget *::before,
+  .tm-widget *::after {
     box-sizing: border-box;
-}
+  }
 
-.them-ai button,
-.them-ai textarea {
-    font: inherit;
-}
-
-.them-ai button {
-    -webkit-tap-highlight-color: transparent;
-}
-
-.them-ai [hidden] {
+  .tm-widget [hidden] {
     display: none !important;
-}
+  }
 
-.them-ai-visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
+  .tm-widget button,
+  .tm-widget textarea {
+    font: inherit;
+  }
 
-/* Launcher */
+  .tm-widget button {
+    -webkit-tap-highlight-color: transparent;
+  }
 
-.them-ai-launcher {
-    position: relative;
-    display: flex;
+  .tm-widget button:focus-visible,
+  .tm-widget textarea:focus-visible {
+    outline: 3px solid #536E00;
+    outline-offset: 3px;
+  }
+
+  .tm-widget .tm-sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* Floating launcher */
+  .tm-widget .tm-launcher {
+    position: fixed;
+    right: max(24px, env(safe-area-inset-right));
+    bottom: max(24px, env(safe-area-inset-bottom));
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    min-height: 68px;
-    padding: 10px 17px 10px 11px;
-    border: 1px solid rgba(255,255,255,.16);
-    border-radius: 20px;
-    background: var(--espresso);
-    color: #fffaf4;
+    gap: 11px;
+    min-height: 58px;
+    padding: 7px 9px 7px 8px;
+    border: 2px solid var(--tm-ink);
+    border-radius: 999px;
+    background: var(--tm-ink);
+    color: var(--tm-white);
     cursor: pointer;
-    text-align: left;
-    box-shadow: 0 12px 35px rgba(48,35,29,.20);
-    transition: transform .25s ease, box-shadow .25s ease,
-                background .25s ease;
-    animation: themLauncherEnter .65s ease both;
-}
+    box-shadow: 0 8px 24px rgb(16 31 44 / 22%);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
 
-.them-ai-launcher::before {
-    position: absolute;
-    inset: -5px;
-    border: 1px solid rgba(183,121,77,.25);
-    border-radius: 24px;
-    content: "";
-    pointer-events: none;
-    animation: themLauncherRing 3.2s ease-in-out infinite;
-}
+  .tm-widget .tm-launcher:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgb(16 31 44 / 28%);
+  }
 
-.them-ai-launcher:hover {
-    transform: translateY(-4px);
-    background: #423027;
-    box-shadow: 0 18px 42px rgba(48,35,29,.26);
-}
-
-.them-ai-launcher:active {
-    transform: scale(.98);
-}
-
-.them-ai-launcher-icon {
+  .tm-widget .tm-launcher-mark {
     display: grid;
-    flex: 0 0 44px;
-    width: 44px;
-    height: 44px;
     place-items: center;
-    border: 1px solid rgba(255,244,228,.19);
-    border-radius: 14px;
-    background: linear-gradient(145deg,#bd895f,#875538);
-    color: #fff8ee;
-    font-size: 25px;
-    transition: transform .4s ease;
-}
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 50%;
+    background: var(--tm-lime);
+    color: var(--tm-ink);
+  }
 
-.them-ai-launcher:hover .them-ai-launcher-icon {
-    transform: rotate(45deg);
-}
+  .tm-widget .tm-launcher-mark svg {
+    width: 24px;
+    height: 24px;
+  }
 
-.them-ai-launcher-label {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.them-ai-launcher-title {
+  .tm-widget .tm-launcher-label {
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: -.2px;
-}
+    letter-spacing: -0.02em;
+  }
 
-.them-ai-launcher-subtitle {
-    color: #c7b7aa;
-    font-size: 11px;
-}
-
-.them-ai-launcher-arrow {
+  .tm-widget .tm-launcher-arrow {
     display: grid;
-    width: 27px;
-    height: 27px;
-    margin-left: 5px;
     place-items: center;
-    border: 1px solid rgba(255,255,255,.15);
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    color: #e2b18b;
-    transition: transform .25s ease;
-}
+    background: #293B48;
+    color: var(--tm-lime);
+    font-size: 20px;
+  }
 
-.them-ai-launcher:hover .them-ai-launcher-arrow {
-    transform: translate(2px,-2px);
-}
-
-/* Chat panel */
-
-.them-ai-panel {
-    position: absolute;
-    right: 0;
-    bottom: 86px;
+  /* Chat panel */
+  .tm-widget .tm-panel {
+    position: fixed;
+    right: max(24px, env(safe-area-inset-right));
+    bottom: max(96px, calc(env(safe-area-inset-bottom) + 82px));
     display: flex;
     flex-direction: column;
-    width: min(410px,calc(100vw - 32px));
-    max-height: min(710px,calc(100dvh - 125px));
+    width: min(400px, calc(100vw - 32px));
+    height: min(660px, calc(100vh - 120px));
+    height: min(660px, calc(100dvh - 120px));
+    min-height: 390px;
     overflow: hidden;
-    border: 1px solid rgba(101,67,50,.13);
-    border-radius: 25px;
-    background: var(--paper);
-    box-shadow: 0 28px 90px rgba(48,35,29,.20),
-                0 6px 20px rgba(48,35,29,.08);
-    transform-origin: bottom right;
-    animation: themPanelEnter .38s cubic-bezier(.16,1,.3,1) both;
-}
+    border: 1px solid #C8D3D9;
+    border-radius: var(--tm-radius);
+    background: var(--tm-white);
+    box-shadow: 0 24px 70px rgb(16 31 44 / 22%), 0 3px 12px rgb(16 31 44 / 8%);
+  }
 
-.them-ai-panel::before {
-    position: absolute;
-    top: -95px;
-    right: -65px;
-    z-index: 0;
-    width: 190px;
-    height: 190px;
-    border-radius: 50%;
-    background: radial-gradient(circle,rgba(222,184,148,.18),transparent 70%);
-    content: "";
-    pointer-events: none;
-}
-
-/* Header */
-
-.them-ai-header {
-    position: relative;
-    z-index: 1;
+  .tm-widget .tm-header {
     display: flex;
-    flex: 0 0 auto;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 18px;
-    border-bottom: 1px solid rgba(255,255,255,.10);
-    background: radial-gradient(circle at 10% 0%,rgba(183,121,77,.2),transparent 45%),
-                var(--espresso);
-    color: #fffaf4;
-}
+    flex: 0 0 auto;
+    padding: 17px 16px;
+    background: var(--tm-ink);
+    color: var(--tm-white);
+  }
 
-.them-ai-brand {
+  .tm-widget .tm-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 11px;
     min-width: 0;
-}
+  }
 
-.them-ai-avatar {
-    position: relative;
+  .tm-widget .tm-brand-mark {
     display: grid;
-    flex: 0 0 43px;
-    width: 43px;
-    height: 43px;
     place-items: center;
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 15px;
-    background: linear-gradient(145deg,#bd895f,#805036);
-    color: #fff9ef;
-    font-size: 25px;
-}
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border: 1px solid #6C7C86;
+    border-radius: var(--tm-radius);
+    color: var(--tm-lime);
+  }
 
-.them-ai-avatar-sparkle {
-    position: absolute;
-    top: 2px;
-    right: 3px;
-    color: #ffe1b9;
-    font-size: 10px;
-    animation: themSparkle 2.4s ease-in-out infinite;
-}
+  .tm-widget .tm-brand-mark svg {
+    width: 24px;
+    height: 24px;
+  }
 
-.them-ai-heading-copy {
+  .tm-widget .tm-brand-copy {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
-}
+  }
 
-.them-ai-title-row {
+  .tm-widget .tm-brand-title {
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 750;
+    letter-spacing: -0.04em;
+  }
+
+  .tm-widget .tm-brand-subtitle {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
+    gap: 6px;
+    margin-top: 4px;
+    color: #D4DDE2;
+    font-size: 12px;
+  }
 
-.them-ai-header h2 {
-    margin: 0;
-    color: #fffaf4;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -.55px;
-}
-
-.them-ai-header h2 span {
-    color: #d7a77e;
-    font-weight: 500;
-}
-
-.them-ai-header p {
-    margin: 3px 0 0;
-    color: #c7b8ab;
-    font-size: 11px;
-}
-
-.them-ai-live-dot {
+  .tm-widget .tm-status-dot {
     width: 7px;
     height: 7px;
     flex: 0 0 7px;
     border-radius: 50%;
-    background: #91c68d;
-    box-shadow: 0 0 0 3px rgba(145,198,141,.13);
-}
+    background: var(--tm-lime);
+  }
 
-.them-ai-header-actions {
+  .tm-widget .tm-header-actions {
     display: flex;
-    flex: 0 0 auto;
     align-items: center;
-    gap: 7px;
-}
+    gap: 4px;
+  }
 
-.them-ai-reset,
-.them-ai-close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    border: 1px solid rgba(255,255,255,.14);
-    background: rgba(255,255,255,.055);
-    color: #e8dcd1;
+  .tm-widget .tm-icon-button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    padding: 0;
+    border: 1px solid #52636E;
+    border-radius: var(--tm-radius);
+    background: transparent;
+    color: var(--tm-white);
     cursor: pointer;
-    transition: background .2s ease,color .2s ease,transform .2s ease;
-}
+  }
 
-.them-ai-reset {
-    min-height: 32px;
-    padding: 5px 9px;
-    border-radius: 10px;
-    font-size: 11px;
-}
+  .tm-widget .tm-icon-button:hover {
+    border-color: var(--tm-lime);
+    color: var(--tm-lime);
+  }
 
-.them-ai-reset span:first-child {
-    font-size: 15px;
-}
+  .tm-widget .tm-icon-button svg {
+    width: 20px;
+    height: 20px;
+  }
 
-.them-ai-reset:hover,
-.them-ai-close:hover {
-    background: rgba(255,255,255,.14);
-    color: #fff;
-}
-
-.them-ai-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    font-size: 23px;
-    line-height: 1;
-}
-
-.them-ai-close:hover {
-    transform: rotate(90deg);
-}
-
-/* Welcome area */
-
-.them-ai-welcome {
-    position: relative;
-    z-index: 1;
-    flex: 0 0 auto;
-    padding: 21px 23px 17px;
-    border-bottom: 1px solid #efe5d9;
-    background: radial-gradient(ellipse at 100% 0%,rgba(224,195,165,.22),transparent 55%),
-                var(--cream);
-    animation: themContentEnter .45s .07s ease both;
-}
-
-.them-ai-eyebrow {
-    display: inline-block;
-    color: #a16b46;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 1.45px;
-}
-
-.them-ai-welcome h3 {
-    margin: 10px 0 8px;
-    color: var(--espresso);
-    font-family: Georgia,"Times New Roman",serif;
-    font-size: clamp(25px,6vw,30px);
-    font-weight: 500;
-    line-height: 1.13;
-    letter-spacing: -.9px;
-}
-
-.them-ai-welcome h3 em {
-    color: #a66f49;
-    font-weight: 400;
-}
-
-.them-ai-welcome > p {
-    max-width: 300px;
-    margin: 0;
-    color: #827367;
-    font-size: 12px;
-    line-height: 1.7;
-}
-
-/* Messages */
-
-.them-ai-messages {
-    position: relative;
-    z-index: 1;
+  .tm-widget .tm-conversation {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: 13px;
-    min-height: 95px;
-    max-height: 240px;
-    padding: 17px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background: var(--paper);
-    overscroll-behavior: contain;
-    scrollbar-color: #d9c7b5 transparent;
-    scrollbar-width: thin;
-}
+    min-height: 0;
+    overflow: hidden;
+    background: var(--tm-white);
+  }
 
-.them-ai-messages::-webkit-scrollbar {
-    width: 5px;
-}
-
-.them-ai-messages::-webkit-scrollbar-thumb {
-    border-radius: 20px;
-    background: #d9c7b5;
-}
-
-.them-ai-message {
-    width: fit-content;
-    max-width: 88%;
-    margin: 0;
-    padding: 11px 13px;
-    border: 1px solid #eee4d9;
-    border-radius: 4px 15px 15px 15px;
-    background: #f7f1e9;
-    color: #49382e;
-    font-size: 12px;
-    line-height: 1.75;
-    overflow-wrap: anywhere;
-    animation: themMessageEnter .32s ease both;
-}
-
-.them-ai-assistant {
-    align-self: flex-start;
-}
-
-.them-ai-user {
-    align-self: flex-end;
-    margin-left: auto;
-    border-color: #694b39;
-    border-radius: 15px 4px 15px 15px;
-    background: #694b39;
-    color: #fffaf4;
-}
-
-/* Suggestions */
-
-.them-ai-suggestion-area {
-    position: relative;
-    z-index: 1;
-    flex: 0 0 auto;
-    padding: 14px 17px 15px;
-    border-top: 1px solid #f0e7dc;
-    background: #fffdf9;
-}
-
-.them-ai-suggestion-heading {
+  .tm-widget .tm-date-divider {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 10px;
-    margin-bottom: 10px;
-    color: #a18c7b;
-    font-size: 9px;
+    padding: 15px 18px 4px;
+    color: var(--tm-slate);
+  }
+
+  .tm-widget .tm-date-divider::before,
+  .tm-widget .tm-date-divider::after {
+    height: 1px;
+    flex: 1;
+    background: var(--tm-line);
+    content: "";
+  }
+
+  .tm-widget .tm-date-divider span {
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: 1.05px;
-}
+    letter-spacing: 0.14em;
+  }
 
-.them-ai-suggestion-heading span:last-child {
-    color: #b27b54;
-    font-size: 15px;
-}
+  .tm-widget .tm-messages {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 0;
+    padding: 18px 16px 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: #AEBCC4 transparent;
+    scrollbar-width: thin;
+  }
 
-.them-ai-suggestions {
+  .tm-widget .tm-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    width: 100%;
+  }
+
+  .tm-widget .tm-message-bot {
+    align-self: flex-start;
+  }
+
+  .tm-widget .tm-message-user {
+    justify-content: flex-end;
+  }
+
+  .tm-widget .tm-avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border-radius: 9px;
+    background: var(--tm-lime);
+    color: var(--tm-ink);
+    font-size: 13px;
+    font-weight: 850;
+  }
+
+  .tm-widget .tm-message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    max-width: calc(100% - 39px);
+  }
+
+  .tm-widget .tm-message-user .tm-message-content {
+    align-items: flex-end;
+  }
+
+  .tm-widget .tm-message-author {
+    margin: 0 0 5px 2px;
+    color: var(--tm-slate);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .tm-widget .tm-bubble {
+    max-width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--tm-line);
+    border-radius: var(--tm-radius);
+    background: var(--tm-mist);
+    color: var(--tm-ink);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .tm-widget .tm-message-user .tm-bubble {
+    border-color: var(--tm-ink);
+    background: var(--tm-ink);
+    color: var(--tm-white);
+  }
+
+  .tm-widget .tm-message-error .tm-bubble {
+    border-color: #B42318;
+    background: #FFF1F0;
+    color: #7A1710;
+  }
+
+  .tm-widget .tm-message-time {
+    margin: 5px 2px 0;
+    color: var(--tm-slate);
+    font-size: 11px;
+  }
+
+  .tm-widget .tm-retry {
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 1px solid #7A1710;
+    border-radius: var(--tm-radius);
+    background: var(--tm-white);
+    color: #7A1710;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .tm-widget .tm-retry:hover {
+    background: #FFE1DE;
+  }
+
+  /* Suggestions */
+  .tm-widget .tm-suggestions {
+    flex: 0 0 auto;
+    padding: 8px 16px 14px;
+    border-top: 1px solid var(--tm-line);
+    background: var(--tm-white);
+  }
+
+  .tm-widget .tm-suggestions-label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--tm-slate);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  .tm-widget .tm-suggestion-list {
     display: flex;
     flex-wrap: wrap;
     gap: 7px;
-}
+  }
 
-.them-ai-suggestions button {
+  .tm-widget .tm-chip {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    min-height: 34px;
-    padding: 7px 10px;
-    border: 1px solid #eadfd2;
-    border-radius: 11px;
-    background: #fffdf9;
-    color: #624b3b;
+    min-height: 44px;
+    padding: 8px 11px;
+    border: 1px solid #B9C7CE;
+    border-radius: var(--tm-radius);
+    background: var(--tm-white);
+    color: var(--tm-ink);
+    font-size: 12px;
+    font-weight: 650;
     cursor: pointer;
-    font-size: 11px;
-    line-height: 1.35;
-    transition: border-color .18s ease,background .18s ease,
-                transform .18s ease,box-shadow .18s ease;
-}
+  }
 
-.them-ai-suggestions button:hover {
-    transform: translateY(-2px);
-    border-color: #c8a486;
-    background: #f8efe5;
-    box-shadow: 0 4px 12px rgba(75,50,34,.07);
-}
+  .tm-widget .tm-chip span {
+    color: #536E00;
+    font-size: 14px;
+  }
 
-.them-ai-suggestions button:active {
-    transform: scale(.97);
-}
+  .tm-widget .tm-chip:hover {
+    border-color: var(--tm-ink);
+    background: var(--tm-mist);
+  }
 
-/* Composer */
+  /* Typing indicator */
+  .tm-widget .tm-typing {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 0 0 auto;
+    padding: 0 16px 12px;
+    background: var(--tm-white);
+  }
 
-.them-ai-footer {
+  .tm-widget .tm-typing-bubble {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--tm-line);
+    border-radius: var(--tm-radius);
+    background: var(--tm-mist);
+  }
+
+  .tm-widget .tm-typing-bubble span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--tm-slate);
+    animation: tm-dot-bounce 1s ease-in-out infinite;
+  }
+
+  .tm-widget .tm-typing-bubble span:nth-child(2) {
+    animation-delay: 120ms;
+  }
+
+  .tm-widget .tm-typing-bubble span:nth-child(3) {
+    animation-delay: 240ms;
+  }
+
+  @keyframes tm-dot-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-4px); }
+  }
+
+  /* Composer remains anchored below the scrolling messages */
+  .tm-widget .tm-composer-area {
     position: relative;
     z-index: 1;
     flex: 0 0 auto;
-    padding: 0 17px 13px;
-    background: #fffdf9;
-}
+    padding: 12px 14px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--tm-line);
+    background: var(--tm-white);
+  }
 
-.them-ai-privacy {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    margin: 0 0 11px;
-    color: #9b8b7e;
-    font-size: 10px;
-    line-height: 1.5;
-}
-
-.them-ai-privacy span {
-    color: #a66f49;
-    font-size: 13px;
-}
-
-.them-ai-form {
+  .tm-widget .tm-form {
     display: flex;
     align-items: flex-end;
     gap: 8px;
-    padding: 7px;
-    border: 1px solid #e7dacc;
-    border-radius: 17px;
-    background: #fff;
-    transition: border-color .2s ease,box-shadow .2s ease;
-}
+    padding: 5px;
+    border: 1px solid #AEBCC4;
+    border-radius: var(--tm-radius);
+    background: var(--tm-white);
+  }
 
-.them-ai-form:focus-within {
-    border-color: #b88764;
-    box-shadow: 0 0 0 3px rgba(183,121,77,.10);
-}
+  .tm-widget .tm-form:focus-within {
+    border-color: var(--tm-ink);
+    box-shadow: 0 0 0 2px rgb(16 31 44 / 10%);
+  }
 
-.them-ai-form textarea {
+  .tm-widget .tm-input {
     display: block;
     flex: 1 1 auto;
-    width: 100%;
+    width: 0;
     min-width: 0;
-    min-height: 38px;
-    max-height: 110px;
-    padding: 10px 8px;
+    max-height: 112px;
+    min-height: 44px;
+    padding: 11px 9px;
     resize: none;
     overflow-y: auto;
     border: 0;
-    border-radius: 10px;
+    border-radius: 8px;
     outline: none;
     background: transparent;
-    color: var(--espresso);
-    font-size: 12px;
-    line-height: 1.5;
-}
-
-.them-ai-form textarea::placeholder {
-    color: #b2a397;
-}
-
-.them-ai-form textarea:focus-visible {
-    outline: none;
-}
-
-.them-ai-send {
-    display: grid;
-    flex: 0 0 39px;
-    width: 39px;
-    height: 39px;
-    place-items: center;
-    border: 0;
-    border-radius: 12px;
-    background: var(--espresso);
-    color: #fff8ef;
-    cursor: pointer;
-    font-size: 24px;
-    line-height: 1;
-    transition: transform .2s ease,background .2s ease,box-shadow .2s ease;
-}
-
-.them-ai-send:hover {
-    transform: translateY(-2px);
-    background: #785039;
-    box-shadow: 0 6px 13px rgba(48,35,29,.17);
-}
-
-.them-ai-send:active {
-    transform: scale(.94);
-}
-
-.them-ai-send:disabled {
-    cursor: not-allowed;
-    opacity: .55;
-    transform: none;
-}
-
-.them-ai-status {
-    min-height: 0;
-    margin: 0;
-    color: #97765e;
-    font-size: 11px;
+    color: var(--tm-ink);
+    font-family: var(--tm-font);
+    font-size: 16px;
     line-height: 1.4;
-}
+  }
 
-.them-ai-status:not(:empty) {
-    padding-top: 7px;
-}
+  .tm-widget .tm-input::placeholder {
+    color: #596973;
+    opacity: 1;
+  }
 
-.them-ai-powered {
-    margin: 9px 0 0;
-    color: #b4a396;
+  .tm-widget .tm-input:focus-visible {
+    outline: none;
+  }
+
+  .tm-widget .tm-send {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--tm-radius);
+    background: var(--tm-ink);
+    color: var(--tm-lime);
+    cursor: pointer;
+    transition: background 150ms ease;
+  }
+
+  .tm-widget .tm-send:hover:not(:disabled) {
+    background: #293B48;
+  }
+
+  .tm-widget .tm-send:disabled {
+    background: #E1E7EA;
+    color: #687780;
+    cursor: not-allowed;
+  }
+
+  .tm-widget .tm-send svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .tm-widget .tm-disclaimer {
+    margin: 9px 2px 0;
+    color: #4E5D66;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .tm-widget .tm-footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 10px;
+    color: #63717A;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+  }
+
+  .tm-widget .tm-footer-dot {
+    color: #536E00;
     font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-align: center;
-}
+  }
 
-.them-ai-powered span {
-    color: #b7794d;
-}
-
-/* Animations */
-
-@keyframes themLauncherEnter {
-    from { opacity: 0; transform: translateY(15px) scale(.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes themLauncherRing {
-    0%,100% { opacity: .4; transform: scale(1); }
-    50% { opacity: .9; transform: scale(1.025); }
-}
-
-@keyframes themPanelEnter {
-    from { opacity: 0; transform: translateY(13px) scale(.965); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes themContentEnter {
-    from { opacity: 0; transform: translateY(7px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes themMessageEnter {
-    from { opacity: 0; transform: translateY(7px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes themSparkle {
-    0%,100% { opacity: .6; transform: scale(.85) rotate(0); }
-    50% { opacity: 1; transform: scale(1.15) rotate(18deg); }
-}
-
-/* Mobile */
-
-@media (max-width: 520px) {
-    .them-ai {
-        right: 14px;
-        bottom: 14px;
+  @media (max-width: 520px) {
+    .tm-widget .tm-launcher {
+      right: max(16px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
     }
 
-    .them-ai-panel {
-        position: fixed;
-        right: 8px;
-        bottom: 84px;
-        width: calc(100vw - 16px);
-        max-height: calc(100dvh - 105px);
-        border-radius: 22px;
+    .tm-widget .tm-launcher[aria-expanded="true"] {
+      display: none;
     }
 
-    .them-ai-header {
-        padding: 15px;
+    .tm-widget .tm-panel {
+      top: max(8px, env(safe-area-inset-top));
+      right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      left: max(8px, env(safe-area-inset-left));
+      width: auto;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      border-radius: var(--tm-radius);
     }
 
-    .them-ai-welcome {
-        padding: 17px 19px 15px;
+    .tm-widget .tm-header {
+      padding: 13px 12px;
     }
 
-    .them-ai-welcome h3 {
-        font-size: 27px;
+    .tm-widget .tm-messages {
+      padding-right: 12px;
+      padding-left: 12px;
     }
 
-    .them-ai-messages {
-        max-height: min(200px,24dvh);
-        padding: 13px;
+    .tm-widget .tm-suggestions {
+      padding-right: 12px;
+      padding-left: 12px;
     }
 
-    .them-ai-suggestion-area {
-        padding: 12px 13px;
+    .tm-widget .tm-chip {
+      font-size: 12px;
     }
 
-    .them-ai-footer {
-        padding: 0 13px 11px;
+    .tm-widget .tm-composer-area {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .tm-widget .tm-brand-subtitle {
+      font-size: 11px;
     }
 
-    .them-ai-launcher {
-        min-height: 61px;
-        gap: 9px;
-        padding: 8px 12px 8px 9px;
-        border-radius: 17px;
+    .tm-widget .tm-header-actions {
+      gap: 2px;
     }
 
-    .them-ai-launcher-icon {
-        flex-basis: 40px;
-        width: 40px;
-        height: 40px;
+    .tm-widget .tm-icon-button {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
     }
-}
+  }
 
-@media (max-width: 360px) {
-    .them-ai-header {
-        gap: 7px;
-        padding: 12px;
+  @media (prefers-reduced-motion: reduce) {
+    .tm-widget *,
+    .tm-widget *::before,
+    .tm-widget *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
-
-    .them-ai-brand {
-        gap: 8px;
-    }
-
-    .them-ai-avatar {
-        flex-basis: 36px;
-        width: 36px;
-        height: 36px;
-    }
-
-    .them-ai-header h2 {
-        font-size: 15px;
-    }
-
-    .them-ai-reset {
-        padding: 5px 7px;
-    }
-
-    .them-ai-suggestions {
-        gap: 6px;
-    }
-
-    .them-ai-suggestions button {
-        padding: 6px 8px;
-        font-size: 10px;
-    }
-}
-
-/* Accessibility */
-
-.them-ai button:focus-visible,
-.them-ai textarea:focus-visible {
-    outline: 3px solid rgba(183,121,77,.35);
-    outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .them-ai *,
-    .them-ai *::before,
-    .them-ai *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
-}
+  }
 </style>
 
-<div class="them-ai" data-chat-url="{% url 'chatbot-chat' %}">
-    <button
-        class="them-ai-launcher"
-        type="button"
-        aria-expanded="false"
-        aria-controls="them-ai-panel"
-        aria-label="Open TheMenu AI chat"
-    >
-        <span class="them-ai-launcher-icon" aria-hidden="true">✳</span>
-        <span class="them-ai-launcher-label">
-            <span class="them-ai-launcher-title">TheMenu AI</span>
-            <span class="them-ai-launcher-subtitle">Your café companion</span>
-        </span>
-        <span class="them-ai-launcher-arrow" aria-hidden="true">↗</span>
-    </button>
+<script>
+(function () {
+  "use strict";
 
-    <section
-        class="them-ai-panel"
-        id="them-ai-panel"
-        aria-label="TheMenu AI assistant"
-        hidden
-    >
-        <header class="them-ai-header">
-            <div class="them-ai-brand">
-                <div class="them-ai-avatar" aria-hidden="true">
-                    <span>✳</span>
-                    <span class="them-ai-avatar-sparkle">✦</span>
-                </div>
-                <div class="them-ai-heading-copy">
-                    <div class="them-ai-title-row">
-                        <h2>TheMenu <span>AI</span></h2>
-                        <span class="them-ai-live-dot" aria-label="Assistant available"></span>
-                    </div>
-                    <p>Your little guide to good food.</p>
-                </div>
-            </div>
+  const widgets = document.querySelectorAll("[data-tm-widget]");
 
-            <div class="them-ai-header-actions">
-                <button type="button" class="them-ai-reset" aria-label="Clear conversation">
-                    <span aria-hidden="true">↻</span>
-                    <span>Reset</span>
-                </button>
-                <button type="button" class="them-ai-close" aria-label="Close chat">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-        </header>
+  widgets.forEach(function (root) {
+    if (root.dataset.tmInitialized === "true") return;
+    root.dataset.tmInitialized = "true";
 
-        <div class="them-ai-welcome">
-            <span class="them-ai-eyebrow">A LITTLE HELP, FRESHLY SERVED</span>
-            <h3>Good food starts<br>with a <em>good question.</em></h3>
-            <p>Explore our menu, find your favourites, or plan your next visit.</p>
-        </div>
+    const launcher = root.querySelector("[data-tm-launcher]");
+    const panel = root.querySelector("[data-tm-panel]");
+    const closeButton = root.querySelector("[data-tm-close]");
+    const resetButton = root.querySelector("[data-tm-reset]");
+    const form = root.querySelector("[data-tm-form]");
+    const input = root.querySelector("[data-tm-input]");
+    const sendButton = root.querySelector("[data-tm-send]");
+    const messages = root.querySelector("[data-tm-messages]");
+    const suggestions = root.querySelector("[data-tm-suggestions]");
+    const typing = root.querySelector("[data-tm-typing]");
+    const status = root.querySelector("[data-tm-status]");
 
-        <div class="them-ai-messages" role="log" aria-live="polite" aria-relevant="additions text">
-            <p class="them-ai-message them-ai-assistant">
-                Hello! I’m TheMenu AI. Ask me about the menu or how to reserve a table.
-            </p>
-        </div>
+    if (
+      !launcher || !panel || !closeButton || !resetButton ||
+      !form || !input || !sendButton || !messages ||
+      !suggestions || !typing || !status
+    ) return;
 
-        <div class="them-ai-suggestion-area">
-            <div class="them-ai-suggestion-heading">
-                <span>NOT SURE WHERE TO START?</span>
-                <span aria-hidden="true">↘</span>
-            </div>
+    const endpoint = form.dataset.chatUrl;
+    const csrfInput = form.querySelector('input[name="csrfmiddlewaretoken"]');
+    const welcomeHTML = messages.innerHTML;
+    let inFlight = false;
+    let requestController = null;
+    let lastFailedMessage = "";
+    let conversationHasStarted = false;
+    let requestSequence = 0;
 
-            <div class="them-ai-suggestions" aria-label="Suggested questions">
-                <button type="button">What vegetarian dishes do you have?</button>
-                <button type="button">Which items cost less than ₹200?</button>
-                <button type="button">What are your opening hours?</button>
-                <button type="button">What ingredients are used in this dish?</button>
-                <button type="button">How can I reserve a table?</button>
-            </div>
-        </div>
+    function announce(message) {
+      status.textContent = message;
+    }
 
-        <div class="them-ai-footer">
-            <p class="them-ai-privacy">
-                <span aria-hidden="true">◇</span>
-                Please don’t share passwords or sensitive personal information.
-            </p>
+    function scrollMessagesToBottom() {
+      messages.scrollTop = messages.scrollHeight;
+    }
 
-            <form class="them-ai-form">
-                {% csrf_token %}
-                <label class="them-ai-visually-hidden" for="them-ai-input">
-                    Message TheMenu AI
-                </label>
-                <textarea
-                    id="them-ai-input"
-                    name="message"
-                    rows="1"
-                    maxlength="1000"
-                    placeholder="Ask us anything..."
-                    required
-                ></textarea>
-                <button class="them-ai-send" type="submit" aria-label="Send message">
-                    <span aria-hidden="true">↑</span>
-                </button>
-            </form>
+    function resizeInput() {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 112) + "px";
+      sendButton.disabled = inFlight || !input.value.trim();
+    }
 
-            <p class="them-ai-status" aria-live="polite"></p>
-            <p class="them-ai-powered">MADE FOR YOUR NEXT GOOD BITE <span>✳</span></p>
-        </div>
-    </section>
-</div>
+    function makeMessage(text, role, options) {
+      const config = options || {};
+      const row = document.createElement("div");
+      row.className = "tm-message " +
+        (role === "user" ? "tm-message-user" : "tm-message-bot");
 
-<script defer src="{% static 'chatbot/js/widget.js' %}"></script>
+      if (config.error) row.classList.add("tm-message-error");
+
+      if (role !== "user") {
+        const avatar = document.createElement("span");
+        avatar.className = "tm-avatar";
+        avatar.setAttribute("aria-hidden", "true");
+        avatar.textContent = "T";
+        row.appendChild(avatar);
+      }
+
+      const content = document.createElement("div");
+      content.className = "tm-message-content";
+
+      if (role !== "user") {
+        const author = document.createElement("span");
+        author.className = "tm-message-author";
+        author.textContent = config.error ? "A little hiccup" : "TheMenu";
+        content.appendChild(author);
+      }
+
+      const bubble = document.createElement("div");
+      bubble.className = "tm-bubble";
+      bubble.textContent = text;
+      content.appendChild(bubble);
+
+      if (config.retry) {
+        const retry = document.createElement("button");
+        retry.type = "button";
+        retry.className = "tm-retry";
+        retry.textContent = "Try again";
+        retry.addEventListener("click", function () {
+          if (!inFlight && lastFailedMessage) {
+            sendMessage(lastFailedMessage);
+          }
+        });
+        content.appendChild(retry);
+      }
+
+      const time = document.createElement("span");
+      time.className = "tm-message-time";
+      time.textContent = role === "user" ? "You" : (config.error ? "Not sent" : "TheMenu");
+      content.appendChild(time);
+
+      row.appendChild(content);
+      messages.appendChild(row);
+      scrollMessagesToBottom();
+      return row;
+    }
+
+    function setOpen(open) {
+      if (open) {
+        panel.hidden = false;
+        panel.setAttribute("aria-hidden", "false");
+        launcher.setAttribute("aria-expanded", "true");
+        window.requestAnimationFrame(function () {
+          input.focus();
+          scrollMessagesToBottom();
+        });
+      } else {
+        panel.hidden = true;
+        panel.setAttribute("aria-hidden", "true");
+        launcher.setAttribute("aria-expanded", "false");
+        launcher.focus();
+      }
+    }
+
+    function showError(message, sequence) {
+      if (sequence !== requestSequence) return;
+      typing.hidden = true;
+      makeMessage(message, "bot", { error: true, retry: true });
+      announce("The message could not be sent. You can try again.");
+    }
+
+    async function sendMessage(rawMessage) {
+      const message = String(rawMessage || "").trim();
+      if (!message || inFlight) return;
+
+      if (!endpoint || !csrfInput || !csrfInput.value) {
+        makeMessage(
+          "Sorry, chat isn't configured correctly right now. Please refresh the page or contact the café.",
+          "bot",
+          { error: true }
+        );
+        announce("Chat configuration error.");
+        return;
+      }
+
+      inFlight = true;
+      requestSequence += 1;
+      const sequence = requestSequence;
+      lastFailedMessage = message;
+      conversationHasStarted = true;
+      suggestions.hidden = true;
+      makeMessage(message, "user");
+      typing.hidden = false;
+      sendButton.disabled = true;
+      input.value = "";
+      resizeInput();
+      announce("Sending your message.");
+
+      const controller = new AbortController();
+      requestController = controller;
+      const timeoutId = window.setTimeout(function () {
+        controller.abort();
+      }, 30000);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfInput.value,
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ message: message }),
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("The chat request failed.");
+        }
+
+        const data = await response.json();
+        const answer = typeof data.answer === "string" ? data.answer :
+          (typeof data.reply === "string" ? data.reply :
+          (typeof data.response === "string" ? data.response : ""));
+
+        if (!answer.trim()) {
+          throw new Error("The chat response was empty.");
+        }
+
+        if (sequence !== requestSequence) return;
+        makeMessage(answer, "bot");
+        announce("Reply received.");
+      } catch (error) {
+        if (sequence !== requestSequence) return;
+
+        const errorText = error && error.name === "AbortError"
+          ? "That took a little too long. Please try again."
+          : "Sorry, we couldn't reach the café desk just now. Please try again.";
+
+        showError(errorText, sequence);
+      } finally {
+        window.clearTimeout(timeoutId);
+        if (sequence === requestSequence) {
+          inFlight = false;
+          requestController = null;
+          typing.hidden = true;
+          sendButton.disabled = !input.value.trim();
+          input.focus();
+          announce(inFlight ? "Sending your message." : "Ready for your next message.");
+        }
+      }
+    }
+
+    function resetConversation() {
+      if (inFlight && requestController) {
+        requestSequence += 1;
+        requestController.abort();
+        requestController = null;
+        inFlight = false;
+      }
+
+      messages.replaceChildren();
+
+      const welcome = document.createElement("div");
+      welcome.className = "tm-message tm-message-bot";
+
+      const avatar = document.createElement("span");
+      avatar.className = "tm-avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.textContent = "T";
+
+      const content = document.createElement("div");
+      content.className = "tm-message-content";
+
+      const author = document.createElement("span");
+      author.className = "tm-message-author";
+      author.textContent = "TheMenu";
+
+      const bubble = document.createElement("div");
+      bubble.className = "tm-bubble";
+      bubble.textContent = "Conversation cleared. What can I help you discover today?";
+
+      content.append(author, bubble);
+      welcome.append(avatar, content);
+      messages.appendChild(welcome);
+
+      typing.hidden = true;
+      suggestions.hidden = false;
+      conversationHasStarted = false;
+      lastFailedMessage = "";
+      input.value = "";
+      resizeInput();
+      announce("Conversation cleared.");
+      input.focus();
+    }
+
+    launcher.addEventListener("click", function () {
+      setOpen(panel.hidden);
+    });
+
+    closeButton.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    resetButton.addEventListener("click", resetConversation);
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      sendMessage(input.value);
+    });
+
+    input.addEventListener("input", resizeInput);
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+        event.preventDefault();
+        if (!sendButton.disabled) sendMessage(input.value);
+      }
+    });
+
+    suggestions.querySelectorAll("[data-tm-suggestion]").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        if (inFlight) return;
+        sendMessage(chip.dataset.tmSuggestion || "");
+      });
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) {
+        setOpen(false);
+      }
+    });
+
+    resizeInput();
+  });
+})();
+</script>
